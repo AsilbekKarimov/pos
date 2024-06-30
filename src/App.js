@@ -1,9 +1,12 @@
+import React from 'react'
+import Login from './components/Login'
 
-
-function App() {
+const App = () => {
   return (
-    <><h1>Welcome to Noname Project</h1></>
-  );
+    <>
+      <Login />
+    </>
+  )
 }
 
-export default App;
+export default App
