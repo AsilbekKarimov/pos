@@ -1,8 +1,11 @@
-
+import React from "react";
+import RouterConfig from "./router/Router";
 
 function App() {
   return (
-    <><h1>Welcome to Noname Project</h1></>
+    <div>
+      <RouterConfig />
+    </div>
   );
 }
 
