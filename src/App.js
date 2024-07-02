@@ -1,12 +1,13 @@
-import Modal from "./components/Modal";
+import React from "react";
+import RouterConfig from "./router/Router";
 
 
 function App() {
   return (
     <>
-      <Modal inputs={['first name', 'last name', 'geyman', 'daun']} topText={"dasdas"} buttonText={"Register"} />
+      <RouterConfig />
     </>
-  );
+  )
 }
 
 export default App;
