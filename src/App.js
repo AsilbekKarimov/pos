@@ -1,8 +1,10 @@
-
+import Charts from "./Charts/Charts";
 
 function App() {
   return (
-    <><h1>Welcome to Noname Project</h1></>
+    <>
+      <Charts/>
+    </>
   );
 }
 
