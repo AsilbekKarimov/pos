@@ -1,8 +1,11 @@
+import Modal from "./components/Modal";
 
 
 function App() {
   return (
-    <><h1>Welcome to Noname Project</h1></>
+    <>
+      <Modal inputs={['first name', 'last name', 'geyman', 'daun']} topText={"dasdas"} buttonText={"Register"} />
+    </>
   );
 }
 
