@@ -43,7 +43,7 @@ const Login = () => {
             <div className="flex flex-col gap-5 items-center">
               <input
                 type="text"
-                className="py-3 rounded-lg px-2 w-full bg-white outline text-black outline-blue-500 placeholder:text-blue-300"
+                className="py-3 rounded-lg px-2 w-full bg-white outline text-black outline-blue-500 placeholder:text-blue-700"
                 placeholder="Введите ваш логин здесь"
                 value={login}
                 onChange={(e) => setLogin(e.target.value)}
@@ -51,7 +51,7 @@ const Login = () => {
               {errors.login && <p className="text-red-500">{errors.login}</p>}
               <input
                 type="password"
-                className="py-3 rounded-lg px-2 w-full bg-white outline text-black outline-blue-500 placeholder:text-blue-300"
+                className="py-3 rounded-lg px-2 w-full bg-white outline text-black outline-blue-500 placeholder:text-blue-700"
                 placeholder="Введите ваш пароль здесь"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
