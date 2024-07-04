@@ -27,10 +27,7 @@ const Sidebar = () => {
                     ))
                 }
             </div>
-            <div className='py-10 '>
-                <img src="https://cdn-icons-png.flaticon.com/512/3237/3237472.png" className='size-14' alt="" />
-                <p className='font-bold mt-4 tracking-wider'>Bekzod</p>
-            </div>
+                
         </aside>
     )
 }
