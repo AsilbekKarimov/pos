@@ -1,8 +1,12 @@
+import Sidebar from "./component/Sidebar/Sidebar";
 
 
 function App() {
   return (
-    <><h1>Welcome to Noname Project</h1></>
+    <>
+      <Sidebar />
+
+    </>
   );
 }
 
