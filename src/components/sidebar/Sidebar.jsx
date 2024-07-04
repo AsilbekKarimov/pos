@@ -2,7 +2,7 @@ import React from 'react';
 
 const Sidebar = () => {
   return (
-    <div>
+    <aside>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center">
@@ -16,16 +16,16 @@ const Sidebar = () => {
               <details>
                 <summary>Реестр</summary>
                 <ul>
-                <li><a>Фиксальный модули</a></li>
-                <li><a>Торговый точки</a></li>
-                <li><a>Список портнеров ЦТО</a></li>
+                  <li><a>Фиксальный модули</a></li>
+                  <li><a>Торговый точки</a></li>
+                  <li><a>Список портнеров ЦТО</a></li>
                 </ul>
               </details>
             </li>
           </ul>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }
 

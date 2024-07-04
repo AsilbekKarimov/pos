@@ -1,9 +1,11 @@
 import React, { Suspense, lazy } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
-import Loadable from "../full/Loadable";
+import Loadable from "../layouts/full/Loadable";
 
 const Home = Loadable(lazy(() => import("../pages/home/Home")));
-const Application = Loadable(lazy(() => import("../pages/application/Application")));
+const Application = Loadable(
+  lazy(() => import("../pages/application/Application"))
+);
 const Payment = Loadable(lazy(() => import("../pages/fmPayment/Payment")));
 const Reestr = Loadable(lazy(() => import("../pages/reestr/Reestr")));
 
