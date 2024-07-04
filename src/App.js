@@ -1,10 +1,11 @@
-import Charts from "./Charts/Charts";
+import React from "react";
+import RouterConfig from "./router/Router";
 
 function App() {
   return (
-    <>
-      <Charts/>
-    </>
+    <div>
+      <RouterConfig />
+    </div>
   );
 }
 

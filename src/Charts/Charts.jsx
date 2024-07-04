@@ -1,12 +1,17 @@
-import React from 'react'
-import BarChart from './BarChart/BarChart'
+import React from "react";
+import BarChart from "./BarChart/BarChart";
+import PieChart from "./BarChart/PieChart";
+import StatsTable from "./BarChart/StatsTable";
 
 const Charts = () => {
   return (
-    <div>
-      <BarChart/>
+    <div className="container mx-auto max-w-[90%] flex-1">
+      <div className="flex ">
+        <PieChart />
+        <BarChart />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Charts
+export default Charts;

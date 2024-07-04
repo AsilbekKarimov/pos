@@ -19,20 +19,20 @@ ChartJS.register(
   Legend
 );
 
-const FiscalModullarChart = () => {
+const BarChart = () => {
   const data = {
-    labels: ['Не активный', 'Активный', 'Память заполнена', 'Неточний', 'Потерян', 'Блокиран'],
+    labels: ['Не активный', 'Активный', 'Память заполнена', 'Негодный', 'Потерян', 'Блокирован'],
     datasets: [
       {
         label: 'Модули',
         data: [185, 296, 33, 11, 2, 0],
         backgroundColor: [
-          'rgba(255, 99, 132, 0.5)', // Red for Не активный
-          'rgba(54, 162, 235, 0.5)', // Blue for Активный
-          'rgba(75, 192, 192, 0.5)', // Green for Память заполнена
-          'rgba(255, 206, 86, 0.5)', // Yellow for Неточний
-          'rgba(153, 102, 255, 0.5)', // Purple for Потерян
-          'rgba(255, 159, 64, 0.5)',  // Orange for Блокиран
+          'rgba(255, 99, 132, 0.7)', 
+          'rgba(54, 162, 235, 0.7)', 
+          'rgba(75, 192, 192, 0.7)', 
+          'rgba(255, 206, 86, 0.7)', 
+          'rgba(153, 102, 255, 0.7)', 
+          'rgba(255, 159, 64, 0.7)',
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -51,28 +51,55 @@ const FiscalModullarChart = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        display: false,
       },
       title: {
         display: true,
         text: 'Фискал модуллар',
+        font: {
+          size: 25,
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
       },
     },
   };
 
+  const summaryData = [
+    { label: 'Не активный', value: 185, color: 'rgba(255, 99, 132, 1)' },
+    { label: 'Активный', value: 296, color: 'rgba(54, 162, 235, 1)' },
+    { label: 'Память заполнена', value: 33, color: 'rgba(75, 192, 192, 1)' },
+    { label: 'Негодный', value: 11, color: 'rgba(255, 206, 86, 1)' },
+    { label: 'Потерян', value: 2, color: 'rgba(153, 102, 255, 1)' },
+    { label: 'Блокирован', value: 0, color: 'rgba(255, 159, 64, 1)' },
+  ];
+
   return (
-    <div style={{ width: '600px', height: '300px' }}>
+    <div style={{ width: '700px', height: '500px', margin: '0 auto' }}>
       <Bar data={data} options={options} />
-      <div style={{ marginTop: '20px', textAlign: 'center', }}>
-        <p>Не активный: 185</p>
-        <p>Активный: 296</p>
-        <p>Память заполнена: 33</p>
-        <p>Неточний: 11</p>
-        <p>Потерян: 2</p>
-        <p>Блокиран: 0</p>
+      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '50px', textAlign: 'center' }}>
+        <div>
+          {summaryData.slice(0, 3).map((item, index) => (
+            <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '5px 0' }}>
+              <div style={{ width: '20px', height: '20px', backgroundColor: item.color, marginRight: '5px' }}></div>
+              <span style={{ color: 'black' }}>{item.label} - {item.value}</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          {summaryData.slice(3).map((item, index) => (
+            <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '5px 0' }}>
+              <div style={{ width: '20px', height: '20px', backgroundColor: item.color, marginRight: '5px' }}></div>
+              <span style={{ color: 'black' }}>{item.label} - {item.value}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default FiscalModullarChart;
+export default BarChart;
