@@ -2,8 +2,7 @@ import React from "react";
 import RouterConfig from "./router/Router";
 import Sidebar from "./components/sidebar/Sidebar";
 
-
-function App() {
+const App = () => {
   return (
     <>
       <div className="flex">
@@ -17,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
