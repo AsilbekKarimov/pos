@@ -6,7 +6,6 @@ function App() {
   return (
     <>
       <div className="flex">
-        
       </div>
       <div className="flex-grow flex">
         <Sidebar />
