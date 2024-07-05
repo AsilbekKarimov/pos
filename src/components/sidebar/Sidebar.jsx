@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -16,9 +17,12 @@ const Sidebar = () => {
               <details>
                 <summary>Реестр</summary>
                 <ul>
-                  <li><a>Фиксальный модули</a></li>
-                  <li><a>Торговый точки</a></li>
-                  <li><a>Список портнеров ЦТО</a></li>
+
+                  <li> <Link to={"/home"}>
+                    Фискальные модули
+                  </Link></li>
+                  <li><Link to={"/application"}>Торговый точки</Link></li>
+                  <li><Link to={"/payment"}>Список портнеров ЦТО</Link></li>
                 </ul>
               </details>
             </li>
