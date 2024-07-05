@@ -7,9 +7,9 @@ function App() {
     <>
       <div className="flex">
         <Sidebar />
-      </div>
-      <div className="flex-grow">
-        <RouterConfig />
+        <div className="flex-grow">
+          <RouterConfig />
+        </div>
       </div>
     </>
   );
