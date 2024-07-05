@@ -80,7 +80,7 @@ const Home = () => {
   const displayPages = pageNumbers.slice(indexOfFirstPage - 1, indexOfLastPage);
 
   return (
-    <div className="overflow-x-auto flex flex-col pt-4 px-4">
+    <div className="overflow-x-auto flex flex-col px-4">
       {loading && (
         <div className="flex justify-center items-center h-full">
           <span className="loading loading-spinner loading-lg"></span>
@@ -184,7 +184,7 @@ const Home = () => {
               </tbody>
             </table>
           </div>
-          <div className="pagination flex justify-center items-center py-4">
+          <div className="pagination flex justify-center items-center py-3">
             <button
               onClick={() =>
                 setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)

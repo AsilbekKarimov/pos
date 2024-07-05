@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import loginImg from '../assets/images/login-bg.jpeg';
+import loginImg from '../../assets/images/login-bg.jpeg'
+import getTokens from '../../components/loginFetch/getTokens';
+import loginFetch from '../../components/loginFetch/loginFetch';
+
 
 const Login = () => {
   const [login, setLogin] = useState('');
@@ -23,16 +26,27 @@ const Login = () => {
     return valid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      // Proceed with form submission (e.g., send data to the server)
-      console.log('Form submitted');
+      const token = await getTokens({
+        username: login,
+        password: password,
+      })
+      
+      const loginCheck = await loginFetch({
+        username: login,
+        password: password,
+        token: token.access
+      })
+
+      console.log('Tokens:', token);
+      console.log('Login check:', loginCheck);
     }
   };
 
   return (
-    <div className="bg-blue-500 h-screen flex items-center">
+    <div className="bg-blue-500 h-screen w-screen flex items-center">
       <div className="container mx-auto flex justify-center items-center h-[80vh] w-full">
         <div className="flex flex-1 h-full bg-white items-center justify-center rounded-s-lg">
           <img className="object-cover flex items-center w-[29vw] h-[50vh]" src={loginImg} alt="login_bg" />
