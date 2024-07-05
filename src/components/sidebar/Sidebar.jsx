@@ -18,7 +18,7 @@ const Sidebar = () => {
                 <summary>Реестр</summary>
                 <ul>
 
-                  <li> <Link to={"/home"}>
+                  <li> <Link to={"/modules"}>
                     Фискальные модули
                   </Link></li>
                   <li><Link to={"/application"}>Торговый точки</Link></li>
