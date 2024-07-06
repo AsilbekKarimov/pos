@@ -3,6 +3,7 @@ import { useRoutes, Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/Loadable";
 import App from "../App";
 import PrivateRoute from "../components/privateRoute/PrivateRoute";
+import LoginPage from "../pages/login/LoginPage";
 
 const FiscalModules = Loadable(
   lazy(() => import("../pages/fiscalModules/FiscalModule"))
@@ -18,7 +19,6 @@ const RouterConfig = ({ isAuth }) => {
     {
       path: "/",
       element: <Navigate to="/app" />,
-      errorElement: <div>ERROR</div>,
       children: [
         {
           path: "app",
@@ -42,10 +42,27 @@ const RouterConfig = ({ isAuth }) => {
         },
       ],
     },
-    { path: "*", element: <div>404 Not Found</div> },
+    {
+      path: "/login",
+      element: <LoginPage />,
+    },
+    {
+      path: "*",
+      element: <Navigate to={isAuth ? "/app" : "/login"} />,
+    },
   ]);
 
-  return <Suspense fallback={<div>Loading...</div>}>{routes}</Suspense>;
+  return (
+    <Suspense
+      fallback={
+        <div className="loading loading-spinner loading-lg flex justify-center items-center h-screen mx-auto">
+          Loading...
+        </div>
+      }
+    >
+      {routes}
+    </Suspense>
+  );
 };
 
 export default RouterConfig;

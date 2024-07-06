@@ -3,7 +3,7 @@ import RouterConfig from "./router/Router";
 import Sidebar from "./components/sidebar/Sidebar";
 
 function App() {
-  const isAuth = true;
+  const isAuth = false;
   return (
     <>
       <div className="flex"></div>
