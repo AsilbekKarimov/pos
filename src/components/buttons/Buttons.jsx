@@ -1,9 +1,7 @@
-// src/ButtonGroup.js
 import React, { useState } from "react";
 
 let data = true;
 function ButtonGroup() {
-  // State to manage the visibility of buttons
   const [root, setRoot] = useState(data);
   
   return (

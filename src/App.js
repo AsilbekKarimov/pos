@@ -7,9 +7,10 @@ function App() {
   return (
     <>
       <div className="flex">
-        <Sidebar />
+        
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow flex">
+        <Sidebar />
         <RouterConfig />
       </div>
     </>
