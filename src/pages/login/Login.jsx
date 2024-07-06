@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import loginImg from '../../assets/images/login-bg.jpeg'
-import getTokens from '../../components/loginFetch/getTokens';
 import loginFetch from '../../components/loginFetch/loginFetch';
 
 
@@ -29,18 +28,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const token = await getTokens({
-        username: login,
-        password: password,
-      })
-      
       const loginCheck = await loginFetch({
         username: login,
         password: password,
-        token: token.access
       })
 
-      console.log('Tokens:', token);
       console.log('Login check:', loginCheck);
     }
   };
