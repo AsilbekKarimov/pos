@@ -9,7 +9,7 @@ const Reestr = Loadable(lazy(() => import("../pages/reestr/Reestr")));
 
 const RouterConfig = () => {
   const routes = useRoutes([
-    { path: "/", element: <Navigate to="home" /> },
+    { path: "/", element: <Navigate to="modules" /> },
     { path: "modules", element: <FiscalModules /> },
     { path: "application", element: <Application /> },
     { path: "payment", element: <Payment /> },
