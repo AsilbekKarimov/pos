@@ -8,6 +8,7 @@ const Charts = () => {
     <div className="container mx-auto max-w-[90%] flex-1">
       <div className="flex ">
         <PieChart />
+        <StatsTable/>
         <BarChart />
       </div>
     </div>
