@@ -3,13 +3,13 @@ import RouterConfig from "./router/Router";
 import Sidebar from "./components/sidebar/Sidebar";
 
 function App() {
+  const isAuth = true;
   return (
     <>
-      <div className="flex">
-      </div>
+      <div className="flex"></div>
       <div className="flex-grow flex">
         <Sidebar />
-        <RouterConfig />
+        <RouterConfig isAuth={isAuth} />
       </div>
     </>
   );

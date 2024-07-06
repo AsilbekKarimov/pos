@@ -181,7 +181,11 @@ const Application = () => {
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.returnedFmoFm}</td>
-                <td className="border"><button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">Просмотр</button></td>
+                <td className="border">
+                  <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
+                    Просмотр
+                  </button>
+                </td>
                 <td className="border w-10">
                   <div className="bg-red-500 rounded-md p-3 flex items-center justify-center">
                     <IoLogOut className="text-white" />
