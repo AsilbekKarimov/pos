@@ -2,8 +2,7 @@ import React from "react";
 import RouterConfig from "./router/Router";
 import Sidebar from "./components/sidebar/Sidebar";
 
-function App() {
-  const isAuth = true;
+const App = () => {
   return (
     <>
       <div className="flex"></div>

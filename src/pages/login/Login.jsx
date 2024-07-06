@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import loginImg from '../assets/images/login-bg.jpeg';
+import loginImg from '../../assets/images/login-bg.jpeg'
+import loginFetch from '../../components/loginFetch/loginFetch';
+
 
 const Login = () => {
   const [login, setLogin] = useState('');
@@ -26,33 +28,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      try {
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ login, password }),
-        });
+      const loginCheck = await loginFetch({
+        username: login,
+        password: password,
+      })
 
-        if (response.ok) {
-          const data = await response.json();
-          localStorage.setItem('accessToken', data.accessToken);
-          localStorage.setItem('refreshToken', data.refreshToken);
-          console.log('Form submitted and tokens saved');
-        } else {
-          // Handle errors from the server
-          const errorData = await response.json();
-          console.error('Login error', errorData);
-        }
-      } catch (error) {
-        console.error('Fetch error', error);
-      }
+      console.log('Login check:', loginCheck);
     }
   };
 
   return (
-    <div className="bg-blue-500 h-screen flex items-center">
+    <div className="bg-blue-500 h-screen w-screen flex items-center">
       <div className="container mx-auto flex justify-center items-center h-[80vh] w-full">
         <div className="flex flex-1 h-full bg-white items-center justify-center rounded-s-lg">
           <img className="object-cover flex items-center w-[29vw] h-[50vh]" src={loginImg} alt="login_bg" />
