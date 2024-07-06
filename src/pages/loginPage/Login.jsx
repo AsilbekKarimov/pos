@@ -23,11 +23,31 @@ const Login = () => {
     return valid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      // Proceed with form submission (e.g., send data to the server)
-      console.log('Form submitted');
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ login, password }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('accessToken', data.accessToken);
+          localStorage.setItem('refreshToken', data.refreshToken);
+          console.log('Form submitted and tokens saved');
+        } else {
+          // Handle errors from the server
+          const errorData = await response.json();
+          console.error('Login error', errorData);
+        }
+      } catch (error) {
+        console.error('Fetch error', error);
+      }
     }
   };
 

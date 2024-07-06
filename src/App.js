@@ -1,12 +1,19 @@
-import React from 'react'
-import Login from './components/Login'
+import React from "react";
+import RouterConfig from "./router/Router";
+import Sidebar from "./components/sidebar/Sidebar";
 
-const App = () => {
+function App() {
   return (
     <>
-      <Login />
+      <div className="flex">
+        
+      </div>
+      <div className="flex-grow flex">
+        <Sidebar />
+        <RouterConfig />
+      </div>
     </>
-  )
+  );
 }
 
 export default App
