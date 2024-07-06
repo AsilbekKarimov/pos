@@ -4,7 +4,7 @@ const TableBody = ({ currentRows }) => {
   return (
     <tbody className="text-[6px]">
       {currentRows.map((row) => (
-        <tr className="border h-12" key={row.id}>
+        <tr className="border" key={row.id}>
           <th className="border">{row.id}</th>
           <td className="border">Serial {row.serialNumber}</td>
           <td className="border">Version {row.versionNumber}</td>

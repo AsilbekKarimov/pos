@@ -26,6 +26,8 @@ const FiscalModule = () => {
   useEffect(() => {
     if (data) {
       setFilteredData(data);
+
+      console.log(data);
     }
   }, [data]);
 
@@ -43,7 +45,7 @@ const FiscalModule = () => {
         );
       });
       setFilteredData(filtered);
-      setCurrentPage(1); 
+      setCurrentPage(1);
     }
   }, [filters, data]);
 
@@ -73,8 +75,11 @@ const FiscalModule = () => {
       {!loading && !error && (
         <>
           <div className="flex-grow overflow-y-auto">
-            <table className="table table-md table-zebra border w-full h-full">
-              <TableHeader filters={filters} handleFilterChange={handleFilterChange} />
+            <table className="table table-md table-zebra border w-full">
+              <TableHeader
+                filters={filters}
+                handleFilterChange={handleFilterChange}
+              />
               <TableBody currentRows={currentRows} />
             </table>
           </div>
