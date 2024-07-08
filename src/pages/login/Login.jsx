@@ -45,7 +45,6 @@ const Login = () => {
         saveTokens(data.access, data.refresh);
         dispatch(setIsAuth(true));
         startTokenRefreshInterval();
-        console.log("logged");
       } else {
         setErrors({ login: "", password: "", fetchError: data.error });
       }

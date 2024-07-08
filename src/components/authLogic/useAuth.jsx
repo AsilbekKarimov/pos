@@ -11,7 +11,7 @@ const useAuth = () => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
     // const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000; // 1 day
-    const expirationTime = new Date().getTime() + 10000; // 10 sec
+    const expirationTime = new Date().getTime() + 30000; // 10 sec
     localStorage.setItem("expirationTime", expirationTime);
   };
 
