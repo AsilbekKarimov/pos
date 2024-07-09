@@ -26,3 +26,4 @@ const loginFetch = async ({username, password}) => {
 }
 
 export default loginFetch
+
