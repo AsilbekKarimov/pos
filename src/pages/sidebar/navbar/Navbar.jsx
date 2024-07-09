@@ -82,6 +82,7 @@ const Navbar = ({ toggleSidebar }) => {
                 </div>
               </div>
             </div>
+            <p>h</p>
             <div className='flex gap-5 items-center'>
               <div className="flex flex-col">
                 <h1 className="text-sm font-semibold">{user.userName}</h1>
