@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { IoIosLogOut } from "react-icons/io";
 
 const Navbar = ({ toggleSidebar }) => {
@@ -7,7 +7,7 @@ const Navbar = ({ toggleSidebar }) => {
     role: "root",
     userName: "Bekzod Mirzaaliyev",
     profileImage: "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1881"
-  })
+  });
 
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
@@ -93,7 +93,7 @@ const Navbar = ({ toggleSidebar }) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Navbar;
