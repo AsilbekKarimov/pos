@@ -1,22 +1,68 @@
 import React, { Suspense, lazy } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
+import Loadable from "../layouts/full/Loadable";
+import App from "../App";
+import PrivateRoute from "../components/privateRoute/PrivateRoute";
+import LoginPage from "../pages/login/LoginPage";
 
-const Home = lazy(() => import("../pages/home/Home"));
-const Application = lazy(() => import("../pages/application/Application"));
-const Payment = lazy(() => import("../pages/fmPayment/Payment"));
-const Reestr = lazy(() => import("../pages/reestr/Reestr"));
+const FiscalModules = Loadable(
+  lazy(() => import("../pages/fiscalModules/FiscalModule"))
+);
+const Application = Loadable(
+  lazy(() => import("../pages/application/Application"))
+);
+const Payment = Loadable(lazy(() => import("../pages/fmPayment/Payment")));
+const Reestr = Loadable(lazy(() => import("../pages/reestr/Reestr")));
 
-const RouterConfig = () => {
+const RouterConfig = ({ isAuth }) => {
   const routes = useRoutes([
-    { path: "/", element: <Navigate to="/" /> },
-    { path: "home", element: <Home /> },
-    { path: "application", element: <Application /> },
-    { path: "payment", element: <Payment /> },
-    { path: "reestr", element: <Reestr /> },
-    { path: "*", element: <div>404 Not Found</div> },
+    {
+      path: "/",
+      element: <Navigate to="/app" />,
+      children: [
+        {
+          path: "app",
+          element: <App />,
+        },
+        {
+          path: "modules",
+          element: <PrivateRoute isAuth={isAuth} component={FiscalModules} />,
+        },
+        {
+          path: "application",
+          element: <PrivateRoute isAuth={isAuth} component={Application} />,
+        },
+        {
+          path: "payment",
+          element: <PrivateRoute isAuth={isAuth} component={Payment} />,
+        },
+        {
+          path: "reestr",
+          element: <PrivateRoute isAuth={isAuth} component={Reestr} />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <LoginPage />,
+    },
+    {
+      path: "*",
+      element: <Navigate to={isAuth ? "/app" : "/login"} />,
+    },
   ]);
 
-  return <Suspense fallback={<div>Loading...</div>}>{routes}</Suspense>;
+  return (
+    <Suspense
+      fallback={
+        <div className="loading loading-spinner loading-lg flex justify-center items-center h-screen mx-auto">
+          Loading...
+        </div>
+      }
+    >
+      {routes}
+    </Suspense>
+  );
 };
 
 export default RouterConfig;
