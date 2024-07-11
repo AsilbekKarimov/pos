@@ -1,4 +1,5 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { IoIosLogOut } from "react-icons/io";
 
 const Navbar = ({ toggleSidebar }) => {
@@ -6,7 +7,7 @@ const Navbar = ({ toggleSidebar }) => {
   const [user, setUser] = useState({
     role: "root",
     userName: "Bekzod Mirzaaliyev",
-    profileImage: "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1881"
+    profileImage: ""
   });
 
   const toggleTheme = () => {
@@ -24,6 +25,24 @@ const Navbar = ({ toggleSidebar }) => {
   useEffect(() => {
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      try {
+        const response = await axios.get('https://668fd798c0a7969efd99c67c.mockapi.io/avatar/avatar'); // Убедитесь, что URL правильный4
+        console.log(response);
+        setUser((prevUser) => ({
+          ...prevUser,
+          profileImage: response.data[0].avatar // Измените поле на avatarka
+        }));
+      } catch (error) {
+        console.error('Ошибка при загрузке аватара:', error);
+      }
+    };
+  
+    fetchAvatar();
+  }, []);
+  
 
   return (
     <div className="w-full fixed z-50">
@@ -51,7 +70,6 @@ const Navbar = ({ toggleSidebar }) => {
             <a className="btn btn-ghost normal-case text-xl">OOO "RIG"</a>
           </div>
           <div className="navbar-end flex items-center gap-4">
-
             <label className="swap swap-rotate btn btn-ghost btn-circle">
               <input
                 type="checkbox"
@@ -82,7 +100,6 @@ const Navbar = ({ toggleSidebar }) => {
                 </div>
               </div>
             </div>
-          
             <div className='flex gap-5 items-center'>
               <div className="flex flex-col">
                 <h1 className="text-sm font-semibold">{user.userName}</h1>
