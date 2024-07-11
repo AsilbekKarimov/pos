@@ -58,6 +58,7 @@ const Home = () => {
       ...prevFilters,
       [name]: value,
     }));
+    console.log({ name, value })
   };
 
   // Pagination logic
@@ -82,7 +83,7 @@ const Home = () => {
   return (
     <div className="overflow-x-auto flex flex-col px-4">
       {loading && (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center h-full w-full">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}
@@ -189,9 +190,8 @@ const Home = () => {
               onClick={() =>
                 setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
               }
-              className={`mx-2 px-3 py-1 border ${
-                currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
-              }`}
+              className={`mx-2 px-3 py-1 border ${currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
+                }`}
             >
               {"<"}
             </button>
@@ -199,11 +199,10 @@ const Home = () => {
               <button
                 key={number}
                 onClick={() => paginate(number)}
-                className={`mx-2 px-3 py-1 border ${
-                  currentPage === number
-                    ? "bg-blue-500 text-white"
-                    : "bg-white text-black"
-                }`}
+                className={`mx-2 px-3 py-1 border ${currentPage === number
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-black"
+                  }`}
               >
                 {number}
               </button>
@@ -214,11 +213,10 @@ const Home = () => {
                   currentPage < totalPages ? currentPage + 1 : currentPage
                 )
               }
-              className={`mx-2 px-3 py-1 border ${
-                currentPage === totalPages
-                  ? "bg-gray-300"
-                  : "bg-white text-black"
-              }`}
+              className={`mx-2 px-3 py-1 border ${currentPage === totalPages
+                ? "bg-gray-300"
+                : "bg-white text-black"
+                }`}
             >
               {">"}
             </button>
