@@ -1,35 +1,35 @@
-import React, { useState } from 'react'
-import { Outlet, Link } from "react-router-dom";
-
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Navbar from '../Navabr/Navbar';
 
 const Sidebar = () => {
-    let [links, setLink] = useState([
-        { linkName: "Фискальный модули", linkAddress: "https://google.com" },
-        { linkName: "Соотрудники", linkAddress: "https://google.com" },
-        { linkName: "Онлайн-ККМ и ВК", linkAddress: "https://google.com" },
-        { linkName: "Торговые точки", linkAddress: "https://google.com" }, 
-        { linkName: "Список филиалов", linkAddress: "https://google.com" },
-        { linkName: "Товар без имени ФМля", linkAddress: "https://google.com" },
-        { linkName: "Список парнёров ЦТО", linkAddress: "https://google.com" },
-       
-       
-    ])
+  return (
+    <aside>
+      <Navbar />
+      <div className="drawer lg:drawer-open">
+        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content flex flex-col items-center justify-center">
+          {/* Page content here */}
+        </div>
+        <div className="drawer-side">
+          <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
+          <ul className="menu bg-base-200 text-base-content min-h-full w-60 p-4">
+            <li><Link to="/">Главная страница</Link></li>
+            <li>
+              <details>
+                <summary>Реестр</summary>
+                <ul>
+                  <li><Link to="/modules">Фискальные модули</Link></li>
+                  <li><Link to="/application">Торговый точки</Link></li>
+                  <li><Link to="/payment">Список партнеров ЦТО</Link></li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+  );
+};
 
-    return (
-        <aside className='w-2/12 h-full flex flex-col min-h-screen justify-between px-5 border-r shadow-lg shadow-black'>
-            <div className='h-[25%] py-10 flex items-center'>
-                <h1 className='h-full'>LOGO</h1>
-            </div>
-            <div className='flex flex-col gap-3'>
-                {
-                    links.map((item, id) => (
-                        <Link to={item.linkAddress}>{item.linkName}</Link>
-                    ))
-                }
-            </div>
-                
-        </aside>
-    )
-}
-
-export default Sidebar
+export default Sidebar;
