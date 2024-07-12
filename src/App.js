@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
+import { useLocation, Outlet } from "react-router-dom";
+import Sidebar from "./components/sidebar/Sidebar";
 import RouterConfig from "./router/Router";
-import Sidebar from "./pages/sidebar/Sidebar";
-import Navbar from './pages/sidebar/navbar/Navbar';
 
 function App() {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
-
-  const isAuth = false;
+  const location = useLocation();
+  const hideSidebarPaths = ["/login"];
 
   return (
-    <>
-      <div className="flex"></div>
-      <div className="flex-grow flex">
-        <Navbar toggleSidebar={toggleSidebar} />
-        <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-        <RouterConfig isAuth={isAuth} />
+    <div className="flex">
+      {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
+      <div className="flex-grow">
+        <RouterConfig />
       </div>
-    </>
+    </div>
   );
 }
 

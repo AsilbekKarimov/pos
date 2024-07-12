@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Loadable from '../../layouts/full/Loadable'; // Ensure you import your Loadable component
 
 const Sidebar = () => {
   return (
@@ -17,10 +18,9 @@ const Sidebar = () => {
               <details>
                 <summary>Реестр</summary>
                 <ul>
-
-                  <li> <Link to={"/modules"}>
-                    Фискальные модули
-                  </Link></li>
+                  <li>
+                    <Link to={"/modules"}>Фискальные модули</Link>
+                  </li>
                   <li><Link to={"/application"}>Торговый точки</Link></li>
                   <li><Link to={"/payment"}>Список портнеров ЦТО</Link></li>
                 </ul>
