@@ -16,7 +16,7 @@ const loginFetch = async ({ username, password }) => {
   if (response.ok) {
     return response.json();
   } else {
-    return { error: "Network response was not ok" };
+    return { error: "Ошибка в логине или пароле. Повторите попытку!" };
   }
 };
 
