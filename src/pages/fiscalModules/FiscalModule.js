@@ -80,7 +80,7 @@ const Home = () => {
   const displayPages = pageNumbers.slice(indexOfFirstPage - 1, indexOfLastPage);
 
   return (
-    <div className="overflow-x-auto flex flex-col px-4">
+    <div className="overflow-x-auto flex flex-col px-4 ">
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
         <>

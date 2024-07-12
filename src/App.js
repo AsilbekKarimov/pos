@@ -1,17 +1,21 @@
 import React from "react";
-import { useLocation, Outlet } from "react-router-dom";
-import Sidebar from "./components/sidebar/Sidebar";
+import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
+import Sidebar from "./components/Sidebar/Sidebar";
+import Navbar from "./components/Navabr/Navbar";
 
 function App() {
   const location = useLocation();
   const hideSidebarPaths = ["/login"];
 
   return (
-    <div className="flex">
-      {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
-      <div className="flex-grow">
-        <RouterConfig />
+    <div className="flex flex-col h-screen">
+      <Navbar />
+      <div className="flex flex-grow">
+        {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
+        <div className="flex-grow p-4">
+          <RouterConfig />
+        </div>
       </div>
     </div>
   );
