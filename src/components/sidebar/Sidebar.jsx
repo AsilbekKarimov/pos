@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../Navabr/Navbar';
 
 const Sidebar = () => {
   return (
