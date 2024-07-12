@@ -6,8 +6,11 @@ const Sidebar = () => {
   const location = useLocation();
   const hideSidebarPaths = ["/login"];
 
+  // Функция для переключения состояния sidebar
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
+    // Блокировка прокрутки страницы при открытом sidebar
+    document.body.style.overflow = isSidebarOpen ? 'auto' : 'hidden';
   };
 
   return (
@@ -21,7 +24,7 @@ const Sidebar = () => {
           onChange={toggleSidebar} 
         />
         
-        <div className="drawer-side overflow-hidden">
+        <div className="drawer-side overflow-hidden mt-16">
           <label 
             htmlFor="my-drawer-2" 
             aria-label="close sidebar" 
