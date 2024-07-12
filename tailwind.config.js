@@ -2,7 +2,21 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        light: {
+          background: '#ffffff',
+          text: '#000000',
+        },
+        dark: {
+          background: '#000000',
+          text: '#ffffff',
+        },
+      },
+      transitionProperty: {
+        'bg-and-text': 'background-color, color',
+      },
+    },
   },
   plugins: [require("daisyui")],
 

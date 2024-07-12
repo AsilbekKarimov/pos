@@ -1,9 +1,8 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
-
 import Navbar from "./components/Navabr/Navbar";
-import Sidebar from "./components/sidebar/Sidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
   const location = useLocation();
@@ -14,7 +13,7 @@ function App() {
       <Navbar />
       <div className="flex flex-grow">
         {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
-        <div className="flex-grow p-4">
+        <div className="">
           <RouterConfig />
         </div>
       </div>
