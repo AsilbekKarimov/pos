@@ -1,7 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
-const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
+const Sidebar = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  const hideSidebarPaths = ["/login"];
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <aside>
       <div className={`drawer ${isSidebarOpen ? 'lg:drawer-open' : ''} h-screen`}>

@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/Loadable";
-import App from "../App";
 import PrivateRoute from "../components/privateRoute/PrivateRoute";
-import LoginPage from "../pages/login/LoginPage";
+import { useSelector } from "react-redux";
+import App from "../App";
 
 const FiscalModules = Loadable(
   lazy(() => import("../pages/fiscalModules/FiscalModule"))
@@ -11,44 +11,46 @@ const FiscalModules = Loadable(
 const Application = Loadable(
   lazy(() => import("../pages/application/Application"))
 );
+const Login = Loadable(lazy(() => import("../pages/login/Login")));
 const Payment = Loadable(lazy(() => import("../pages/fmPayment/Payment")));
 const Reestr = Loadable(lazy(() => import("../pages/reestr/Reestr")));
 
-const RouterConfig = ({ isAuth }) => {
+const RouterConfig = () => {
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  console.log("isAuth: ", isAuth);
+
   const routes = useRoutes([
     {
       path: "/",
-      element: <Navigate to="/app" />,
-      children: [
-        {
-          path: "app",
-          element: <App />,
-        },
-        {
-          path: "modules",
-          element: <PrivateRoute isAuth={isAuth} component={FiscalModules} />,
-        },
-        {
-          path: "application",
-          element: <PrivateRoute isAuth={isAuth} component={Application} />,
-        },
-        {
-          path: "payment",
-          element: <PrivateRoute isAuth={isAuth} component={Payment} />,
-        },
-        {
-          path: "reestr",
-          element: <PrivateRoute isAuth={isAuth} component={Reestr} />,
-        },
-      ],
+      element: <Navigate to={isAuth ? "/modules" : "/login"} />,
+    },
+    {
+      path: "app",
+      element: isAuth ? <App /> : <Navigate to="/login" />,
+    },
+    {
+      path: "modules",
+      element: <PrivateRoute isAuth={isAuth} component={FiscalModules} />,
+    },
+    {
+      path: "application",
+      element: <PrivateRoute isAuth={isAuth} component={Application} />,
+    },
+    {
+      path: "payment",
+      element: <PrivateRoute isAuth={isAuth} component={Payment} />,
+    },
+    {
+      path: "reestr",
+      element: <PrivateRoute isAuth={isAuth} component={Reestr} />,
     },
     {
       path: "/login",
-      element: <LoginPage />,
+      element: isAuth ? <Navigate to="/modules" /> : <Login />,
     },
     {
       path: "*",
-      element: <Navigate to={isAuth ? "/app" : "/login"} />,
+      element: <Navigate to={isAuth ? "/modules" : "/login"} />,
     },
   ]);
 
