@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
 import RouterConfig from "./router/Router";
 

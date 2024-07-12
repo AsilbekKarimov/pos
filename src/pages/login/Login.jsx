@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import loginImg from "../../assets/images/login-bg.jpeg"
+import loginImg from "../../assets/images/login-bg.jpeg";
 import loginFetch from "../../components/authLogic/loginFetch";
 import useAuth from "../../components/authLogic/useAuth";
 
@@ -10,43 +10,60 @@ import { setIsAuth } from "../../store/slices/authSlice";
 const Login = () => {
   const dispatch = useDispatch();
 
+  const inputOutlineClass = {
+    red: "outline-red-500 placeholder:text-red-700",
+    blue: "outline-blue-500 placeholder:text-blue-700",
+  };
+
   const { saveTokens, startTokenRefreshInterval } = useAuth();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({
-    login: "",
-    password: "",
-    fetchError: "",
-  });
+  const [loading, setLoading] = useState(false);
+  const [outlineInput, setOutlineInput] = useState(inputOutlineClass.blue);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (outlineInput === inputOutlineClass.red) {
+      const timer = setTimeout(() => {
+        setOutlineInput(inputOutlineClass.blue);
+        setError("");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [outlineInput]);
 
   const validate = () => {
-    const newErrors = { login: "", password: "", fetchError: "" };
     let valid = true;
 
-    if (!login) {
-      newErrors.login = "Введите ваш логин";
+    if (!(login, password)) {
       valid = false;
+      setOutlineInput(inputOutlineClass.red);
+      setError("Заполните поля ввода.");
     }
-    if (!password) {
-      newErrors.password = "Введите ваш пароль";
-      valid = false;
-    }
-
-    setErrors(newErrors);
     return valid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const data = await loginFetch({ username: login, password: password });
+      try {
+        setLoading(true);
+        const data = await loginFetch({ username: login, password: password });
+        
+        if (!(data.access, data.refresh)) {
+          throw new Error(data.error);
+        }
 
-      if (data.access && data.refresh) {
         saveTokens(data.access, data.refresh);
         dispatch(setIsAuth(true));
         startTokenRefreshInterval();
-      } else {
-        setErrors({ login: "", password: "", fetchError: data.error });
+      } catch (error) {
+        setError(error.message);
+        setOutlineInput(inputOutlineClass.red);
+        setLogin("");
+        setPassword("");
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -66,35 +83,33 @@ const Login = () => {
             onSubmit={handleSubmit}
             className="flex flex-col justify-center px-8 py-4 w-full max-w-md"
           >
-            <p className="text-3xl text-blue-700 font-semibold text-center mb-12">
+            <p className="text-3xl text-blue-700 font-semibold text-center mb-8">
               Вход
             </p>
             <div className="flex flex-col gap-5 items-center">
-              {errors.fetchError && (
-                <p className="text-red-500">{errors.fetchError}</p>
-              )}
+              {error && <p className="text-red-500">{error}</p>}
               <input
                 type="text"
-                className="py-3 rounded-lg px-2 w-full bg-white outline text-black outline-blue-500 placeholder:text-blue-700"
+                className={`py-3 rounded-lg px-2 w-full bg-white outline text-black ${outlineInput}`}
                 placeholder="Введите ваш логин здесь"
                 value={login}
                 onChange={(e) => setLogin(e.target.value)}
               />
-              {errors.login && <p className="text-red-500">{errors.login}</p>}
               <input
                 type="password"
-                className="py-3 rounded-lg px-2 w-full bg-white outline text-black outline-blue-500 placeholder:text-blue-700"
+                className={`py-3 rounded-lg px-2 w-full bg-white outline text-black ${outlineInput}`}
                 placeholder="Введите ваш пароль здесь"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {errors.password && (
-                <p className="text-red-500">{errors.password}</p>
-              )}
             </div>
             <div className="flex justify-center mt-9">
-              <button className="bg-blue-500 px-16 py-2 rounded-lg shadow-lg shadow-blue-500 text-white hover:bg-white border duration-300 border-blue-500 hover:text-blue-500">
-                Войти
+              <button className="bg-blue-500 px-[15%] py-[2%] rounded-lg shadow-lg shadow-blue-500 text-white hover:bg-white border duration-300 border-blue-500 hover:text-blue-500">
+                {loading ? (
+                  <span className="loading loading-spinner loading-sm h-full m-auto"></span>
+                ) : (
+                  <p>Войти</p>
+                )}
               </button>
             </div>
           </form>
