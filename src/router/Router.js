@@ -1,23 +1,18 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react"; // Ensure lazy is imported
 import { useRoutes, Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/Loadable";
 import PrivateRoute from "../components/privateRoute/PrivateRoute";
 import { useSelector } from "react-redux";
 import App from "../App";
 
-const FiscalModules = Loadable(
-  lazy(() => import("../pages/fiscalModules/FiscalModule"))
-);
-const Application = Loadable(
-  lazy(() => import("../pages/application/Application"))
-);
+const FiscalModules = Loadable(lazy(() => import("../pages/fiscalModules/FiscalModule")));
+const Application = Loadable(lazy(() => import("../pages/application/Application")));
 const Login = Loadable(lazy(() => import("../pages/login/Login")));
 const Payment = Loadable(lazy(() => import("../pages/fmPayment/Payment")));
 const Reestr = Loadable(lazy(() => import("../pages/reestr/Reestr")));
 
 const RouterConfig = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
-  console.log("isAuth: ", isAuth);
 
   const routes = useRoutes([
     {
@@ -56,13 +51,13 @@ const RouterConfig = () => {
 
   return (
     <Suspense
-      fallback={
-        <div className="loading loading-spinner loading-lg flex justify-center items-center h-screen mx-auto">
-          Loading...
-        </div>
-      }
-    >
-      {routes}
+        fallback={
+          <div className="flex justify-center max-w-[100%] w-full items-center h-screen">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        }
+      >
+        {routes}
     </Suspense>
   );
 };
