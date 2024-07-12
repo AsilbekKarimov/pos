@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import ThemeToggle from '../../others/ThemeToggle';
+import React, { useState } from "react";
+import { IoIosLogOut } from "react-icons/io";
+
+import ThemeToggle from "../../others/ThemeToggle";
+import useAuth from "../authLogic/useAuth";
 
 const Navbar = () => {
+  const { clearLocalStorage } = useAuth();
   const [user, setUser] = useState({
     role: "root",
     userName: "Bekzod Mirzaaliyev",
-    profileImage: "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1881"
+    profileImage:
+      "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1881",
   });
 
   return (
@@ -14,18 +19,24 @@ const Navbar = () => {
         <div className="container mx-auto max-w-[95%]">
           <div className="navbar-start">
             <div className="dropdown">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor">
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h7" />
+                    d="M4 6h16M4 12h16M4 18h7"
+                  />
                 </svg>
               </div>
             </div>
@@ -36,26 +47,28 @@ const Navbar = () => {
           <div className="navbar-end flex items-center gap-4">
             <ThemeToggle />
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
                 <div className="w-10 rounded-full">
-                  <img
-                    alt="User Avatar"
-                    src={user.profileImage} />
+                  <img alt="User Avatar" src={user.profileImage} />
                 </div>
               </div>
             </div>
-            <div className='flex gap-5 items-center'>
+            <div className="flex gap-5 items-center">
               <div className="flex flex-col">
                 <h1>{user.userName}</h1>
                 <p>{user.role}</p>
-
               </div>
+              <IoIosLogOut className="size-[35px]" onClick={() => clearLocalStorage()}/>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Navbar;
