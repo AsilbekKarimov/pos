@@ -62,7 +62,7 @@ const Navbar = () => {
                 <h1>{user.userName}</h1>
                 <p>{user.role}</p>
               </div>
-              <IoIosLogOut className="size-[35px]" onClick={() => clearLocalStorage()}/>
+              <IoIosLogOut className="size-[35px] cursor-pointer" onClick={() => clearLocalStorage()}/>
             </div>
           </div>
         </div>

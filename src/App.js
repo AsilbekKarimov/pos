@@ -1,9 +1,8 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
-
 import Navbar from "./components/Navbar/Navbar";
-import Sidebar from "./components/sidebar/Sidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
   const location = useLocation();
