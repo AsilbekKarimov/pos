@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
-import Sidebar from "./components/Sidebar/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 import Navbar from "./components/Navabr/Navbar";
 
 function App() {
