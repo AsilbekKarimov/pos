@@ -42,7 +42,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className="navbar-center">
-            <a className="btn btn-ghost normal-case text-xl">OOO "RIG"</a>
+            <a className="btn btn-ghost normal-case text-xl">OOO R I G</a>
           </div>
           <div className="navbar-end flex items-center gap-4">
             <ThemeToggle />
