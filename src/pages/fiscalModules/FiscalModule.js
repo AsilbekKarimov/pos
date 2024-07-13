@@ -79,6 +79,7 @@ const Home = () => {
 
   return (
     <div className="overflow-x-auto flex flex-col px-4 ">
+      {loading ? <Suspense /> : null}
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
         <>
