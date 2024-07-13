@@ -10,13 +10,17 @@ function App() {
 
 
   return (
-    <div className="flex">
-      {/* <Navbar toggleSidebar={false}/> */}
-      {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
-      <div className="flex-grow">
-        <RouterConfig />
+    <>
+
+      {!hideSidebarPaths.includes(location.pathname) && <Navbar />}
+      <div className="flex">
+        {/* <Navbar toggleSidebar={false}/> */}
+        {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
+        <div className="flex-grow">
+          <RouterConfig />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
