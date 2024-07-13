@@ -13,7 +13,7 @@ const Home = () => {
   });
 
   const { data, loading, error } = useFetch(
-    "https://6687c8f30bc7155dc019177c.mockapi.io/fiscal"
+    "fiscal"
   );
 
   const [filteredData, setFilteredData] = useState([]);
