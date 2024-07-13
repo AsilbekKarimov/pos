@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
-
 import ThemeToggle from "../../others/ThemeToggle";
 import useAuth from "../authLogic/useAuth";
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   const { clearLocalStorage } = useAuth();
   const [user, setUser] = useState({
     role: "root",
@@ -19,7 +18,8 @@ const Navbar = () => {
         <div className="container mx-auto max-w-[95%]">
           <div className="navbar-start">
             <div className="dropdown">
-              <div
+              <div 
+                onClick={toggleSidebar} 
                 tabIndex={0}
                 role="button"
                 className="btn btn-ghost btn-circle"
@@ -45,7 +45,7 @@ const Navbar = () => {
             <a className="btn btn-ghost normal-case text-xl">OOO "RIG"</a>
           </div>
           <div className="navbar-end flex items-center gap-4">
-            <ThemeToggle />
+            <ThemeToggle className='text-2xl' />
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -62,7 +62,7 @@ const Navbar = () => {
                 <h1>{user.userName}</h1>
                 <p>{user.role}</p>
               </div>
-              <IoIosLogOut className="size-[35px] cursor-pointer" onClick={() => clearLocalStorage()}/>
+              <IoIosLogOut className="text-2xl cursor-pointer" onClick={() => clearLocalStorage()} />
             </div>
           </div>
         </div>
