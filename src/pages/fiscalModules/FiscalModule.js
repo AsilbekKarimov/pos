@@ -13,7 +13,7 @@ const Home = () => {
   });
 
   const { data, loading, error } = useFetch(
-    "https://6687c8f30bc7155dc019177c.mockapi.io/fiscal"
+    "fiscal"
   );
 
   const [filteredData, setFilteredData] = useState([]);
@@ -82,11 +82,7 @@ const Home = () => {
 
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      {loading && (
-        <div className="flex justify-center items-center h-full w-full">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-      )}
+      {loading}
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
         <>

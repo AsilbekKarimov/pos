@@ -1,17 +1,19 @@
 import React from "react";
-import RouterConfig from "./router/Router";
+import { useLocation, Outlet } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
+import RouterConfig from "./router/Router";
+import { useSelector } from "react-redux";
 
 function App() {
-  const isAuth = false;
+  const isAuth = useSelector(state => state.auth.isAuth)
+
   return (
-    <>
-      <div className="flex"></div>
-      <div className="flex-grow flex">
-        <Sidebar />
-        <RouterConfig isAuth={isAuth} />
+    <div className="flex">
+      {isAuth && <Sidebar />}
+      <div className="flex-grow">
+        <RouterConfig />
       </div>
-    </>
+    </div>
   );
 }
 

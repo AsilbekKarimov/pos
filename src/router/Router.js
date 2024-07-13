@@ -1,24 +1,60 @@
 import React, { Suspense, lazy } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/Loadable";
-import Home from "../pages/fiscalModules/FiscalModule";
+import PrivateRoute from "../components/privateRoute/PrivateRoute";
+import { useSelector } from "react-redux";
+import App from "../App";
 
-// const Home = Loadable(lazy(() => import("../pages/reestr/Reestr")));
-const Application = Loadable(lazy(() => import("../pages/application/Application")));
+const FiscalModules = Loadable(
+  lazy(() => import("../pages/fiscalModules/FiscalModule"))
+);
+const Application = Loadable(
+  lazy(() => import("../pages/application/Application"))
+);
+const Login = Loadable(lazy(() => import("../pages/login/Login")));
 const Payment = Loadable(lazy(() => import("../pages/fmPayment/Payment")));
 const Reestr = Loadable(lazy(() => import("../pages/reestr/Reestr")));
 
 const RouterConfig = () => {
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  console.log("isAuth: ", isAuth);
+
   const routes = useRoutes([
-    { path: "/", element: <Navigate to="home" /> },
-    { path: "home", element: <Home /> },
-    { path: "application", element: <Application /> },
-    { path: "payment", element: <Payment /> },
-    { path: "reestr", element: <Reestr /> },
-    { path: "*", element: <div>404 Not Found</div> },
+    {
+      path: "/",
+      element: <Navigate to={isAuth ? "/modules" : "/login"} />,
+    },
+    {
+      path: "app",
+      element: isAuth ? <App /> : <Navigate to="/login" />,
+    },
+    {
+      path: "modules",
+      element: <PrivateRoute isAuth={isAuth} component={FiscalModules} />,
+    },
+    {
+      path: "application",
+      element: <PrivateRoute isAuth={isAuth} component={Application} />,
+    },
+    {
+      path: "payment",
+      element: <PrivateRoute isAuth={isAuth} component={Payment} />,
+    },
+    {
+      path: "reestr",
+      element: <PrivateRoute isAuth={isAuth} component={Reestr} />,
+    },
+    {
+      path: "/login",
+      element: isAuth ? <Navigate to="/modules" /> : <Login />,
+    },
+    {
+      path: "*",
+      element: <Navigate to={isAuth ? "/modules" : "/login"} />,
+    },
   ]);
 
-  return <Suspense fallback={<div>Loading...</div>}>{routes}</Suspense>;
+  return routes;
 };
 
 export default RouterConfig;

@@ -9,7 +9,7 @@ const useFetch = (url) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(url);
+        const response = await fetch(`https://6687c8f30bc7155dc019177c.mockapi.io/${url}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
