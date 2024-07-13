@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Sidebar = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const hideSidebarPaths = ["/login"];
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-    document.body.style.overflow = isSidebarOpen ? 'auto' : 'hidden';
-  };
-
   return (
     <aside>
-      <div className={`drawer ${isSidebarOpen ? 'lg:drawer-open' : ''} h-screen`}>
+      <div className={`drawer ${isOpen ? 'lg:drawer-open' : ''} h-screen`}>
         <input 
           id="my-drawer-2" 
           type="checkbox" 
           className="drawer-toggle" 
-          checked={isSidebarOpen} 
+          checked={isOpen} 
           onChange={toggleSidebar} 
         />
         
@@ -36,8 +30,8 @@ const Sidebar = () => {
                 <summary>Реестр</summary>
                 <ul>
                   <li><Link to={"/modules"}>Фискальные модули</Link></li>
-                  <li><Link to={"/application"}>Торговый точки</Link></li>
-                  <li><Link to={"/payment"}>Список портнеров ЦТО</Link></li>
+                  <li><Link to={"/application"}>Торговые точки</Link></li>
+                  <li><Link to={"/payment"}>Список партнеров ЦТО</Link></li>
                 </ul>
               </details>
             </li>
