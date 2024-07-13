@@ -7,7 +7,7 @@ const Navbar = ({ toggleSidebar }) => {
   const [user, setUser] = useState({
     role: "root",
     userName: "Bekzod Mirzaaliyev",
-    profileImage: "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1881"
+    profileImage: "https://as1.ftcdn.net/v2/jpg/03/53/11/00/1000_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg"
   });
 
   const toggleTheme = () => {
