@@ -5,7 +5,7 @@ import ThemeToggle from "../../others/ThemeToggle";
 import useAuth from "../authLogic/useAuth";
 
 const Navbar = () => {
-  const { clearLocalStorage } = useAuth();
+  const { logout } = useAuth();
   const [user, setUser] = useState({
     role: "root",
     userName: "Bekzod Mirzaaliyev",
@@ -62,7 +62,7 @@ const Navbar = () => {
                 <h1>{user.userName}</h1>
                 <p>{user.role}</p>
               </div>
-              <IoIosLogOut className="size-[35px] cursor-pointer" onClick={() => clearLocalStorage()}/>
+              <IoIosLogOut className="size-[35px] cursor-pointer" onClick={() => logout()}/>
             </div>
           </div>
         </div>
