@@ -6,8 +6,10 @@ const Sidebar = () => {
   const location = useLocation();
   const hideSidebarPaths = ["/login"];
 
+  // Функция для переключения состояния sidebar
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
+    // Блокировка прокрутки страницы при открытом sidebar
     document.body.style.overflow = isSidebarOpen ? 'auto' : 'hidden';
   };
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IoIosLogOut } from "react-icons/io";
+import ThemeToggle from '../../../others/ThemeToggle';
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   const [theme, setTheme] = useState('light');
   const [user, setUser] = useState({
     role: "root",
@@ -43,7 +44,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="w-full fixed z-50 mb-4"> {/* Добавлен mb-4 для отступа вниз */}
+    <div className="w-full fixed z-50 mb-4">
       <div className="navbar bg-base-100">
         <div className="container mx-auto max-w-[95%]">
           <div className="navbar-start">
