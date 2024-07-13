@@ -45,7 +45,7 @@ const Navbar = ({ toggleSidebar }) => {
             <a className="btn btn-ghost normal-case text-xl">OOO "RIG"</a>
           </div>
           <div className="navbar-end flex items-center gap-4">
-            <ThemeToggle className='text-2xl' />
+            <ThemeToggle className='text-sm' />
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -62,7 +62,7 @@ const Navbar = ({ toggleSidebar }) => {
                 <h1>{user.userName}</h1>
                 <p>{user.role}</p>
               </div>
-              <IoIosLogOut className="text-2xl cursor-pointer" onClick={() => clearLocalStorage()} />
+              <IoIosLogOut className="text-2xl cursor-pointer font-black" onClick={() => clearLocalStorage()} />
             </div>
           </div>
         </div>

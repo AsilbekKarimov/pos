@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
 import Navbar from "./components/Navbar/Navbar";
-import Sidebar from "./components/sidebar/Sidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
   const location = useLocation();
   const hideSidebarPaths = ["/login"];
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
