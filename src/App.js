@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="flex">
-      {isAuth && <Sidebar />}
+      {!isAuth   && <Sidebar />}
       <div className="flex-grow">
         <RouterConfig />
       </div>

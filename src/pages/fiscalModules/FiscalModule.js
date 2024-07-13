@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import useFetch from "../../components/useFetch/useFetch";
 
 const Home = () => {
@@ -81,8 +81,7 @@ const Home = () => {
   const displayPages = pageNumbers.slice(indexOfFirstPage - 1, indexOfLastPage);
 
   return (
-    <div className="overflow-x-auto flex flex-col px-4">
-      {loading}
+    <div className="overflow-x-auto flex flex-col px-4 ">
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
         <>
