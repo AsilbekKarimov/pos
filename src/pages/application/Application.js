@@ -187,16 +187,16 @@ const Application = () => {
                 {root && (
                   <>
                     <td className="border">
-                      <Buttons text={"Просмотр"} color={`btn btn-primary`} size={`btn-sm`} />
+                      <Buttons text={"Просмотр"} bgcolor={`btn btn-primary`} size={`btn-sm`} />
                     </td>
                     <td className="border w-10">
-                      <Buttons text={<IoLogOut />} color={"bg-red-500 text-white"} size={"btn-sm "}/>
+                      <Buttons text={<IoLogOut />} bgcolor={"bg-red-500 text-white"} size={"btn-sm "}/>
                     </td>
                     <td className="border w-10">
-                      <Buttons text={<RiArrowGoBackLine />} color={"bg-blue-500 text-white"} size={"btn-sm "}/>
+                      <Buttons text={<RiArrowGoBackLine />} bgcolor={"bg-blue-500 text-white"} size={"btn-sm "}/>
                     </td>
                     <td className="border w-10">
-                      <Buttons text={<FaBoxArchive />} color={"bg-blue-500 text-white"} size={"btn-sm "}/>
+                      <Buttons text={<FaBoxArchive />} bgcolor={"bg-blue-500 text-white"} size={"btn-sm "}/>
                     </td>
                     <td className="border">
                       <FaPen className="text-blue-500 size-4 mx-auto" />
@@ -206,35 +206,6 @@ const Application = () => {
                     </td>
                   </>
                 )}
-                <td className="border">{row.returnedFmoFm}</td>
-                <td className="border">{row.returnedFmoFm}</td>
-                <td className="border">{row.returnedFmoFm}</td>
-                <td className="border">
-                  <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                    Просмотр
-                  </button>
-                </td>
-                <td className="border w-10">
-                  <div className="bg-red-500 rounded-md p-3 flex items-center justify-center">
-                    <IoLogOut className="text-white" />
-                  </div>
-                </td>
-                <td className="border w-10">
-                  <div className="bg-blue-500 rounded-md py-3 flex items-center justify-center">
-                    <RiArrowGoBackLine className="text-white" />
-                  </div>
-                </td>
-                <td className="border w-10">
-                  <div className="bg-blue-500 rounded-md py-3 flex items-center justify-center">
-                    <FaBoxArchive className="text-white " />
-                  </div>
-                </td>
-                <td className="border">
-                  <FaPen className="text-blue-500 size-4 mx-auto" />
-                </td>
-                <td className="border">
-                  <FaLocationDot className="text-blue-500 size-4 mx-auto" />
-                </td>
               </tr>
             ))}
           </tbody>

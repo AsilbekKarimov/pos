@@ -1,7 +1,8 @@
 import React from "react";
-import { useLocation, Outlet } from "react-router-dom";
-import Sidebar from "./components/sidebar/Sidebar";
+import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
+import Navbar from "./components/Navbar/Navbar";
+import Sidebar from "./components/sidebar/Sidebar";
 
 
 function App() {
@@ -9,10 +10,13 @@ function App() {
   const hideSidebarPaths = ["/login"];
 
   return (
-    <div className="flex">
-      {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
-      <div className="flex-grow">
-        <RouterConfig />
+    <div className="flex flex-col h-screen">
+      {!hideSidebarPaths.includes(location.pathname) && <Navbar />}
+      <div className="flex flex-grow">
+        {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
+        <div>
+          <RouterConfig />
+        </div>
       </div>
     </div>
   );
