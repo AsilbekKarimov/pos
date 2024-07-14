@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import loginImg from "../../assets/images/login-bg.jpeg";
 import loginFetch from "../../components/authLogic/loginFetch";
 import useAuth from "../../components/authLogic/useAuth";
 
-import { setIsAuth } from "../../store/slices/authSlice";
 
 const Login = () => {
-  const dispatch = useDispatch();
-
   const colorClass = {
     red: "text-black outline-red-500 placeholder:text-red-700",
     blue: "text-black outline-blue-500 placeholder:text-blue-700",
@@ -78,14 +74,13 @@ const Login = () => {
     if (validate()) {
       try {
         setLoading(true);
-        const data = await loginFetch({ login: login, password: password });
+        const data = await loginFetch({ username: login, password: password });
 
-        if (!data.token) {
+        if (!data.access) {
           throw new Error(data.error);
         }
 
-        saveTokens(data.token);
-        dispatch(setIsAuth({isAuth: true}));
+        saveTokens(data.access, data.data);
       } catch (error) {
         setError(error.message);
         setOutlineInput1(colorClass.red);

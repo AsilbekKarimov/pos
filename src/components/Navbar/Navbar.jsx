@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
+
+import userImg from "../../assets/images/avatar.png"
 import ThemeToggle from "../../others/ThemeToggle";
 import useAuth from "../authLogic/useAuth";
 
 const Navbar = ({ toggleSidebar }) => {
   const { logout } = useAuth();
-  const [user, setUser] = useState({
-    role: "root",
-    userName: "Bekzod Mirzaaliyev",
-    profileImage:
-      "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1881",
-  });
+  const user = useSelector((state) => state.user.user);
 
   return (
     <div className="w-full z-50 shadow-lg">
@@ -53,14 +51,14 @@ const Navbar = ({ toggleSidebar }) => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="User Avatar" src={user.profileImage} />
+                  <img alt="User Avatar" src={userImg} />
                 </div>
               </div>
             </div>
             <div className="flex gap-5 items-center">
               <div className="flex flex-col">
-                <h1>{user.userName}</h1>
-                <p>{user.role}</p>
+                <h1>{user.username}</h1>
+                <p>{user.status}</p>
               </div>
               <IoIosLogOut
                 className="size-[35px] cursor-pointer"
