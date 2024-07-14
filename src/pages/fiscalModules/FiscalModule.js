@@ -87,9 +87,9 @@ const Home = () => {
               <thead>
                 <tr className="border font-normal text-[14px] text-blue-700">
                   <th className="border">#</th>
+                  <th className="border">Заводской номер кассы</th>
                   <th className="border">Серийный номер фискального модуля</th>
-                  <th className="border">Версия апплета</th>
-                  <th className="border">ЦТО</th>
+                  <th className="border">Закреплено цто/партнером</th>
                   <th className="border">ИНН</th>
                   <th className="border">Статус на кассе</th>
                   <th className="border">Статус</th>

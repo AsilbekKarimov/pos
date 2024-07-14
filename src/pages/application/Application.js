@@ -170,7 +170,8 @@ const Application = () => {
           <tbody className="text-[12px]">
             {currentRows.map((row) => (
               <tr className="border h-12" key={row.id}>
-                <th className="border">{row.id}</th>
+                <th className="border
+                ">{row.id}</th>
                 <td className="border">{row.serialNumber}</td>
                 <td className="border">{row.appletVersion}</td>
                 <td className="border">{row.cto}</td>
