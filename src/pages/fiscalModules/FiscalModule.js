@@ -1,7 +1,10 @@
 import React, { useState, useEffect, Suspense } from "react";
 import useFetch from "../../components/useFetch/useFetch";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import Pagination from "./Pagination";
 
-const Home = () => {
+const FiscalModule = () => {
   const [filters, setFilters] = useState({
     serialNumber: "",
     appletVersion: "",
@@ -21,6 +24,8 @@ const Home = () => {
   useEffect(() => {
     if (data) {
       setFilteredData(data);
+
+      console.log(data);
     }
   }, [data]);
 
@@ -34,19 +39,11 @@ const Home = () => {
           row.versionNumber
             .toLowerCase()
             .includes(filters.appletVersion.toLowerCase()) &&
-          row.company.toLowerCase().includes(filters.cto.toLowerCase()) //&&
-          // row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
-          // row.statusOnCash
-          //   .toLowerCase()
-          //   .includes(filters.statusOnCash.toLowerCase()) &&
-          // row.status.toLowerCase().includes(filters.status.toLowerCase()) &&
-          // row.returnedFmoFm
-          //   .toLowerCase()
-          //   .includes(filters.returnedFmoFm.toLowerCase())
+          row.company.toLowerCase().includes(filters.cto.toLowerCase())
         );
       });
       setFilteredData(filtered);
-      setCurrentPage(1); // Reset to first page when filters change
+      setCurrentPage(1);
     }
   }, [filters, data]);
 
@@ -58,27 +55,15 @@ const Home = () => {
     }));
   };
 
-  // Pagination logic
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Generate pagination buttons
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-
-  const maxPages = 10;
-  const indexOfLastPage = Math.ceil(currentPage / maxPages) * maxPages;
-  const indexOfFirstPage = indexOfLastPage - maxPages + 1;
-  const displayPages = pageNumbers.slice(indexOfFirstPage - 1, indexOfLastPage);
-
   return (
-    <div className="overflow-x-auto flex flex-col px-4 ">
+    <div className="overflow-x-auto flex flex-col pr-4">
       {loading ? <Suspense /> : null}
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
@@ -139,49 +124,16 @@ const Home = () => {
               </tbody>
             </table>
           </div>
-          <div className="pagination flex justify-center items-center py-3">
-            <button
-              onClick={() =>
-                setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
-              }
-              className={`mx-2 px-3 py-1 border ${
-                currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
-              }`}
-            >
-              {"<"}
-            </button>
-            {displayPages.map((number) => (
-              <button
-                key={number}
-                onClick={() => paginate(number)}
-                className={`mx-2 px-3 py-1 border ${
-                  currentPage === number
-                    ? "bg-blue-500 text-white"
-                    : "bg-white text-black"
-                }`}
-              >
-                {number}
-              </button>
-            ))}
-            <button
-              onClick={() =>
-                setCurrentPage(
-                  currentPage < totalPages ? currentPage + 1 : currentPage
-                )
-              }
-              className={`mx-2 px-3 py-1 border ${
-                currentPage === totalPages
-                  ? "bg-gray-300"
-                  : "bg-white text-black"
-              }`}
-            >
-              {">"}
-            </button>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            paginate={paginate}
+            setCurrentPage={setCurrentPage}
+          />
         </>
       )}
     </div>
   );
 };
 
-export default Home;
+export default FiscalModule;
