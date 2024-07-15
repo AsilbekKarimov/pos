@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoLogOut } from "react-icons/io5";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { FaBoxArchive, FaPen, FaLocationDot } from "react-icons/fa6";
+import Button from "../../others/Button/Button";
 
 const Application = () => {
   const [filters, setFilters] = useState({
@@ -175,9 +176,7 @@ const Application = () => {
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border w-7">
-                  <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                    Актив/Деактив
-                  </button>
+                  <Button />
                 </td>
 
               </tr>
