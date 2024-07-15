@@ -1,8 +1,11 @@
 import React from 'react'
+import AddPartnerModal from '../../components/AddPartnerModal/AddPartnerModal'
 
 const Payment = () => {
   return (
-    <div>ФМ Оплата</div>
+    <div>
+      <AddPartnerModal text={'Добавить партнера'}/>
+    </div>
   )
 }
 
