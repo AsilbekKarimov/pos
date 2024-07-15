@@ -63,18 +63,65 @@ const FiscalModule = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="overflow-x-auto flex flex-col px-4 ">
+    <div className="overflow-x-auto flex flex-col pr-4">
       {loading ? <Suspense /> : null}
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
         <>
           <div className="flex-grow overflow-y-auto">
-            <table className="table table-md table-zebra border w-full">
-              <TableHeader
-                filters={filters}
-                handleFilterChange={handleFilterChange}
-              />
-              <TableBody currentRows={currentRows} />
+            <table className="table table-md table-zebra border w-full h-full">
+              <thead>
+                <tr className="border font-normal text-[14px] text-blue-700">
+                  <th className="border">#</th>
+                  <th className="border">Заводской номер кассы</th>
+                  <th className="border">Серийный номер фискального модуля</th>
+                  <th className="border">Закреплено цто/партнером</th>
+                </tr>
+                <tr className="border">
+                  <th></th>
+                  <th className="border">
+                    <input
+                      name="serialNumber"
+                      value={filters.serialNumber}
+                      onChange={handleFilterChange}
+                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
+                    />
+                  </th>
+                  <th className="border">
+                    <input
+                      name="appletVersion"
+                      value={filters.versionNumber}
+                      onChange={handleFilterChange}
+                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
+                    />
+                  </th>
+                  <th className="border">
+                    <input
+                      name="cto"
+                      value={filters.company}
+                      onChange={handleFilterChange}
+                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-[6px]">
+                {currentRows.map((row) => (
+                  <tr className="border h-12" key={row.id}>
+                    <th className="border">{row.id}</th>
+                    <td className="border">Serial {row.serialNumber}</td>
+                    <td className="border">Version {row.versionNumber}</td>
+
+                    <td className="border">
+                      <div className="flex justify-center items-center h-full">
+                        <span className="badge badge-info text-white">
+                          Актуальный
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
           <Pagination
