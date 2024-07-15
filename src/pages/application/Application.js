@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { IoLogOut } from "react-icons/io5";
-import { RiArrowGoBackLine } from "react-icons/ri";
-import { FaBoxArchive, FaPen, FaLocationDot } from "react-icons/fa6";
 import Button from "../../others/Button/Button";
 
 const Application = () => {
@@ -89,7 +86,7 @@ const Application = () => {
       <div className="flex-grow overflow-y-auto">
         <table className="table-fixed w-full border h-full table-zebra">
           <thead>
-            <tr className="border font-normal text-[15px] text-blue-700">
+            <tr className="border font-normal text-xs text-blue-700">
               <th className="border">#</th>
               <th className="border">ИНН</th>
               <th className="border">Название компании</th>

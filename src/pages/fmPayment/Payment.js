@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { IoLogOut } from "react-icons/io5";
-import { RiArrowGoBackLine } from "react-icons/ri";
-import { FaBoxArchive, FaPen, FaLocationDot } from "react-icons/fa6";
 
 const Application = () => {
   const [filters, setFilters] = useState({
