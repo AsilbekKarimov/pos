@@ -53,7 +53,7 @@ const Login = () => {
         if (!(data.access, data.refresh)) {
           throw new Error(data.error);
         }
-
+        console.log(data)
         saveTokens(data.access, data.refresh);
         dispatch(setIsAuth(true));
         startTokenRefreshInterval();
