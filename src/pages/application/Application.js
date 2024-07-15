@@ -91,21 +91,14 @@ const Application = () => {
             <tr className="border font-normal text-[15px] text-blue-700">
               <th className="border">#</th>
               <th className="border">ИНН</th>
-              <th className="border">ПИНФЛ</th>
-              <th className="border">Название кассы</th>
-              <th className="border">Онлайн КХМ</th>
-              <th className="border">Фискальный модуль</th>
-              <th className="border">2D сканер</th>
-              <th className="border">МХК коди хато чеклар сони</th>
-              <th className="border">Сумма</th>
-              <th className="border">Дата последнего чека</th>
+              <th className="border">Название компании</th>
+              <th className="border">Адресс</th>
+              <th className="border">Номер кассы</th>
+              <th className="border">Номер модуля</th>
+              <th className="border">Номер сборки</th>
+              <th className="border">Дата последнего запроса</th>
+              <th className="border">Дата обновления базы</th>
               <th className="border">Cтатус</th>
-              <th className="border">Просмотр</th>
-              <th className="border w-10"></th>
-              <th className="border w-10"></th>
-              <th className="border w-10"></th>
-              <th className="border w-10"></th>
-              <th className="border w-10"></th>
             </tr>
             <tr className="border">
               <th></th>
@@ -181,33 +174,12 @@ const Application = () => {
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.returnedFmoFm}</td>
-                <td className="border">{row.returnedFmoFm}</td>
-                <td className="border">
+                <td className="border w-7">
                   <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                    Просмотр
+                    Актив/Деактив
                   </button>
                 </td>
-                <td className="border w-10">
-                  <div className="bg-red-500 rounded-md p-3 flex items-center justify-center">
-                    <IoLogOut className="text-white" />
-                  </div>
-                </td>
-                <td className="border w-10">
-                  <div className="bg-blue-500 rounded-md py-3 flex items-center justify-center">
-                    <RiArrowGoBackLine className="text-white" />
-                  </div>
-                </td>
-                <td className="border w-10">
-                  <div className="bg-blue-500 rounded-md py-3 flex items-center justify-center">
-                    <FaBoxArchive className="text-white " />
-                  </div>
-                </td>
-                <td className="border">
-                  <FaPen className="text-blue-500 size-4 mx-auto" />
-                </td>
-                <td className="border">
-                  <FaLocationDot className="text-blue-500 size-4 mx-auto" />
-                </td>
+
               </tr>
             ))}
           </tbody>

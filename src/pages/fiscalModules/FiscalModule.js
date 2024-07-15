@@ -91,10 +91,6 @@ const Home = () => {
                   <th className="border">Заводской номер кассы</th>
                   <th className="border">Серийный номер фискального модуля</th>
                   <th className="border">Закреплено цто/партнером</th>
-                  <th className="border">ИНН</th>
-                  <th className="border">Статус на кассе</th>
-                  <th className="border">Статус</th>
-                  <th className="border">Возвращенные ФМО ФМ</th>
                 </tr>
                 <tr className="border">
                   <th></th>
@@ -122,38 +118,6 @@ const Home = () => {
                       className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
                     />
                   </th>
-                  <th className="border">
-                    <input
-                      name="inn"
-                      value={filters.inn}
-                      onChange={handleFilterChange}
-                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                    />
-                  </th>
-                  <th className="border">
-                    <input
-                      name="statusOnCash"
-                      value={filters.statusOnCash}
-                      onChange={handleFilterChange}
-                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                    />
-                  </th>
-                  <th className="border">
-                    <input
-                      name="status"
-                      value={filters.status}
-                      onChange={handleFilterChange}
-                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                    />
-                  </th>
-                  <th className="border">
-                    <input
-                      name="returnedFmoFm"
-                      value={filters.returnedFmoFm}
-                      onChange={handleFilterChange}
-                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                    />
-                  </th>
                 </tr>
               </thead>
               <tbody className="text-[6px]">
@@ -162,9 +126,7 @@ const Home = () => {
                     <th className="border">{row.id}</th>
                     <td className="border">Serial {row.serialNumber}</td>
                     <td className="border">Version {row.versionNumber}</td>
-                    <td className="border">MCHJ "{row.company}" </td>
-                    <td className="border">448948949</td>
-                    <td className="border">Активный</td>
+
                     <td className="border">
                       <div className="flex justify-center items-center h-full">
                         <span className="badge badge-info text-white">
@@ -172,7 +134,6 @@ const Home = () => {
                         </span>
                       </div>
                     </td>
-                    <td className="border">FMO</td>
                   </tr>
                 ))}
               </tbody>
