@@ -76,11 +76,11 @@ const Login = () => {
         setLoading(true);
         const data = await loginFetch({ username: login, password: password });
 
-        if (!data.access) {
+        if (!data.token) {
           throw new Error(data.error);
         }
 
-        saveTokens(data.access, data.data);
+        saveTokens(data.token, data.user);
       } catch (error) {
         setError(error.message);
         setOutlineInput1(colorClass.red);
