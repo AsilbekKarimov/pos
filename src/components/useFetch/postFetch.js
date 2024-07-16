@@ -1,38 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 
-const useFetch = (url) => {
-  const [data, setData] = useState(null);
+const postFetch = ({url, token, ...data}) => {
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const postData = async () => {
       try {
         setLoading(true);
         const response = await fetch(`https://6687c8f30bc7155dc019177c.mockapi.io/${url}`, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             "Content-Type": "application/json",
-            // "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`
           },
+          body: JSON.stringify(data)
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const result = await response.json();
 
-        setData(result);
+        setResult(result);
       } catch (error) {
-        setError(error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, [url]);
+    postData();
+  }, [url, token, data]);
 
-  return { data, loading, error };
-};
+  return { data: result, loading, error };
+}
 
-export default useFetch;
+export default postFetch
