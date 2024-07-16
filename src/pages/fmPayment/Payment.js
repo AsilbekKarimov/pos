@@ -2,7 +2,7 @@ import React from 'react'
 
 const Payment = () => {
   return (
-    <div>ФМ Оплата</div>
+    <div>ФМ Оплата.</div>
   )
 }
 
