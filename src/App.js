@@ -5,6 +5,7 @@ import Application from "./pages/application/Application";
 import Profile from "./components/profile/Profile";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
+import Payment from "./pages/fmPayment/Payment";
 
 const App = () => {
   const location = useLocation();
@@ -33,8 +34,9 @@ const App = () => {
         )}
         <div className={`${isSidebarOpen ? "w-5/6" : "w-full"}`}>
           <Routes>
-            <Route path="/" element={<Application />} />
+            <Route path="/application" element={<Application />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/payment" element={<Payment />} />
             {/* Add other routes as needed */}
           </Routes>
         </div>

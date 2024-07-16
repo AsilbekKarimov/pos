@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../others/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const Application = () => {
   const [filters, setFilters] = useState({
@@ -28,6 +28,7 @@ const Application = () => {
   const [filteredData, setFilteredData] = useState(initialData);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const filtered = initialData.filter((row) => {
@@ -61,6 +62,20 @@ const Application = () => {
     }));
   };
 
+  const handleToggleStatus = (id) => {
+    setFilteredData((prevData) =>
+      prevData.map((row) =>
+        row.id === id
+          ? { ...row, status: row.status === "Активный" ? "Не Активный" : "Активный" }
+          : row
+      )
+    );
+  };
+
+  const handleProfileClick = (row) => {
+    navigate('/profile', { state: { row } });
+  };
+
   // Pagination logic
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -86,17 +101,14 @@ const Application = () => {
       <div className="flex-grow overflow-y-auto">
         <table className="table-fixed w-full border h-full table-zebra">
           <thead>
-            <tr className="border font-normal text-xs text-blue-700">
+            <tr className="border font-normal text-[15px] text-blue-700">
               <th className="border">#</th>
-              <th className="border">ИНН</th>
-              <th className="border">Название компании</th>
-              <th className="border">Адресс</th>
-              <th className="border">Номер кассы</th>
-              <th className="border">Номер модуля</th>
-              <th className="border">Номер сборки</th>
-              <th className="border">Дата последнего запроса</th>
-              <th className="border">Дата обновления базы</th>
-              <th className="border">Cтатус</th>
+              <th className="border">Серийный номер</th>
+              <th className="border">Версия апплета</th>
+              <th className="border">FMO/FM</th>
+              <th className="border">Статус</th>
+              <th className="border"></th>
+              <th className="border"></th>
             </tr>
             <tr className="border">
               <th></th>
@@ -124,58 +136,35 @@ const Application = () => {
                   className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
                 />
               </th>
-              <th className="border">
-                <input
-                  name="inn"
-                  value={filters.inn}
-                  onChange={handleFilterChange}
-                  className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                />
-              </th>
-              <th className="border">
-                <input
-                  name="statusOnCash"
-                  value={filters.statusOnCash}
-                  onChange={handleFilterChange}
-                  className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                />
-              </th>
-              <th className="border">
-                <input
-                  name="status"
-                  value={filters.status}
-                  onChange={handleFilterChange}
-                  className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                />
-              </th>
-              <th className="border">
-                <input
-                  name="returnedFmoFm"
-                  value={filters.returnedFmoFm}
-                  onChange={handleFilterChange}
-                  className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                />
-              </th>
+              <th className="border"></th>
+              <th className="border"></th>
+              <th className="border"></th>
             </tr>
           </thead>
           <tbody className="text-[12px]">
             {currentRows.map((row) => (
               <tr className="border h-12" key={row.id}>
-                <th className="border
-                ">{row.id}</th>
+                <th className="border">{row.id}</th>
                 <td className="border">{row.serialNumber}</td>
                 <td className="border">{row.appletVersion}</td>
-                <td className="border">{row.cto}</td>
-                <td className="border">{row.inn}</td>
-                <td className="border">{row.statusOnCash}</td>
+                <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.status}</td>
-                <td className="border">{row.returnedFmoFm}</td>
-                <td className="border">{row.returnedFmoFm}</td>
-                <td className="border">{row.returnedFmoFm}</td>
                 <td className="border w-7">
-                  <Button/>
+                  <button
+                    onClick={() => handleToggleStatus(row.id)}
+                    className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3"
+                  >
+                    Актив/Деактив
+                  </button>
                 </td>
-
+                <td className="border w-7">
+                  <button
+                    onClick={() => handleProfileClick(row)}
+                    className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3"
+                  >
+                    Профиль
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -186,23 +175,22 @@ const Application = () => {
           onClick={() =>
             setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
           }
-          className={`mx-2 px-3 py-1 border ${
-            currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
-          }`}
+          className={`mx-1 px-3 py-1 rounded-md ${
+            currentPage === 1 ? "bg-gray-400" : "bg-blue-500"
+          } text-white`}
+          disabled={currentPage === 1}
         >
-          {"<"}
+          Предыдущая
         </button>
-        {displayPages.map((number) => (
+        {displayPages.map((page) => (
           <button
-            key={number}
-            onClick={() => paginate(number)}
-            className={`mx-2 px-3 py-1 border ${
-              currentPage === number
-                ? "bg-blue-500 text-white"
-                : "bg-white text-black"
+            key={page}
+            onClick={() => paginate(page)}
+            className={`mx-1 px-3 py-1 rounded-md ${
+              currentPage === page ? "bg-blue-700 text-white" : "bg-gray-300"
             }`}
           >
-            {number}
+            {page}
           </button>
         ))}
         <button
@@ -211,11 +199,12 @@ const Application = () => {
               currentPage < totalPages ? currentPage + 1 : currentPage
             )
           }
-          className={`mx-2 px-3 py-1 border ${
-            currentPage === totalPages ? "bg-gray-300" : "bg-white text-black"
-          }`}
+          className={`mx-1 px-3 py-1 rounded-md ${
+            currentPage === totalPages ? "bg-gray-400" : "bg-blue-500"
+          } text-white`}
+          disabled={currentPage === totalPages}
         >
-          {">"}
+          Следующая
         </button>
       </div>
     </div>
