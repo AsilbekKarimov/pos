@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Application from "./pages/application/Application"; // Import your Application component
+import Application from "./pages/application/Application"; 
 import Profile from "./components/profile/Profile";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
