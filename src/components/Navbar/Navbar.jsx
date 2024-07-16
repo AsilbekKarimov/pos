@@ -58,7 +58,7 @@ const Navbar = ({ toggleSidebar }) => {
             <div className="flex gap-5 items-center">
               <div className="flex flex-col">
                 <h1>{user.username}</h1>
-                <p>{user.inn}</p>
+                {user.is_admin ? <p>Root</p> : <p>User</p>}
               </div>
               <IoIosLogOut
                 className="size-[35px] cursor-pointer"
