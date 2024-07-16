@@ -4,12 +4,14 @@ import { useSelector } from "react-redux";
 import Loadable from "../layouts/full/Loadable";
 import PrivateRoute from "../components/privateRoute/PrivateRoute";
 import App from "../App";
+import Profile from "../components/profile/Profile"
 
 const FiscalModules = Loadable(React.lazy(() => import("../pages/fiscalModules/FiscalModule")));
 const Application = Loadable(React.lazy(() => import("../pages/application/Application")));
 const Login = Loadable(React.lazy(() => import("../pages/login/Login")));
 const Payment = Loadable(React.lazy(() => import("../pages/fmPayment/Payment")));
 const Reestr = Loadable(React.lazy(() => import("../pages/reestr/Reestr")));
+
 
 const RouterConfig = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -39,14 +41,21 @@ const RouterConfig = () => {
       path: "reestr",
       element: <PrivateRoute isAuth={isAuth} component={Reestr} />,
     },
+
+    {
+      path: "profile",
+      element: <PrivateRoute isAuth={isAuth} component={Profile} />,
+    },
     {
       path: "/login",
       element: isAuth ? <Navigate to="/modules" /> : <Login />,
     },
+
     {
       path: "*",
       element: <Navigate to={isAuth ? "/modules" : "/login"} />,
     },
+
   ]);
 
   return (

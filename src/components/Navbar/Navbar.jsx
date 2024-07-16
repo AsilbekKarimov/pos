@@ -5,6 +5,7 @@ import { IoIosLogOut } from "react-icons/io";
 import userImg from "../../assets/images/avatar.png"
 import ThemeToggle from "../../others/ThemeToggle";
 import useAuth from "../authLogic/useAuth";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ toggleSidebar }) => {
   const { logout } = useAuth();
@@ -57,7 +58,9 @@ const Navbar = ({ toggleSidebar }) => {
                 <div className="w-10 rounded-full">
                   <img alt="User Avatar" src={userImg} />
                 </div>
+
               </div>
+             
             </div>
             <div className="flex gap-5 items-center">
               <div className="flex flex-col">
