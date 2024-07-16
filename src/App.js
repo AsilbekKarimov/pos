@@ -1,40 +1,28 @@
-
-import React from "react";
-import { useLocation, Outlet } from "react-router-dom";
-import Sidebar from "./components/sidebar/Sidebar";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
+import Navbar from "./components/Navbar/Navbar";
+import Sidebar from "./components/sidebar/Sidebar";
 
 function App() {
   const location = useLocation();
   const hideSidebarPaths = ["/login"];
-
-  return (
-    <div className="flex">
-      {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
-      <div className="flex-grow">
-        <RouterConfig />
-        
-      </div>
-    </div>
-
-import React, { useState } from 'react';
-
-import Sidebar from './component/Sidebar/Sidebar';
-import Navbar from './component/Navabr/Navbar';
-
-function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setSidebarOpen(!isSidebarOpen);
   };
 
   return (
-    <>
-      <Sidebar toggleSidebar={toggleSidebar} />
-      <Navbar toggleSidebar={toggleSidebar} />
-    </>
-
+    <div className="flex flex-col h-screen">
+      {!hideSidebarPaths.includes(location.pathname) && <Navbar toggleSidebar={toggleSidebar} />}
+      <div className="flex flex-grow">
+        {!hideSidebarPaths.includes(location.pathname) && <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />}
+        <div className={`${isSidebarOpen ? 'w-5/6' : 'w-full'} p-5`}>
+          <RouterConfig />
+        </div>
+      </div>
+    </div>
   );
 }
 
