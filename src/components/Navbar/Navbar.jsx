@@ -9,8 +9,12 @@ const Navbar = ({ toggleSidebar }) => {
     role: "root",
     userName: "Bekzod Mirzaaliyev",
     profileImage:
-      "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1881",
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
+
+  const getDisplayName = (name) => {
+    return name.length > 25 ? name.slice(0, 25) + "..." : name;
+  };
 
   return (
     <div className="w-full z-50 shadow-lg">
@@ -45,7 +49,7 @@ const Navbar = ({ toggleSidebar }) => {
             <a className="btn btn-ghost normal-case text-xl">OOO "RIG"</a>
           </div>
           <div className="navbar-end flex items-center gap-4">
-            <ThemeToggle className='text-2xl' />
+            <ThemeToggle className='text-sm' />
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -59,10 +63,10 @@ const Navbar = ({ toggleSidebar }) => {
             </div>
             <div className="flex gap-5 items-center">
               <div className="flex flex-col">
-                <h1>{user.userName}</h1>
+                <h1>{getDisplayName(user.userName)}</h1>
                 <p>{user.role}</p>
               </div>
-              <IoIosLogOut className="text-2xl cursor-pointer" onClick={() => clearLocalStorage()} />
+              <IoIosLogOut className="text-2xl cursor-pointer font-black" onClick={() => clearLocalStorage()} />
             </div>
           </div>
         </div>

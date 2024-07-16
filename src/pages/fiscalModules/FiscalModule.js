@@ -12,9 +12,7 @@ const Home = () => {
     returnedFmoFm: "",
   });
 
-  const { data, loading, error } = useFetch(
-    "fiscal"
-  );
+  const { data, loading, error } = useFetch("fiscal");
 
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);

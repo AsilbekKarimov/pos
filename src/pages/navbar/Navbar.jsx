@@ -7,7 +7,7 @@ const Navbar = ({ toggleSidebar }) => {
   const [theme, setTheme] = useState('light');
   const [user, setUser] = useState({
     role: "root",
-    userName: "Bekzod Mirzaaliyev",
+    userName: "Bekzod Mirzaaliyev MCHJ TOSHKENT AMALIY FANLAR OOO",
     profileImage: ""
   });
 
@@ -39,7 +39,7 @@ const Navbar = ({ toggleSidebar }) => {
         console.error('ошибка при загрузке аватара:', error);
       }
     };
-  
+
     fetchAvatar();
   }, []);
 
