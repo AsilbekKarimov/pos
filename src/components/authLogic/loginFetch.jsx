@@ -1,6 +1,6 @@
 const loginFetch = async ({ username, password }) => {
   const response = await fetch(
-    "https://basedjangoapi.pythonanywhere.com/login/",
+    "https://verified-gorilla-yearly.ngrok-free.app/api/auth/login",
     {
       method: "POST",
       headers: {
