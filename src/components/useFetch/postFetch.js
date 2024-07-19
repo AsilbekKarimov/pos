@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 const postFetch = ({url, token, ...data}) => {
+  
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

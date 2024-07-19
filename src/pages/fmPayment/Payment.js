@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 const Application = () => {
+
+  
   const [filters, setFilters] = useState({
     serialNumber: "",
     appletVersion: "",
@@ -80,6 +82,17 @@ const Application = () => {
   const indexOfFirstPage = indexOfLastPage - maxPages + 1;
   const displayPages = pageNumbers.slice(indexOfFirstPage - 1, indexOfLastPage);
 
+  // Toggle status handler
+  const handleToggleStatus = (id) => {
+    setFilteredData((prevData) =>
+      prevData.map((row) =>
+        row.id === id
+          ? { ...row, status: row.status === "Активный" ? "Не Активный" : "Активный" }
+          : row
+      )
+    );
+  };
+
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <div className="flex-grow overflow-y-auto">
@@ -124,22 +137,27 @@ const Application = () => {
           <tbody className="text-[12px]">
             {currentRows.map((row) => (
               <tr className="border h-12" key={row.id}>
-                <th className="border
-                ">{row.id}</th>
+                <th className="border">{row.id}</th>
                 <td className="border">{row.serialNumber}</td>
                 <td className="border">{row.appletVersion}</td>
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border w-7">
-                  <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                    Актив/Деактив
+                  <button
+                    onClick={() => handleToggleStatus(row.id)}
+                    className={`mx-auto flex justify-center my-auto py-2 active:scale-90 transition duration-300 w-32 ${
+                      row.status === "Активный"
+                        ? "bg-red-500 hover:bg-red-700"
+                        : "bg-green-500 hover:bg-green-700"
+                    } flex rounded-md text-white px-3`}
+                  >
+                    {row.status === "Активный" ? "Деактивировать" : "Активировать"}
                   </button>
                 </td>
                 <td className="border w-7">
-                  <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
+                  <button className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
                     Профиль
                   </button>
                 </td>
-
               </tr>
             ))}
           </tbody>
