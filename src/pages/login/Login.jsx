@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import loginImg from "../../assets/images/login-bg.jpeg";
 import loginFetch from "../../components/authLogic/loginFetch";
 import useAuth from "../../components/authLogic/useAuth";
-
+import Toast from "../../others/toastNotification/Toast";
 
 const Login = () => {
   const colorClass = {
@@ -48,7 +48,7 @@ const Login = () => {
 
   const validate = () => {
     let valid = true;
-    
+
     if (!login & !password) {
       valid = false;
       setOutlineInput1(colorClass.red);
@@ -96,6 +96,7 @@ const Login = () => {
 
   return (
     <div className="bg-blue-500 h-screen w-screen flex items-center">
+      {error && <Toast error={error} />}
       <div className="container mx-auto flex justify-center items-center h-[80vh] w-full">
         <div className="flex flex-1 h-full bg-white items-center justify-center rounded-s-lg">
           <img
@@ -113,7 +114,6 @@ const Login = () => {
               Вход
             </p>
             <div className="flex flex-col gap-5 items-center">
-              {error && <p className="text-red-500">{error}</p>}
               <input
                 type="text"
                 className={`py-3 rounded-lg px-2 w-full bg-white outline ${outlineInput1}`}
