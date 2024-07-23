@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeTheme } from "../store/slices/themeSlice";
+import { changeTheme } from "../../store/slices/themeSlice";
 
 const ThemeToggle = () => {
   const dispatch = useDispatch();
