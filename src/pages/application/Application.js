@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "../../others/Button/Button";
-import Statustext from "../../others/Statustext/Statustext";
+
 
 
 

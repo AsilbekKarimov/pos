@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Statustext from '../Statustext/Statustext';
+
 
 const Button = ({activeText, NoactiveText}) => {
     const [active, setActive] = useState(false);
