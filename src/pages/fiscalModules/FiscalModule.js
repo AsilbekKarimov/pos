@@ -106,7 +106,7 @@ const FiscalModule = () => {
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              paginate={paginate}
+
               setCurrentPage={setCurrentPage}
             />
           ) : (
