@@ -27,7 +27,9 @@ const Pagination = ({ currentPage, totalPages, paginate, setCurrentPage }) => {
           key={number}
           onClick={() => paginate(number)}
           className={`mx-2 px-3 py-1 border ${
-            currentPage === number ? "bg-blue-500 text-white" : "bg-white text-black"
+            currentPage === number
+              ? "bg-blue-500 text-white"
+              : "bg-white text-black"
           }`}
         >
           {number}
