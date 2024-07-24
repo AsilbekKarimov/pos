@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Button from "../../others/Button/Button";
+import Statustext from "../../others/Statustext/Statustext";
+
+
+
+
 
 const Application = () => {
   const [filters, setFilters] = useState({
@@ -168,12 +173,12 @@ const Application = () => {
                 <td className="border">{row.cto}</td>
                 <td className="border">{row.inn}</td>
                 <td className="border">{row.statusOnCash}</td>
-                <td className="border">{row.status}</td>
+                <td className="border"> <p> деактивный </p></td>
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border">{row.returnedFmoFm}</td>
                 <td className="border w-7">
-                  <Button/>
+                  <Button activeText={'Актив'} NoactiveText={'Деактив'} />
                 </td>
 
               </tr>
@@ -186,9 +191,8 @@ const Application = () => {
           onClick={() =>
             setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
           }
-          className={`mx-2 px-3 py-1 border ${
-            currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
-          }`}
+          className={`mx-2 px-3 py-1 border ${currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
+            }`}
         >
           {"<"}
         </button>
@@ -196,11 +200,10 @@ const Application = () => {
           <button
             key={number}
             onClick={() => paginate(number)}
-            className={`mx-2 px-3 py-1 border ${
-              currentPage === number
+            className={`mx-2 px-3 py-1 border ${currentPage === number
                 ? "bg-blue-500 text-white"
                 : "bg-white text-black"
-            }`}
+              }`}
           >
             {number}
           </button>
@@ -211,9 +214,8 @@ const Application = () => {
               currentPage < totalPages ? currentPage + 1 : currentPage
             )
           }
-          className={`mx-2 px-3 py-1 border ${
-            currentPage === totalPages ? "bg-gray-300" : "bg-white text-black"
-          }`}
+          className={`mx-2 px-3 py-1 border ${currentPage === totalPages ? "bg-gray-300" : "bg-white text-black"
+            }`}
         >
           {">"}
         </button>

@@ -14,9 +14,9 @@ function App() {
   const token = useSelector(state => state.auth.accessToken)
   const time = useSelector(state => state.auth.expirationTime)
   const userData = useSelector(state => state.user.user)
-  console.log("token", token);
-  console.log("time", time);
-  console.log("userData", userData);
+  // console.log("token", token);
+  // console.log("time", time);
+  // console.log("userData", userData);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);

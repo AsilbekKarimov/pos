@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
 
 import userImg from "../../assets/images/avatar.png"
-import ThemeToggle from "../../others/ThemeToggle";
+import ThemeToggle from "../../others/themeToggle/ThemeToggle";
 import useAuth from "../authLogic/useAuth";
 
 const Navbar = ({ toggleSidebar }) => {
