@@ -45,6 +45,7 @@ const FiscalModule = () => {
       ...prevFilters,
       [name]: value,
     }));
+    console.log({ name, value })
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -55,8 +56,12 @@ const FiscalModule = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="overflow-x-auto flex flex-col pr-4">
-      {loading ? <Suspense /> : null}
+    <div className="overflow-x-auto flex flex-col px-4">
+      {loading && (
+        <div className="flex justify-center items-center h-full w-full">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
         <>
