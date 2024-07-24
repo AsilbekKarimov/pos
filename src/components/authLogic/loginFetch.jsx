@@ -1,6 +1,6 @@
 const loginFetch = async ({ username, password }) => {
   const response = await fetch(
-    "https://verified-gorilla-yearly.ngrok-free.app/api/auth/login",
+    "https://newterminal.onrender.com/api/auth/login",
     {
       method: "POST",
       headers: {
