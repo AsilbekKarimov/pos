@@ -1,17 +1,27 @@
-import React from "react";
-import { useLocation, Outlet } from "react-router-dom";
-import Sidebar from "./components/sidebar/Sidebar";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
-import { useSelector } from "react-redux";
+import Navbar from "./components/Navbar/Navbar";
+import Sidebar from "./components/sidebar/Sidebar";
+
 
 function App() {
-  const isAuth = useSelector(state => state.auth.isAuth)
+  const location = useLocation();
+  const hideSidebarPaths = ["/login"];
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
 
   return (
-    <div className="flex">
-      {!isAuth   && <Sidebar />}
-      <div className="flex-grow">
-        <RouterConfig />
+    <div className="flex flex-col h-screen">
+      {!hideSidebarPaths.includes(location.pathname) && <Navbar toggleSidebar={toggleSidebar} />}
+      <div className="flex flex-grow">
+        {!hideSidebarPaths.includes(location.pathname) && <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />}
+        <div className={`${isSidebarOpen ? 'w-5/6' : 'w-full'}`}>
+          <RouterConfig />
+        </div>
       </div>
     </div>
   );

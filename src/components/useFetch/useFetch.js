@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const token = useSelector((state) => state.auth.accessToken);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://6687c8f30bc7155dc019177c.mockapi.io/${url}`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-
-        setData(result);
+        const response = await axios.get(
+          `https://newterminal.onrender.com/api/${url}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setData(response.data);
       } catch (error) {
         setError(error);
       } finally {
@@ -24,7 +31,7 @@ const useFetch = (url) => {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, token]);
 
   return { data, loading, error };
 };
