@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
-import { useSelector } from "react-redux";
 
 
 function App() {
@@ -11,6 +10,7 @@ function App() {
   const hideSidebarPaths = ["/login"];
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
+<<<<<<< HEAD
   const token = useSelector(state => state.auth.accessToken)
   const time = useSelector(state => state.auth.expirationTime)
   const userData = useSelector(state => state.user.user)
@@ -18,6 +18,8 @@ function App() {
   // console.log("time", time);
   // console.log("userData", userData);
 
+=======
+>>>>>>> 153a31eca5a96bbd7d2c997791ca13c7ac579136
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
