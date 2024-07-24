@@ -10,8 +10,6 @@ const FiscalModule = () => {
 
   const { data, loading, error } = useFetch("fiscal");
 
-  console.log("Response fiscal data: ", data);
-
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
@@ -45,7 +43,6 @@ const FiscalModule = () => {
       ...prevFilters,
       [name]: value,
     }));
-    console.log({ name, value })
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -58,7 +55,7 @@ const FiscalModule = () => {
   return (
     <div className="overflow-x-auto flex flex-col px-4">
       {loading && (
-        <div className="flex justify-center items-center h-full w-full">
+        <div className="min-h-full flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}
@@ -104,12 +101,16 @@ const FiscalModule = () => {
               </tbody>
             </table>
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            paginate={paginate}
-            setCurrentPage={setCurrentPage}
-          />
+          {data.length > 10 ? (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              paginate={paginate}
+              setCurrentPage={setCurrentPage}
+            />
+          ) : (
+            <div></div>
+          )}
         </>
       )}
     </div>
