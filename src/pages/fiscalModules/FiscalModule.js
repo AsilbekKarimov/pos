@@ -1,21 +1,16 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "../../components/useFetch/useFetch";
-import TableHeader from "./TableHeader";
-import TableBody from "./TableBody";
 import Pagination from "./Pagination";
 
 const FiscalModule = () => {
   const [filters, setFilters] = useState({
-    serialNumber: "",
-    appletVersion: "",
-    cto: "",
-    inn: "",
-    statusOnCash: "",
-    status: "",
-    returnedFmoFm: "",
+    factory_number: "",
+    fiscal_number: "",
   });
 
   const { data, loading, error } = useFetch("fiscal");
+
+  console.log("Response fiscal data: ", data);
 
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,8 +19,6 @@ const FiscalModule = () => {
   useEffect(() => {
     if (data) {
       setFilteredData(data);
-
-      console.log(data);
     }
   }, [data]);
 
@@ -33,13 +26,12 @@ const FiscalModule = () => {
     if (data) {
       const filtered = data.filter((row) => {
         return (
-          row.serialNumber
+          row.factory_number
             .toLowerCase()
-            .includes(filters.serialNumber.toLowerCase()) &&
-          row.versionNumber
+            .includes(filters.factory_number.toLowerCase()) &&
+          row.fiscal_number
             .toLowerCase()
-            .includes(filters.appletVersion.toLowerCase()) &&
-          row.company.toLowerCase().includes(filters.cto.toLowerCase())
+            .includes(filters.fiscal_number.toLowerCase())
         );
       });
       setFilteredData(filtered);
@@ -53,6 +45,7 @@ const FiscalModule = () => {
       ...prevFilters,
       [name]: value,
     }));
+    console.log({ name, value })
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -63,8 +56,12 @@ const FiscalModule = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="overflow-x-auto flex flex-col pr-4">
-      {loading ? <Suspense /> : null}
+    <div className="overflow-x-auto flex flex-col px-4">
+      {loading && (
+        <div className="flex justify-center items-center h-full w-full">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
       {error && <p>Error: {error.message}</p>}
       {!loading && !error && (
         <>
@@ -75,30 +72,21 @@ const FiscalModule = () => {
                   <th className="border">#</th>
                   <th className="border">Заводской номер кассы</th>
                   <th className="border">Серийный номер фискального модуля</th>
-                  <th className="border">Закреплено цто/партнером</th>
                 </tr>
                 <tr className="border">
                   <th></th>
                   <th className="border">
                     <input
-                      name="serialNumber"
-                      value={filters.serialNumber}
+                      name="factory_number"
+                      value={filters.factory_number}
                       onChange={handleFilterChange}
                       className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
                     />
                   </th>
                   <th className="border">
                     <input
-                      name="appletVersion"
-                      value={filters.versionNumber}
-                      onChange={handleFilterChange}
-                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                    />
-                  </th>
-                  <th className="border">
-                    <input
-                      name="cto"
-                      value={filters.company}
+                      name="fiscal_number"
+                      value={filters.fiscal_number}
                       onChange={handleFilterChange}
                       className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
                     />
@@ -109,16 +97,8 @@ const FiscalModule = () => {
                 {currentRows.map((row) => (
                   <tr className="border h-12" key={row.id}>
                     <th className="border">{row.id}</th>
-                    <td className="border">Serial {row.serialNumber}</td>
-                    <td className="border">Version {row.versionNumber}</td>
-
-                    <td className="border">
-                      <div className="flex justify-center items-center h-full">
-                        <span className="badge badge-info text-white">
-                          Актуальный
-                        </span>
-                      </div>
-                    </td>
+                    <td className="border">{row.factory_number}</td>
+                    <td className="border">{row.fiscal_number}</td>
                   </tr>
                 ))}
               </tbody>

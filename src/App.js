@@ -3,20 +3,12 @@ import { useLocation } from "react-router-dom";
 import RouterConfig from "./router/Router";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
-import { useSelector } from "react-redux";
 
 
 function App() {
   const location = useLocation();
   const hideSidebarPaths = ["/login"];
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-
-  const token = useSelector(state => state.auth.accessToken)
-  const time = useSelector(state => state.auth.expirationTime)
-  const userData = useSelector(state => state.user.user)
-  console.log("token", token);
-  console.log("time", time);
-  console.log("userData", userData);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
