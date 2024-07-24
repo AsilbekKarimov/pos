@@ -38,7 +38,11 @@ const FiscalModule = () => {
   }, [filters, data]);
 
   const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -51,50 +55,65 @@ const FiscalModule = () => {
 
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      <div className="flex-grow overflow-y-auto">
-        <table className="table table-md table-zebra border w-full h-full">
-          <thead>
-            <tr className="border font-normal text-[14px] text-blue-700">
-              <th className="border">#</th>
-              <th className="border">Заводской номер кассы</th>
-              <th className="border">Серийный номер фискального модуля</th>
-            </tr>
-            <tr className="border">
-              <th></th>
-              <th className="border">
-                <input
-                  name="factory_number"
-                  value={filters.factory_number}
-                  onChange={handleFilterChange}
-                  className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                />
-              </th>
-              <th className="border">
-                <input
-                  name="fiscal_number"
-                  value={filters.fiscal_number}
-                  onChange={handleFilterChange}
-                  className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody className="text-[6px]">
-            {currentRows.map((row, index) => (
-              <tr className="border h-12" key={index}>
-                <th className="border">{indexOfFirstRow + index + 1}</th>
-                <td className="border">{row.factory_number}</td>
-                <td className="border">{row.fiscal_number}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        paginate={setCurrentPage}
-      />
+      {loading && (
+        <div className="min-h-full flex items-center justify-center">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
+      {error && <p>Error: {error.message}</p>}
+      {!loading && !error && (
+        <>
+          <div className="flex-grow overflow-y-auto">
+            <table className="table table-md table-zebra border w-full h-full">
+              <thead>
+                <tr className="border font-normal text-[14px] text-blue-700">
+                  <th className="border">#</th>
+                  <th className="border">Заводской номер кассы</th>
+                  <th className="border">Серийный номер фискального модуля</th>
+                </tr>
+                <tr className="border">
+                  <th></th>
+                  <th className="border">
+                    <input
+                      name="factory_number"
+                      value={filters.factory_number}
+                      onChange={handleFilterChange}
+                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
+                    />
+                  </th>
+                  <th className="border">
+                    <input
+                      name="fiscal_number"
+                      value={filters.fiscal_number}
+                      onChange={handleFilterChange}
+                      className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-[6px]">
+                {currentRows.map((row) => (
+                  <tr className="border h-12" key={row.id}>
+                    <th className="border">{row.id}</th>
+                    <td className="border">{row.factory_number}</td>
+                    <td className="border">{row.fiscal_number}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {data.length > 10 ? (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              paginate={paginate}
+              setCurrentPage={setCurrentPage}
+            />
+          ) : (
+            <div></div>
+          )}
+        </>
+      )}
     </div>
   );
 };
