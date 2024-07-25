@@ -55,7 +55,7 @@ const Payment = () => {
     try {
       await postToBackend(updatedRow); // Обновление на сервере
       setFilteredData((prevData) =>
-        prevData.map((item) =>
+        prevData.map((item) => 
           item.id === row.id ? { ...item, is_active: updatedRow.is_active } : item
         )
       );
