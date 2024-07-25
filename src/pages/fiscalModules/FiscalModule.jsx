@@ -102,3 +102,4 @@ const FiscalModule = () => {
 };
 
 export default FiscalModule;
+
