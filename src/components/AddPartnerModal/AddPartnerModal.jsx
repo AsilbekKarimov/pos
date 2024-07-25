@@ -75,7 +75,7 @@ const AddPartnerModal = () => {
 
   return (
     <div>
-      <button className="p-1 border-2 border-blue-500 rounded-lg bg-blue-500 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Добавить партнера</button>
+      <button className="p-1 py-5 border-2 h-full bg-primary border-primary text-white w-full rounded-none" onClick={() => document.getElementById('my_modal_3').showModal()}>Добавить партнера</button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box bg-white">
           <form method="dialog" className='p-3'>

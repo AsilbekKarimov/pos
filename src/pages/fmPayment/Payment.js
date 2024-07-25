@@ -100,14 +100,15 @@ const Application = () => {
         <table className="table-fixed w-full border h-full table-zebra">
           <thead>
             <tr className="border font-normal text-[15px] text-blue-700">
-              <th className="border">#</th>
+              <th className="border" rowSpan={2}>#</th>
               <th className="border">ИНН</th>
               <th className="border">Название компании</th>
               <th className="border">Cтатус</th>
-              <th className="border"></th>
+              <th className="border" rowSpan={2} colSpan={2}>
+                <AddPartnerModal />
+              </th>
             </tr>
             <tr className="border">
-              <th></th>
               <th className="border">
                 <input
                   name="serialNumber"
@@ -132,10 +133,6 @@ const Application = () => {
                   className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
                 />
               </th>
-              <th>
-                <AddPartnerModal />
-              </th>
-              <th className="border"></th>
             </tr>
           </thead>
           <tbody className="text-[12px]">
