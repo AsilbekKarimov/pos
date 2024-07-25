@@ -9,7 +9,7 @@ const ThemeToggle = () => {
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
-
+  
   return (
     <label className="swap swap-rotate">
       <input
