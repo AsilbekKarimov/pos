@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 
 const Application = () => {
 
@@ -130,6 +131,9 @@ const Application = () => {
                   onChange={handleFilterChange}
                   className="w-full border-2 border-slate-500 p-1 outline-none rounded-md"
                 />
+              </th>
+              <th>
+                <AddPartnerModal />
               </th>
               <th className="border"></th>
             </tr>
