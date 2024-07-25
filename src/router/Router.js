@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Loadable from "../layouts/full/Loadable";
 import PrivateRoute from "../components/privateRoute/PrivateRoute";
 import App from "../App";
+import DataTable from "../pages/application/applicationFetch";
 
 const FiscalModules = Loadable(React.lazy(() => import("../pages/fiscalModules/FiscalModule")));
 const Application = Loadable(React.lazy(() => import("../pages/application/Application")));
@@ -30,6 +31,10 @@ const RouterConfig = () => {
     {
       path: "application",
       element: <PrivateRoute isAuth={isAuth} component={Application} />,
+    },
+    {
+      path: "DataTable",
+      element: <PrivateRoute isAuth={isAuth} component={DataTable} />,
     },
     {
       path: "payment",

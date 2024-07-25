@@ -1,7 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
+<<<<<<< HEAD
 const postFetch = ({url, token, ...data}) => {
   
+=======
+const postFetch = ({ url, token, ...data }) => {
+>>>>>>> 95785007f19784899432184171821c1f67994156
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +26,6 @@ const postFetch = ({url, token, ...data}) => {
           throw new Error("Network response was not ok");
         }
         const result = await response.json();
-
         setResult(result);
       } catch (error) {
         setError(error.message);
@@ -35,6 +38,6 @@ const postFetch = ({url, token, ...data}) => {
   }, [url, token, data]);
 
   return { data: result, loading, error };
-}
+};
 
-export default postFetch
+export default postFetch;
