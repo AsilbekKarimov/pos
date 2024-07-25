@@ -7,6 +7,8 @@ const AddPartnerModal = () => {
   const [inn, setInn] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [isActive, setIsActive] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [isFormValid, setIsFormValid] = useState(false);
 
   const token = useSelector((state) => state.auth.accessToken); // Get token from Redux store
@@ -23,6 +25,14 @@ const AddPartnerModal = () => {
     setPassword(e.target.value);
   };
 
+  const handleIsActiveChange = (e) => {
+    setIsActive(e.target.checked);
+  };
+
+  const handleIsAdminChange = (e) => {
+    setIsAdmin(e.target.checked);
+  };
+
   useEffect(() => {
     setIsFormValid(inn && login && password);
   }, [inn, login, password]);
@@ -34,8 +44,8 @@ const AddPartnerModal = () => {
   const handleSubmit = async () => {
     const newPartner = {
       inn: inn,
-      is_active: true,
-      is_admin: true,
+      is_active: isActive,
+      is_admin: isAdmin,
       password: password,
       username: login
     };
@@ -82,12 +92,22 @@ const AddPartnerModal = () => {
               <div className="flex gap-[10%] justify-center mt-4 mb-4">
                 <label className="cursor-pointer flex gap-2 items-center">
                   <span className="label-text">Активен</span>
-                  <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                  <input
+                    type="checkbox"
+                    checked={isActive}
+                    onChange={handleIsActiveChange}
+                    className="checkbox checkbox-primary"
+                  />
                 </label>
 
                 <label className="cursor-pointer flex gap-2 items-center">
                   <span className="label-text">Админ</span>
-                  <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                  <input
+                    type="checkbox"
+                    checked={isAdmin}
+                    onChange={handleIsAdminChange}
+                    className="checkbox checkbox-primary"
+                  />
                 </label>
               </div>
 
