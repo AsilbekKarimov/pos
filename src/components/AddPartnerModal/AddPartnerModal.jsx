@@ -56,23 +56,19 @@ const AddPartnerModal = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Use the token in the headers
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       if (response.status === 200 || response.status === 201) {
         console.log("Partner created successfully:", response.data);
-        // Handle success (e.g., clear the form, show a success message, etc.)
-        // Close the modal if needed
         handleModalClose();
       } else {
         console.error("Failed to create partner:", response.statusText);
-        // Handle error
       }
     } catch (error) {
       console.error("Error:", error);
-      // Handle error
     }
   };
 

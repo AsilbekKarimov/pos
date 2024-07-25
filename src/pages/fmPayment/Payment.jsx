@@ -16,7 +16,6 @@ const Payment = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-  const [showAddModal, setShowAddModal] = useState(null);
 
   useEffect(() => {
     if (data) {

@@ -6,7 +6,7 @@ import Toast from "../../others/toastNotification/Toast";
 
 const Application = () => {
   const [filters, setFilters] = useState({
-    inn: "",  
+    inn: "",
     company_name: "",
     address: "",
     assembly_number: "",
@@ -14,7 +14,6 @@ const Application = () => {
     cash_register_number: "",
     last_request_date: "",
     database_update_date: "",
-    status: "",
   });
 
   const { data, loading, error } = useFetch("terminal");
@@ -52,8 +51,7 @@ const Application = () => {
             .includes(filters.last_request_date.toLowerCase()) &&
           row.database_update_date
             .toLowerCase()
-            .includes(filters.database_update_date.toLowerCase()) &&
-          row.status.toLowerCase().includes(filters.status.toLowerCase())
+            .includes(filters.database_update_date.toLowerCase())
         );
       });
       setFilteredData(filtered);
@@ -89,7 +87,9 @@ const Application = () => {
           <table className="table table-md table-zebra border w-full h-full">
             <thead>
               <tr className="border font-normal text-[15px] text-blue-700">
-                <th className="border">#</th>
+                <th className="border" rowSpan={2}>
+                  #
+                </th>
                 <th className="border">ИНН</th>
                 <th className="border">Название компании</th>
                 <th className="border">Адрес</th>
@@ -98,7 +98,7 @@ const Application = () => {
                 <th className="border">Номер кассы</th>
                 <th className="border">Дата последнего запроса</th>
                 <th className="border">Дата обновления базы</th>
-                <th className="border">Статус</th>
+                <th className="border text-center" rowSpan={2}>Статус</th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -119,7 +119,7 @@ const Application = () => {
                   <td className="border">{row.database_update_date}</td>
                   <td className="border w-7">
                     <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                      {row.status === 'true' ? 'Активный' : 'Не активный'}
+                      {row.status === "true" ? "Активный" : "Не активный"}
                     </button>
                   </td>
                 </tr>
