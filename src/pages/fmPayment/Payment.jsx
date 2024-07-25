@@ -13,30 +13,16 @@ const Payment = () => {
   });
 
   const { data, loading, error } = useFetch("users");
-
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
   const [showAddModal, setShowAddModal] = useState(null);
-
-  const handleClickButton = (e) => {
-    setShowAddModal(e.is_active ? false : true);
-  }
 
   useEffect(() => {
     if (data) {
       setFilteredData(data);
     }
   }, [data]);
-
-  useEffect(() => {
-    console.log(showAddModal)
-
-    return () => {
-    }
-  }, [showAddModal]);
-
-
 
   useEffect(() => {
     if (data) {
@@ -61,6 +47,37 @@ const Payment = () => {
       ...prevFilters,
       [name]: value,
     }));
+  };
+
+  const handleClickButton = async (row) => {
+    const updatedRow = { ...row, is_active: !row.is_active };
+
+    try {
+      await postToBackend(updatedRow); // Обновление на сервере
+      setFilteredData((prevData) =>
+        prevData.map((item) =>
+          item.id === row.id ? { ...item, is_active: updatedRow.is_active } : item
+        )
+      );
+    } catch (error) {
+      console.error("Ошибка при обновлении состояния пользователя:", error);
+      // Обработка ошибки (например, отображение уведомления)
+    }
+  };
+
+  const postToBackend = async (updatedRow) => {
+    console.log(updatedRow);
+    const response = await fetch(`https://newterminal.onrender.com/api/users/${updatedRow.id}`, {
+      method: "PUT", // Используйте метод PUT или PATCH для обновления данных
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(updatedRow),
+    });
+    if (!response.ok) {
+      throw new Error("Не удалось обновить пользователя");
+    }
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -101,7 +118,10 @@ const Payment = () => {
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">
-                    <button onClick={() => handleClickButton(row)} className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
+                    <button
+                      onClick={() => handleClickButton(row)}
+                      className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3"
+                    >
                       {row.is_active ? "Активный" : "Не активный"}
                     </button>
                   </td>
