@@ -9,6 +9,7 @@ const store = configureStore({
     auth: authReducer,
     theme: themeReducer,
     user: userReducer,
+    
   },
 });
 

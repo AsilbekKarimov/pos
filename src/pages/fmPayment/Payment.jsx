@@ -17,12 +17,26 @@ const Payment = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const [showAddModal, setShowAddModal] = useState(null);
+
+  const handleClickButton = (e) => {
+    setShowAddModal(e.is_active ? false : true);
+  }
 
   useEffect(() => {
     if (data) {
       setFilteredData(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    console.log(showAddModal)
+
+    return () => {
+    }
+  }, [showAddModal]);
+
+
 
   useEffect(() => {
     if (data) {
@@ -87,8 +101,8 @@ const Payment = () => {
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">
-                    <button className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                      {row.is_active === true ? "Активный" : "Не активный"}
+                    <button onClick={() => handleClickButton(row)} className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
+                      {row.is_active ? "Активный" : "Не активный"}
                     </button>
                   </td>
                   <td className="border w-7">
