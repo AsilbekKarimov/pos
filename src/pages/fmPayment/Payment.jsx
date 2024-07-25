@@ -13,10 +13,10 @@ const Payment = () => {
   });
 
   const { data, loading, error } = useFetch("users");
-
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const [showAddModal, setShowAddModal] = useState(null);
 
   useEffect(() => {
     if (data) {
@@ -41,25 +41,47 @@ const Payment = () => {
     }
   }, [filters, data]);
 
-  const handleToggleStatus = (id) => {
-    setFilteredData((prevData) =>
-      prevData.map((row) =>
-        row.id === id
-          ? {
-              ...row,
-              status: row.status === "Активный" ? "Не Активный" : "Активный",
-            }
-          : row
-      )
-    );
-  };
-
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
+  };
+
+  const handleClickButton = async (row) => {
+    const updatedRow = { ...row, is_active: !row.is_active };
+
+    try {
+      await postToBackend(updatedRow);
+      setFilteredData((prevData) =>
+        prevData.map((item) =>
+          item.id === row.id
+            ? { ...item, is_active: updatedRow.is_active }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error("Ошибка при обновлении состояния пользователя:", error);
+    }
+  };
+
+  const postToBackend = async (updatedRow) => {
+    console.log(updatedRow);
+    const response = await fetch(
+      `https://newterminal.onrender.com/api/users/${updatedRow.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(updatedRow),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Не удалось обновить пользователя");
+    }
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -105,16 +127,16 @@ const Payment = () => {
                   <td className="border">{row.username}</td>
                   <td className="border w-7">
                     <button
-                      onClick={() => handleToggleStatus(row.id)}
+                      onClick={() => handleClickButton(row)}
                       className={`mx-auto flex justify-center my-auto py-2 active:scale-90 transition duration-300 w-32 ${
-                        row.status === "Активный"
-                          ? "bg-red-500 hover:bg-red-700"
-                          : "bg-green-500 hover:bg-green-700"
+                        row.is_active
+                        ? "bg-green-500 hover:bg-green-700"
+                          : "bg-red-500 hover:bg-red-700"
                       } flex rounded-md text-white px-3`}
                     >
-                      {row.status === "Активный"
-                        ? "Деактивировать"
-                        : "Активировать"}
+                      {row.is_active
+                        ? "Активный"
+                        : "Не активный"}
                     </button>
                   </td>
                   <td className="border w-7">

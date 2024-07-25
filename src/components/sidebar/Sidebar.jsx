@@ -29,6 +29,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 <li>
                   <Link to="/payment">Список партнеров ЦТО</Link>
                 </li>
+               
               </ul>
             </details>
           </li>

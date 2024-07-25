@@ -31,6 +31,7 @@ const RouterConfig = () => {
       path: "application",
       element: <PrivateRoute isAuth={isAuth} component={Application} />,
     },
+   
     {
       path: "payment",
       element: <PrivateRoute isAuth={isAuth} component={Payment} />,
