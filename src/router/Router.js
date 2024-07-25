@@ -32,10 +32,7 @@ const RouterConfig = () => {
       path: "application",
       element: <PrivateRoute isAuth={isAuth} component={Application} />,
     },
-    {
-      path: "DataTable",
-      element: <PrivateRoute isAuth={isAuth} component={DataTable} />,
-    },
+   
     {
       path: "payment",
       element: <PrivateRoute isAuth={isAuth} component={Payment} />,
