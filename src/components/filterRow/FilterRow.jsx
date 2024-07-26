@@ -3,7 +3,6 @@ import React from "react";
 const FilterRow = ({ filters, handleFilterChange }) => {
   return (
     <tr className="border">
-      <th></th>
       {Object.keys(filters).map((key) => (
         <th className="border" key={key}>
           <input

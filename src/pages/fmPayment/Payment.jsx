@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../components/pagination/Pagination";
-import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import useFetch from "../../components/useFetch/useFetch";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
+import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -16,7 +16,6 @@ const Payment = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-  const [showAddModal, setShowAddModal] = useState(null);
 
   useEffect(() => {
     if (data) {
@@ -53,28 +52,32 @@ const Payment = () => {
     const updatedRow = { ...row, is_active: !row.is_active };
 
     try {
-      await postToBackend(updatedRow); // Обновление на сервере
+      await postToBackend(updatedRow);
       setFilteredData((prevData) =>
-        prevData.map((item) => 
-          item.id === row.id ? { ...item, is_active: updatedRow.is_active } : item
+        prevData.map((item) =>
+          item.id === row.id
+            ? { ...item, is_active: updatedRow.is_active }
+            : item
         )
       );
     } catch (error) {
       console.error("Ошибка при обновлении состояния пользователя:", error);
-      // Обработка ошибки (например, отображение уведомления)
     }
   };
 
   const postToBackend = async (updatedRow) => {
     console.log(updatedRow);
-    const response = await fetch(`https://newterminal.onrender.com/api/users/${updatedRow.id}`, {
-      method: "PUT", // Используйте метод PUT или PATCH для обновления данных
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-      body: JSON.stringify(updatedRow),
-    });
+    const response = await fetch(
+      `https://newterminal.onrender.com/api/users/${updatedRow.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(updatedRow),
+      }
+    );
     if (!response.ok) {
       throw new Error("Не удалось обновить пользователя");
     }
@@ -100,11 +103,15 @@ const Payment = () => {
           <table className="table table-md table-zebra border w-full h-full">
             <thead>
               <tr className="border font-normal text-[15px] text-blue-700">
-                <th className="border">#</th>
+                <th className="border" rowSpan={2}>
+                  #
+                </th>
                 <th className="border">ИНН</th>
                 <th className="border">Название компании</th>
-                <th className="border">Статус</th>
-                <th className="border"></th>
+                <th className="border">Cтатус</th>
+                <th className="border" rowSpan={2} colSpan={2}>
+                  <AddPartnerModal />
+                </th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -120,9 +127,15 @@ const Payment = () => {
                   <td className="border w-7">
                     <button
                       onClick={() => handleClickButton(row)}
-                      className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3"
+                      className={`mx-auto flex justify-center my-auto py-2 active:scale-90 transition duration-300 w-32 ${
+                        row.is_active
+                        ? "bg-green-500 hover:bg-green-700"
+                          : "bg-red-500 hover:bg-red-700"
+                      } flex rounded-md text-white px-3`}
                     >
-                      {row.is_active ? "Активный" : "Не активный"}
+                      {row.is_active
+                        ? "Активный"
+                        : "Не активный"}
                     </button>
                   </td>
                   <td className="border w-7">

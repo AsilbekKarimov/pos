@@ -66,7 +66,7 @@ const FiscalModule = () => {
           <table className="table table-md table-zebra border w-full h-full">
             <thead>
               <tr className="border font-normal text-[14px] text-blue-700">
-                <th className="border">#</th>
+                <th className="border w-16" rowSpan={2}>#</th>
                 <th className="border">Заводской номер кассы</th>
                 <th className="border">Серийный номер фискального модуля</th>
               </tr>
