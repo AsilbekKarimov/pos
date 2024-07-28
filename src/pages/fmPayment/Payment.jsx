@@ -4,6 +4,7 @@ import useFetch from "../../components/useFetch/useFetch";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
+import ProfileModal from "../../components/ProfileModal/ProfileModal";
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -35,7 +36,7 @@ const Payment = () => {
             .includes(filters.is_active.toLowerCase())
         );
       });
-      
+
       // Sort filtered data by id
       filtered.sort((a, b) => a.id - b.id);
 
@@ -141,9 +142,7 @@ const Payment = () => {
                     </button>
                   </td>
                   <td className="border w-7">
-                    <button className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                      Профиль
-                    </button>
+                    <ProfileModal id={row.id} />
                   </td>
                 </tr>
               ))}
