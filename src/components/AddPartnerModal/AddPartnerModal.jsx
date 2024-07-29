@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Toast from "../../others/toastNotification/Toast";
 
 const AddPartnerModal = () => {
   const [inn, setInn] = useState("");
@@ -10,7 +11,7 @@ const AddPartnerModal = () => {
   const [isAdmin, setIsAdmin] = useState(true);
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const token = useSelector((state) => state.auth.accessToken); // Get token from Redux store
+  const token = useSelector((state) => state.auth.accessToken);
 
   const inputHandler = (e) => {
     setInn(e.target.value);
@@ -51,7 +52,7 @@ const AddPartnerModal = () => {
 
     try {
       const response = await axios.post(
-        "https://newterminal.onrender.com/api/users",
+        "https://newterminal.onrender.com/api/auth/register",
         newPartner,
         {
           headers: {
@@ -75,7 +76,7 @@ const AddPartnerModal = () => {
   return (
     <div>
       <button
-        className="p-1 py-4 border-2 h-full bg-primary border-primary text-white w-full rounded-md"
+        className="p-1 py-5 border-2 h-full bg-primary border-primary text-white w-full rounded-md"
         onClick={() => document.getElementById("my_modal_3").showModal()}
       >
         Добавить партнера
@@ -85,19 +86,21 @@ const AddPartnerModal = () => {
           <form method="dialog" className="p-3">
             <button
               type="button"
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              className="btn btn-sm btn-circle text-black btn-ghost absolute right-2 top-2"
               onClick={handleModalClose}
             >
               ✕
             </button>
-            <label className="font-semibold">Введите ИНН партнера</label>
-            <input
-              type="text"
-              value={inn}
-              onChange={inputHandler}
-              required
-              className="py-2 pl-2 bg-white border border-gray-700 text-black rounded-s-sm max-w-[100%] w-full"
-            />
+            <div className="flex flex-col">
+              <label className="font-semibold mb-3 text-black">Введите ИНН партнера</label>
+              <input
+                type="text"
+                value={inn}
+                onChange={inputHandler}
+                required
+                className="py-2 pl-2 bg-white border border-gray-700 text-black rounded-s-sm max-w-[100%] w-full"
+              />
+            </div>
             <div className="text-black mt-3">
               <div className="flex gap-[10%] justify-center mt-4 mb-4">
                 <label className="cursor-pointer flex gap-2 items-center">
@@ -143,14 +146,16 @@ const AddPartnerModal = () => {
                 />
               </div>
 
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="px-7 py-2 bg-emerald-400 text-white mt-8 rounded-lg"
-                disabled={!isFormValid}
-              >
-                Создать
-              </button>
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className="px-7 py-2 bg-emerald-400 text-white mt-8 rounded-lg"
+                  disabled={!isFormValid}
+                >
+                  Создать
+                </button>
+              </div>
             </div>
           </form>
         </div>

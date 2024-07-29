@@ -1,15 +1,15 @@
 import React from "react";
 
-const Toast = ({ success, error }) => {
+const Toast = ({ children, type }) => {
   return (
     <div className="toast toast-top toast-end">
-      {success ? (
+      {type === "success" ? (
         <div className="alert alert-success">
-          <span>{success}</span>
+          <span>{children}</span>
         </div>
       ) : (
-        <div className="alert alert-error">
-          <span>{error}</span>
+        <div className="alert alert-error text-white">
+          <span>{children}</span>
         </div>
       )}
     </div>

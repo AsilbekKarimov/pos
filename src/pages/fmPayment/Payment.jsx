@@ -4,6 +4,8 @@ import useFetch from "../../components/useFetch/useFetch";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
+import ProfileModal from "../../components/ProfileModal/ProfileModal";
+import Button from "../../others/Button/Button";
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -35,6 +37,10 @@ const Payment = () => {
             .includes(filters.is_active.toLowerCase())
         );
       });
+
+      // Sort filtered data by id
+      filtered.sort((a, b) => a.id - b.id);
+
       setFilteredData(filtered);
       setCurrentPage(1);
     }
@@ -46,41 +52,6 @@ const Payment = () => {
       ...prevFilters,
       [name]: value,
     }));
-  };
-
-  const handleClickButton = async (row) => {
-    const updatedRow = { ...row, is_active: !row.is_active };
-
-    try {
-      await postToBackend(updatedRow);
-      setFilteredData((prevData) =>
-        prevData.map((item) =>
-          item.id === row.id
-            ? { ...item, is_active: updatedRow.is_active }
-            : item
-        )
-      );
-    } catch (error) {
-      console.error("Ошибка при обновлении состояния пользователя:", error);
-    }
-  };
-
-  const postToBackend = async (updatedRow) => {
-    console.log(updatedRow);
-    const response = await fetch(
-      `https://newterminal.onrender.com/api/users/${updatedRow.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: JSON.stringify(updatedRow),
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Не удалось обновить пользователя");
-    }
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -125,23 +96,10 @@ const Payment = () => {
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">
-                    <button
-                      onClick={() => handleClickButton(row)}
-                      className={`mx-auto flex justify-center my-auto py-2 active:scale-90 transition duration-300 w-32 ${
-                        row.is_active
-                        ? "bg-green-500 hover:bg-green-700"
-                          : "bg-red-500 hover:bg-red-700"
-                      } flex rounded-md text-white px-3`}
-                    >
-                      {row.is_active
-                        ? "Активный"
-                        : "Не активный"}
-                    </button>
+                    <Button row={row} setFilteredData={setFilteredData} rolls='users' />
                   </td>
                   <td className="border w-7">
-                    <button className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                      Профиль
-                    </button>
+                    <ProfileModal id={row.id} />
                   </td>
                 </tr>
               ))}
