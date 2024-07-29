@@ -1,38 +1,37 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Toast from "../../others/toastNotification/Toast";
+import useFetch from "../useFetch/useFetch";
 
 const ProfileModal = ({ id }) => {
   const [userInfo, setUserInfo] = useState(null);
-  const [error, setError] = useState(null);
+  const [fiscalInfo, setFiscalInfo] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastError, setToastError] = useState(null);
   const token = useSelector((state) => state.auth.accessToken);
 
-  const fetchUserInfo = async () => {
-    try {
-      const response = await axios.get(
-        `https://newterminal.onrender.com/api/users/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response);
+  const {
+    data: userData,
+    loading: userLoading,
+    errors: userErrors,
+  } = useFetch("users", id);
+  const {
+    data: fiscalData,
+    loading: fiscalLoading,
+    errors: fiscalErrors,
+  } = useFetch("fiscal", id);
 
-      if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
-        setUserInfo(response.data);
-      } else {
-        setError("Произошла ошибка при получении данных. Повторите попытку!");
-      }
-    } catch (error) {
-      setError("Произошла ошибка при получении данных. Повторите попытку!");
+  useEffect(() => {
+    if (userData) {
+      setUserInfo(userData);
     }
-  };
+    if (fiscalData) {
+      setFiscalInfo(fiscalData);
+    }
+  }, [userData, fiscalData]);
 
-  const fetchUserDelete = async () => {
+  const fetchDelete = async () => {
     try {
       const response = await axios.delete(
         `https://newterminal.onrender.com/api/users/${id}`,
@@ -45,20 +44,26 @@ const ProfileModal = ({ id }) => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
-        setUserInfo(response.data);
+        setUserInfo(null);
+        setFiscalInfo(null);
         closeModal();
-        setError("Партнер успешно удален!");
+        setToastMessage("Партнер успешно удален!");
+        setToastError(false);
       } else {
-        setError("Произошла ошибка при удалении данных. Повторите попытку!");
+        setToastMessage(
+          "Произошла ошибка при удалении данных. Повторите попытку!"
+        );
+        setToastError(true);
       }
     } catch (error) {
-      setError("Произошла ошибка при удалении данных. Повторите попытку!");
+      setToastMessage(
+        "Произошла ошибка при удалении данных. Повторите попытку!"
+      );
+      setToastError(true);
     }
   };
 
   const openModal = () => {
-    fetchUserInfo();
     document.getElementById(`profile_modal_${id}`).showModal();
   };
 
@@ -77,23 +82,43 @@ const ProfileModal = ({ id }) => {
       <dialog id={`profile_modal_${id}`} className="modal">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={closeModal}
+            >
               ✕
             </button>
           </form>
-          {error ? (
-            console.log('error profile modal', error)
+          {toastMessage && <Toast message={toastMessage} error={toastError} />}
+          {userErrors || fiscalErrors ? (
+            <div className="h-full flex items-center justify-center text-red-500">
+              Произошла ошибка при получении данных. Повторите попытку!
+            </div>
+          ) : userLoading || fiscalLoading ? (
+            <div className="h-full flex items-center justify-center">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
           ) : userInfo ? (
-            <div className="overflow-x-auto">
+            <div>
               <table className="table w-full">
                 <tbody>
+                  {fiscalInfo && (
+                    <tr>
+                      <td>Фискальная информация</td>
+                      <td>{fiscalInfo.fiscal_number}</td>
+                    </tr>
+                  )}
+                  <tr>
+                    <td>INN</td>
+                    <td>{userInfo.inn}</td>
+                  </tr>
                   <tr>
                     <td>Логин</td>
                     <td>{userInfo.username}</td>
                   </tr>
                   <tr>
-                    <td>INN</td>
-                    <td>{userInfo.inn}</td>
+                    <td>Пароль</td>
+                    <td>*********</td>
                   </tr>
                   <tr>
                     <td>Статус</td>
@@ -101,17 +126,13 @@ const ProfileModal = ({ id }) => {
                   </tr>
                   <tr>
                     <td>Роль</td>
-                    <td>{userInfo.is_admin ? "Админ" : "Не админ"}</td>
-                  </tr>
-                  <tr>
-                    <td>Пароль</td>
-                    <td>{userInfo.password}</td>
+                    <td>{userInfo.is_admin ? "Админ" : "Партнер"}</td>
                   </tr>
                 </tbody>
               </table>
               <div className="flex justify-between w-full mt-7">
                 <button
-                  onClick={fetchUserDelete}
+                  onClick={fetchDelete}
                   className="btn btn-error text-red-800"
                 >
                   Удалить
@@ -122,8 +143,8 @@ const ProfileModal = ({ id }) => {
               </div>
             </div>
           ) : (
-            <div className="h-full flex items-center justify-center">
-              <span className="loading loading-spinner loading-lg"></span>
+            <div className="h-full flex items-center justify-center text-gray-500">
+              Нет данных пользователя
             </div>
           )}
         </div>

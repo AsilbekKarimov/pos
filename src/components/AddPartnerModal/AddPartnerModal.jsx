@@ -7,8 +7,8 @@ const AddPartnerModal = () => {
   const [inn, setInn] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [isActive, setIsActive] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isActive, setIsActive] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
   const token = useSelector((state) => state.auth.accessToken);
@@ -52,7 +52,7 @@ const AddPartnerModal = () => {
 
     try {
       const response = await axios.post(
-        "https://newterminal.onrender.com/api/register",
+        "https://newterminal.onrender.com/api/auth/register",
         newPartner,
         {
           headers: {
@@ -64,6 +64,11 @@ const AddPartnerModal = () => {
 
       if (response.status === 200 || response.status === 201) {
         console.log("Partner created successfully:", response.data);
+        setInn("");
+        setLogin("");
+        setPassword("");
+        setIsActive(false);
+        setIsAdmin(false);
         handleModalClose();
       } else {
         console.error("Failed to create partner:", response.statusText);
@@ -92,7 +97,9 @@ const AddPartnerModal = () => {
               ✕
             </button>
             <div className="flex flex-col">
-              <label className="font-semibold mb-3 text-black">Введите ИНН партнера</label>
+              <label className="font-semibold mb-3 text-black">
+                Введите ИНН партнера
+              </label>
               <input
                 type="text"
                 value={inn}

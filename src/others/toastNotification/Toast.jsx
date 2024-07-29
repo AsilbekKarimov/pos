@@ -1,17 +1,15 @@
 import React from "react";
 
-const Toast = ({ success, error }) => {
+const Toast = ({ message, error }) => {
   return (
-    <div className="toast toast-top toast-end">
-      {success ? (
-        <div className="alert alert-success">
-          <span>{success}</span>
-        </div>
-      ) : (
-        <div className="alert alert-error text-white">
-          <span>{error}</span>
-        </div>
-      )}
+    <div className="toast toast-top toast-end z-50 mt-[55px]">
+      <div
+        className={
+          error ? "alert alert-error text-white" : "alert alert-success"
+        }
+      >
+        <span>{message}</span>
+      </div>
     </div>
   );
 };

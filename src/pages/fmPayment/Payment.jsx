@@ -14,7 +14,7 @@ const Payment = () => {
     is_active: "",
   });
 
-  const { data, loading, error } = useFetch("users");
+  const { data, loading, error } = useFetch("users", "");
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
@@ -64,7 +64,7 @@ const Payment = () => {
   return (
     <div className="overflow-x-auto flex flex-col px-4">
       {loading && (
-        <div className="min-h-full flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}

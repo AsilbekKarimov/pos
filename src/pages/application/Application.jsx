@@ -17,7 +17,7 @@ const Application = () => {
     database_update_date: "",
   });
 
-  const { data, loading, error } = useFetch("terminal");
+  const { data, loading, error } = useFetch("terminal", "");
 
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,7 +78,7 @@ const Application = () => {
   return (
     <div className="flex flex-col px-2">
       {loading && (
-        <div className="min-h-full flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}
