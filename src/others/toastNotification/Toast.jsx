@@ -8,7 +8,7 @@ const Toast = ({ success, error }) => {
           <span>{success}</span>
         </div>
       ) : (
-        <div className="alert alert-error">
+        <div className="alert alert-error text-white">
           <span>{error}</span>
         </div>
       )}

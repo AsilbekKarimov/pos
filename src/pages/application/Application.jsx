@@ -84,7 +84,7 @@ const Application = () => {
       {error && <Toast error={error.message} />}
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
-          <table className="table table-md table-zebra border w-full h-full">
+          <table className="table table-md table-zebra border w-full h-full text-xs">
             <thead>
               <tr className="border font-normal text-[15px] text-blue-700">
                 <th className="border" rowSpan={2}>
@@ -100,14 +100,14 @@ const Application = () => {
                 <th className="border">Дата обновления базы</th>
                 <th className="border text-center" rowSpan={2}>Статус</th>
               </tr>
-              <FilterRow
-                filters={filters}
-                handleFilterChange={handleFilterChange}
-              />
+                  <FilterRow
+                    filters={filters}
+                    handleFilterChange={handleFilterChange}
+                  />  
             </thead>
             <tbody className="text-[6px]">
               {currentRows.map((row) => (
-                <tr className="border h-12" key={row.id}>
+                <tr className="border h-12 text-center" key={row.id}>
                   <th className="border">{row.id}</th>
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.company_name}</td>

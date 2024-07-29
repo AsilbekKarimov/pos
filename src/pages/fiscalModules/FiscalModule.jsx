@@ -56,7 +56,7 @@ const FiscalModule = () => {
   return (
     <div className="overflow-x-auto flex flex-col px-4">
       {loading && (
-        <div className="min-h-full flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}
