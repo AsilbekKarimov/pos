@@ -78,7 +78,7 @@ const Application = () => {
   return (
     <div className="flex flex-col px-2">
       {loading && (
-        <div className="min-h-full flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}
