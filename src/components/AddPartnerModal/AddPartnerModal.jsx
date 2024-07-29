@@ -64,22 +64,19 @@ const AddPartnerModal = () => {
 
       if (response.status === 200 || response.status === 201) {
         console.log("Partner created successfully:", response.data);
-        <Toast success={"Партнер успешно добавлен!"}/>
         handleModalClose();
       } else {
         console.error("Failed to create partner:", response.statusText);
-        <Toast error={"Произошла ошибка при добавлении нового партнера. Повторите попытку!"}/>
       }
     } catch (error) {
       console.error("Error:", error);
-      <Toast error={"Произошла ошибка при добавлении нового партнера. Повторите попытку!"}/>
     }
   };
 
   return (
     <div>
       <button
-        className="p-1 py-5 border-2 h-full bg-primary border-primary text-white w-full rounded-none"
+        className="p-1 py-5 border-2 h-full bg-primary border-primary text-white w-full rounded-md"
         onClick={() => document.getElementById("my_modal_3").showModal()}
       >
         Добавить партнера

@@ -82,7 +82,7 @@ const ProfileModal = ({ id }) => {
             </button>
           </form>
           {error ? (
-            <Toast error={error} />
+            console.log('error profile modal', error)
           ) : userInfo ? (
             <div className="overflow-x-auto">
               <table className="table w-full">
