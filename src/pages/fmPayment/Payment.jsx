@@ -95,7 +95,7 @@ const Payment = () => {
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">
-                    <Button row={row} setFilteredData={setFilteredData} />
+                    <Button row={row} setFilteredData={setFilteredData} rolls='users' />
                   </td>
                   <td className="border w-7">
                     <button className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">

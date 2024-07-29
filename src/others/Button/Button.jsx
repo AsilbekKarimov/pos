@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-const Button = ({ row, setFilteredData }) => {
+const Button = ({ row, setFilteredData , rolls}) => {
 
   const handleClickButton = async (row) => {
     const updatedRow = { ...row, is_active: !row.is_active };
@@ -26,7 +26,7 @@ const Button = ({ row, setFilteredData }) => {
   const postToBackend = async (updatedRow) => {
     console.log(updatedRow);
     const response = await fetch(
-      `https://newterminal.onrender.com/api/users/${updatedRow.id}`,
+      `https://newterminal.onrender.com/api/${rolls}/${updatedRow.id}`,
       {
         method: "PUT",
         headers: {

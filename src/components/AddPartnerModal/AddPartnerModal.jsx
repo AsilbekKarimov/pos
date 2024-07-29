@@ -75,7 +75,7 @@ const AddPartnerModal = () => {
   return (
     <div>
       <button
-        className="p-1 py-5 border-2 h-full bg-primary border-primary text-white w-full rounded-none"
+        className="p-1 py-5 border-2 h-full bg-primary border-primary text-white w-full rounded-md"
         onClick={() => document.getElementById("my_modal_3").showModal()}
       >
         Добавить партнера
@@ -90,6 +90,7 @@ const AddPartnerModal = () => {
             >
               ✕
             </button>
+            
             <label className="font-semibold">Введите ИНН партнера</label>
             <input
               type="text"

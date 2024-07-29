@@ -3,6 +3,7 @@ import useFetch from "../../components/useFetch/useFetch";
 import Pagination from "../../components/pagination/Pagination";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
+import Button from "../../others/Button/Button";
 
 const Application = () => {
   const [filters, setFilters] = useState({
@@ -75,7 +76,7 @@ const Application = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="overflow-x-auto flex flex-col px-4">
+    <div className="flex flex-col px-2">
       {loading && (
         <div className="min-h-full flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
@@ -83,14 +84,14 @@ const Application = () => {
       )}
       {error && <Toast error={error.message} />}
       {!loading && !error && (
-        <div className="flex-grow overflow-y-auto">
-          <table className="table table-md table-zebra border w-full h-full">
+        <div className="flex-grow  w-full">
+          <table className="table table-sm table-zebra  ">
             <thead>
-              <tr className="border font-normal text-[15px] text-blue-700">
+              <tr className="border font-normal text-[14px] text-blue-700">
                 <th className="border" rowSpan={2}>
                   #
                 </th>
-                <th className="border">ИНН</th>
+                <th className="border ">ИНН</th>
                 <th className="border">Название компании</th>
                 <th className="border">Адрес</th>
                 <th className="border">Номер сборки</th>
@@ -105,7 +106,7 @@ const Application = () => {
                 handleFilterChange={handleFilterChange}
               />
             </thead>
-            <tbody className="text-[6px]">
+            <tbody className="text-[5px]">
               {currentRows.map((row) => (
                 <tr className="border h-12" key={row.id}>
                   <th className="border">{row.id}</th>
@@ -117,10 +118,8 @@ const Application = () => {
                   <td className="border">{row.cash_register_number}</td>
                   <td className="border">{row.last_request_date}</td>
                   <td className="border">{row.database_update_date}</td>
-                  <td className="border w-7">
-                    <button className=" mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex bg-primary rounded-md text-white px-3">
-                      {row.status === "true" ? "Активный" : "Не активный"}
-                    </button>
+                  <td className="border">
+                    <Button row={row} setFilteredData={setFilteredData} rolls='terminal' />
                   </td>
                 </tr>
               ))}
@@ -128,15 +127,13 @@ const Application = () => {
           </table>
         </div>
       )}
-      {filteredData.length > rowsPerPage ? (
+      {filteredData.length > rowsPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           paginate={paginate}
           setCurrentPage={setCurrentPage}
         />
-      ) : (
-        <div></div>
       )}
     </div>
   );
