@@ -96,7 +96,7 @@ const Login = () => {
 
   return (
     <div className="bg-blue-500 h-screen w-screen flex items-center">
-      {error && <Toast error={error} />}
+      {error && <Toast message={error} error={true} />}
       <div className="container mx-auto flex justify-center items-center h-[80vh] w-full">
         <div className="flex flex-1 h-full bg-white items-center justify-center rounded-s-lg">
           <img

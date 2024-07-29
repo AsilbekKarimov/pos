@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const useFetch = (url) => {
+const useFetch = (url, id) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ const useFetch = (url) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://newterminal.onrender.com/api/${url}`,
+          `https://newterminal.onrender.com/api/${url}/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const useFetch = (url) => {
     };
 
     fetchData();
-  }, [url, token]);
+  }, [url, token, id]);
 
   return { data, loading, error };
 };
