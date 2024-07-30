@@ -16,6 +16,9 @@ const Login = Loadable(React.lazy(() => import("../pages/login/Login")));
 const Payment = Loadable(
   React.lazy(() => import("../pages/fmPayment/Payment"))
 );
+const Profile = Loadable(
+  React.lazy(() => import("../pages/profile/Profile"))
+);
 
 const RouterConfig = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -37,6 +40,10 @@ const RouterConfig = () => {
           path: "payment",
           element: <PrivateRoute isAuth={isAuth} component={Payment} />,
         },
+        {
+          path: "profile",
+          element: <PrivateRoute isAuth={isAuth} component={Profile} />,
+        },
       ],
     },
     {
@@ -45,7 +52,7 @@ const RouterConfig = () => {
     },
     {
       path: "/*",
-      element: isAuth ? <Navigate to="/modules" /> : <Navigate to="/login" />,
+      element: isAuth ? <Navigate to="/profile" /> : <Navigate to="/login" />,
     },
   ]);
 
