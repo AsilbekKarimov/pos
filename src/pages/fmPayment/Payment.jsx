@@ -38,10 +38,15 @@ const Payment = () => {
         );
       });
 
-      // Sort filtered data by id
-      filtered.sort((a, b) => a.id - b.id);
+   
 
-      setFilteredData(filtered);
+      
+      const numberedFiltered = filtered.map((row, index) => ({
+        ...row,
+        ordinalNumber: index + 1,
+      }));
+
+      setFilteredData(numberedFiltered);
       setCurrentPage(1);
     }
   }, [filters, data]);
@@ -92,7 +97,7 @@ const Payment = () => {
             <tbody className="text-[6px]">
               {currentRows.map((row) => (
                 <tr className="border h-12" key={row.id}>
-                  <th className="border">{row.id}</th>
+                  <th className="border">{row.ordinalNumber}</th>
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">
