@@ -13,7 +13,6 @@ const Payment = () => {
     username: "",
     is_active: "",
   });
-
   const { data, loading, error } = useFetch("users", "");
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,19 +27,22 @@ const Payment = () => {
   useEffect(() => {
     if (data) {
       const filtered = data.filter((row) => {
+
         return (
+
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
           row.is_active
             .toString()
             .toLowerCase()
             .includes(filters.is_active.toLowerCase())
+
         );
       });
 
-   
 
-      
+
+
       const numberedFiltered = filtered.map((row, index) => ({
         ...row,
         ordinalNumber: index + 1,
