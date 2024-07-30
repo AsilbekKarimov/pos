@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar , isAdmin }) => {
 
   return (
     <aside className={`drawer ${isOpen ? "lg:drawer-open w-1/6" : "w-0"}`}>
@@ -28,9 +28,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 <li>
                   <Link to="/application">Торговый точки</Link>
                 </li>
-                <li>
-                  <Link to="/payment">Список партнеров ЦТО</Link>
-                </li>
+              { isAdmin && <li>
+                <Link to="/payment">Список партнеров ЦТО</Link>
+              </li>}
 
               </ul>
             </details>
