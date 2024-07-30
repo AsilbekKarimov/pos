@@ -102,7 +102,7 @@ const ProfileModal = ({ id, onDeletePartner }) => {
                 <tbody>
                   {fiscalInfo && (
                     <tr>
-                      <td>Фискальная информация</td>
+                      <td>Фискальный номер</td>
                       <td>{fiscalInfo.fiscal_number}</td>
                     </tr>
                   )}
