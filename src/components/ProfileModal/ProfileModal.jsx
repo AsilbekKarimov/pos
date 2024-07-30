@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Toast from "../../others/toastNotification/Toast";
 import useFetch from "../useFetch/useFetch";
 
-const ProfileModal = ({ id }) => {
+const ProfileModal = ({ id, onDeletePartner }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [fiscalInfo, setFiscalInfo] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
@@ -44,6 +44,7 @@ const ProfileModal = ({ id }) => {
       );
 
       if (response.status === 200 || response.status === 201) {
+        onDeletePartner(id);  // Передача ID удаленного пользователя
         setUserInfo(null);
         setFiscalInfo(null);
         closeModal();
@@ -51,15 +52,12 @@ const ProfileModal = ({ id }) => {
         setToastError(false);
       } else {
         setToastMessage(
-          "Произошла ошибка при удалении данных. Повторите попытку!"
+          "Произошла ошибка при удалении партнера. Пожалуйста, попробуйте еще раз."
         );
         setToastError(true);
       }
     } catch (error) {
-      setToastMessage(
-        "Произошла ошибка при удалении данных. Повторите попытку!"
-      );
-      setToastError(true);
+      console.error("Error:", error);
     }
   };
 

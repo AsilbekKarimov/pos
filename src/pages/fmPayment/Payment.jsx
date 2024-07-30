@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "../../components/pagination/Pagination";
-import useFetch from "../../components/useFetch/useFetch";
-import FilterRow from "../../components/filterRow/FilterRow";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import ProfileModal from "../../components/ProfileModal/ProfileModal";
+import Pagination from "../../components/pagination/Pagination";
+import FilterRow from "../../components/filterRow/FilterRow";
 import Button from "../../others/Button/Button";
 
 const Payment = () => {
@@ -14,16 +15,35 @@ const Payment = () => {
     is_active: "",
   });
 
-  const { data, loading, error } = useFetch("users", "");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const token = useSelector((state) => state.auth.accessToken);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("https://newterminal.onrender.com/api/users", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setData(response.data);
+      setFilteredData(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (data) {
-      setFilteredData(data);
-    }
-  }, [data]);
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -38,7 +58,6 @@ const Payment = () => {
         );
       });
 
-      // Sort filtered data by id
       filtered.sort((a, b) => a.id - b.id);
 
       setFilteredData(filtered);
@@ -61,6 +80,53 @@ const Payment = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleAddPartner = (newPartner) => {
+    console.log("Adding new partner:", newPartner);
+    setData((prevData) => {
+      const updatedData = [...prevData, newPartner];
+      updatedData.sort((a, b) => a.id - b.id); // сортировка данных
+      console.log("Updated data:", updatedData);
+      return updatedData;
+    });
+    setFilteredData((prevFilteredData) => {
+      const updatedFilteredData = [...prevFilteredData, newPartner];
+      updatedFilteredData.sort((a, b) => a.id - b.id); // сортировка фильтрованных данных
+      console.log("Updated filtered data:", updatedFilteredData);
+      return updatedFilteredData;
+    });
+  };
+
+  const handleDeletePartner = async (id) => {
+    try {
+      const response = await axios.delete(
+        `https://newterminal.onrender.com/api/users/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        setData((prevData) => {
+          const updatedData = prevData.filter((item) => item.id !== id);
+          console.log("Updated data after delete:", updatedData);
+          return updatedData;
+        });
+        setFilteredData((prevFilteredData) => {
+          const updatedFilteredData = prevFilteredData.filter((item) => item.id !== id);
+          console.log("Updated filtered data after delete:", updatedFilteredData);
+          return updatedFilteredData;
+        });
+      } else {
+        console.error("Failed to delete partner:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div className="overflow-x-auto flex flex-col px-4">
       {loading && (
@@ -81,7 +147,7 @@ const Payment = () => {
                 <th className="border">Название компании</th>
                 <th className="border">Cтатус</th>
                 <th className="border" rowSpan={2} colSpan={2}>
-                  <AddPartnerModal />
+                  <AddPartnerModal onAddPartner={handleAddPartner} />
                 </th>
               </tr>
               <FilterRow
@@ -99,7 +165,7 @@ const Payment = () => {
                     <Button row={row} setFilteredData={setFilteredData} rolls='users' />
                   </td>
                   <td className="border w-7">
-                    <ProfileModal id={row.id} />
+                    <ProfileModal id={row.id} onDeletePartner={handleDeletePartner} />
                   </td>
                 </tr>
               ))}

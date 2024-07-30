@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Toast from "../../others/toastNotification/Toast";
 
-const AddPartnerModal = () => {
+const AddPartnerModal = ({ onAddPartner }) => {
   const [inn, setInn] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +41,8 @@ const AddPartnerModal = () => {
     document.getElementById("my_modal_3").close();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const newPartner = {
       inn: inn,
       is_active: isActive,
@@ -63,7 +64,7 @@ const AddPartnerModal = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        console.log("Partner created successfully:", response.data);
+        onAddPartner(response.data);  // Передача нового партнера
         setInn("");
         setLogin("");
         setPassword("");
@@ -152,7 +153,7 @@ const AddPartnerModal = () => {
                   className="py-2 pl-2 mt-1 bg-white border border-gray-700 text-black rounded-sm max-w-[100%] w-full"
                 />
               </div>
-
+    
               <div className="flex justify-center">
                 <button
                   type="button"
