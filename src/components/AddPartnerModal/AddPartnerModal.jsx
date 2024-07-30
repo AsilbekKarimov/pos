@@ -81,7 +81,7 @@ const AddPartnerModal = () => {
   return (
     <div>
       <button
-        className="p-1 py-5 border-2 h-full bg-primary border-primary text-white w-full rounded-md"
+        className="px-4 border-2 bg-primary border-primary text-white rounded-md w-full h-[50px]"
         onClick={() => document.getElementById("my_modal_3").showModal()}
       >
         Добавить партнера

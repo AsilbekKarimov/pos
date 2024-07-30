@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 
-
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 

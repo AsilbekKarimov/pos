@@ -13,7 +13,6 @@ const Payment = () => {
     username: "",
     is_active: "",
   });
-
   const { data, loading, error } = useFetch("users", "");
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,20 +27,25 @@ const Payment = () => {
   useEffect(() => {
     if (data) {
       const filtered = data.filter((row) => {
+
         return (
+
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
           row.is_active
             .toString()
             .toLowerCase()
             .includes(filters.is_active.toLowerCase())
+
         );
       });
 
-      // Sort filtered data by id
-      filtered.sort((a, b) => a.id - b.id);
+      const numberedFiltered = filtered.map((row, index) => ({
+        ...row,
+        ordinalNumber: index + 1,
+      }));
 
-      setFilteredData(filtered);
+      setFilteredData(numberedFiltered);
       setCurrentPage(1);
     }
   }, [filters, data]);
@@ -80,9 +84,6 @@ const Payment = () => {
                 <th className="border">ИНН</th>
                 <th className="border">Название компании</th>
                 <th className="border">Cтатус</th>
-                <th className="border" rowSpan={2} colSpan={2}>
-                  <AddPartnerModal />
-                </th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -92,7 +93,7 @@ const Payment = () => {
             <tbody className="text-[6px]">
               {currentRows.map((row) => (
                 <tr className="border h-12" key={row.id}>
-                  <th className="border">{row.id}</th>
+                  <th className="border">{row.ordinalNumber}</th>
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">
