@@ -15,13 +15,13 @@ const FiscalModule = () => {
   const { data, loading, error } = useFetch("fiscal", "");
   const token = useSelector((state) => state.auth.accessToken);
   const userId = useSelector((state) => state.user.user.id);
+  const isAdmin = useSelector((state) => state.user.user.is_admin);
 
   const [fiscal, setFiscal] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-  const isAdmin = useSelector((state) => state.user.user.is_admin)
-  console.log(isAdmin);
+  const [isAdminChecked, setIsAdminChecked] = useState(false);
 
   const fetchUser = async () => {
     try {
@@ -36,13 +36,18 @@ const FiscalModule = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        const data = response.data.filter((obj) => obj.user_id === userId);
+        let data = response.data;
+        if (!isAdmin) {
+          data = data.filter((obj) => obj.user_id === userId);
+        }
         setFiscal(data);
       } else {
         console.log("Error fetching user data");
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsAdminChecked(true);
     }
   };
 
@@ -87,13 +92,13 @@ const FiscalModule = () => {
 
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      {loading && (
+      {loading || !isAdminChecked ? (
         <div className="min-h-screen flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
-      )}
-      {error && <p>Error: {error.message}</p>}
-      {!loading && !error && (
+      ) : error ? (
+        <p>Error: {error.message}</p>
+      ) : (
         <div className="flex-grow overflow-y-auto">
           {fiscal.length && isAdmin ? (
             <table className="table table-md table-zebra border w-full h-full">
