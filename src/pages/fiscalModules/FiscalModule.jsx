@@ -21,7 +21,7 @@ const FiscalModule = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-  const [isAdminChecked, setIsAdminChecked] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const fetchUser = async () => {
     try {
@@ -41,25 +41,25 @@ const FiscalModule = () => {
           data = data.filter((obj) => obj.user_id === userId);
         }
         setFiscal(data);
+        setFilteredData(data);
       } else {
         console.log("Error fetching user data");
       }
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setIsAdminChecked(true);
+      setIsFetching(false);
     }
   };
 
   useEffect(() => {
     if (data) {
       fetchUser();
-      setFilteredData(data);
     }
   }, [data]);
 
   useEffect(() => {
-    if (fiscal) {
+    if (fiscal.length) {
       const filtered = fiscal.filter((row) => {
         return (
           row.factory_number
@@ -92,7 +92,7 @@ const FiscalModule = () => {
 
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      {loading || !isAdminChecked ? (
+      {loading || isFetching ? (
         <div className="min-h-screen flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
@@ -100,7 +100,7 @@ const FiscalModule = () => {
         <p>Error: {error.message}</p>
       ) : (
         <div className="flex-grow overflow-y-auto">
-          {fiscal.length && isAdmin ? (
+          {fiscal.length || isAdmin ? (
             <table className="table table-md table-zebra border w-full h-full">
               <thead>
                 <tr className="border font-normal text-[14px] text-blue-700">
