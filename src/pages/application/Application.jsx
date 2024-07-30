@@ -25,7 +25,8 @@ const Application = () => {
 
   useEffect(() => {
     if (data) {
-      setFilteredData(data);
+      const sortedData = [...data].sort((a, b) => a.id - b.id);
+      setFilteredData(sortedData);
     }
   }, [data]);
 
@@ -55,7 +56,8 @@ const Application = () => {
             .includes(filters.database_update_date.toLowerCase())
         );
       });
-      setFilteredData(filtered);
+      const sortedFiltered = filtered.sort((a, b) => a.id - b.id);
+      setFilteredData(sortedFiltered);
       setCurrentPage(1);
     }
   }, [filters, data]);
