@@ -6,13 +6,13 @@ import Toast from "../../others/toastNotification/Toast";
 import useFetch from "../../components/useFetch/useFetch";
 
 const Profile = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
   const [fiscalInfo, setFiscalInfo] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [toastError, setToastError] = useState(null);
   const token = useSelector((state) => state.auth.accessToken);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const {
     data: userData,
@@ -55,7 +55,7 @@ const Profile = () => {
       if (response.status === 200 || response.status === 201) {
         setUserInfo(null);
         setFiscalInfo(null);
-        navigate("/payment"); 
+        navigate("/payment");
         setToastMessage("Партнер успешно удален!");
         setToastError(false);
       } else {

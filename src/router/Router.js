@@ -1,5 +1,9 @@
 import React from "react";
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Loadable from "../layouts/full/Loadable";
@@ -16,9 +20,7 @@ const Login = Loadable(React.lazy(() => import("../pages/login/Login")));
 const Payment = Loadable(
   React.lazy(() => import("../pages/fmPayment/Payment"))
 );
-const Profile = Loadable(
-  React.lazy(() => import("../pages/profile/Profile"))
-);
+const Profile = Loadable(React.lazy(() => import("../pages/profile/Profile")));
 
 const RouterConfig = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
