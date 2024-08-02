@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "../../components/pagination/Pagination";
-import useFetch from "../../components/useFetch/useFetch";
-import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import ProfileButton from "../../components/ProfileButton/ProfileButton";
+import Pagination from "../../components/pagination/Pagination";
+import FilterRow from "../../components/filterRow/FilterRow";
 import Button from "../../others/Button/Button";
 import Loading from "../../Loading";
+import useFetch from "../../components/useFetch/useFetch";
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -17,12 +17,6 @@ const Payment = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-
-  useEffect(() => {
-    if (data) {
-      setFilteredData(data);
-    }
-  }, [data]);
 
   useEffect(() => {
     if (data) {
@@ -79,7 +73,9 @@ const Payment = () => {
                 <th className="border">ИНН</th>
                 <th className="border">Название компании</th>
                 <th className="border">Cтатус</th>
-                <th className="border text-center" rowSpan={2}>Профили</th>
+                <th className="border text-center" rowSpan={2}>
+                  Профили
+                </th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -108,15 +104,13 @@ const Payment = () => {
           </table>
         </div>
       )}
-      {filteredData.length > rowsPerPage ? (
+      {filteredData.length > rowsPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           paginate={paginate}
           setCurrentPage={setCurrentPage}
         />
-      ) : (
-        <div></div>
       )}
     </div>
   );

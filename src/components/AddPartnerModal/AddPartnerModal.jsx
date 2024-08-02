@@ -3,13 +3,12 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Toast from "../../others/toastNotification/Toast";
 
-const AddPartnerModal = () => {
+const AddPartnerModal = ({ onAddPartner }) => {
   const [inn, setInn] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [newPartner, setNewPartner] = useState(null);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -49,17 +48,15 @@ const AddPartnerModal = () => {
   const handleSubmit = async () => {
     if (!(inn && login && password)) {
       setMessage("Заполните все поля ввода!");
-      setError(true)
+      setError(true);
     } else {
-      setNewPartner({
+      const newPartner = {
         inn: inn,
         is_active: isActive,
         is_admin: isAdmin,
         password: password,
         username: login,
-      });
-    }
-    if (newPartner) {
+      };
       try {
         const response = await axios.post(
           "https://newterminal.onrender.com/api/auth/register",
