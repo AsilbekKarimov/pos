@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Toast from "../../others/toastNotification/Toast";
@@ -9,9 +9,18 @@ const AddPartnerModal = () => {
   const [password, setPassword] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [newPartner, setNewPartner] = useState(null);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState(null);
 
   const token = useSelector((state) => state.auth.accessToken);
+
+  if (message) {
+    setTimeout(() => {
+      setError(false);
+      setMessage(null);
+    }, 2000);
+  }
 
   const inputHandler = (e) => {
     setInn(e.target.value);
@@ -33,53 +42,60 @@ const AddPartnerModal = () => {
     setIsAdmin(e.target.checked);
   };
 
-  useEffect(() => {
-    setIsFormValid(inn && login && password);
-  }, [inn, login, password]);
-
   const handleModalClose = () => {
     document.getElementById("my_modal_3").close();
   };
 
   const handleSubmit = async () => {
-    const newPartner = {
-      inn: inn,
-      is_active: isActive,
-      is_admin: isAdmin,
-      password: password,
-      username: login,
-    };
+    if (!(inn && login && password)) {
+      setMessage("Заполните все поля ввода!");
+      setError(true)
+    } else {
+      setNewPartner({
+        inn: inn,
+        is_active: isActive,
+        is_admin: isAdmin,
+        password: password,
+        username: login,
+      });
+    }
+    if (newPartner) {
+      try {
+        const response = await axios.post(
+          "https://newterminal.onrender.com/api/auth/register",
+          newPartner,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-    try {
-      const response = await axios.post(
-        "https://newterminal.onrender.com/api/auth/register",
-        newPartner,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+        if (response.status === 200 || response.status === 201) {
+          setMessage("Юзер успешно создан!");
+          setError(false);
+
+          setInn("");
+          setLogin("");
+          setPassword("");
+          setIsActive(false);
+          setIsAdmin(false);
+          handleModalClose();
+        } else {
+          setMessage("Произошла ошибка при создании юзера. Повторите попытку!");
+          setError(true);
         }
-      );
-
-      if (response.status === 200 || response.status === 201) {
-        console.log("Partner created successfully:", response.data);
-        setInn("");
-        setLogin("");
-        setPassword("");
-        setIsActive(false);
-        setIsAdmin(false);
-        handleModalClose();
-      } else {
-        console.error("Failed to create partner:", response.statusText);
+      } catch (error) {
+        setMessage("Произошла ошибка при создании юзера. Повторите попытку!");
+        setError(true);
       }
-    } catch (error) {
-      console.error("Error:", error);
     }
   };
 
   return (
     <div>
+      {message && <Toast message={message} error={error} />}
       <button
         className="px-4 border-2 bg-primary border-primary text-white rounded-md w-full h-[50px]"
         onClick={() => document.getElementById("my_modal_3").showModal()}
@@ -158,7 +174,6 @@ const AddPartnerModal = () => {
                   type="button"
                   onClick={handleSubmit}
                   className="px-7 py-2 bg-emerald-400 text-white mt-8 rounded-lg"
-                  disabled={!isFormValid}
                 >
                   Создать
                 </button>

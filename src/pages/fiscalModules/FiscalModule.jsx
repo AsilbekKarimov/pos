@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import useFetch from "../../components/useFetch/useFetch";
 import Pagination from "../../components/pagination/Pagination";
 import FilterRow from "../../components/filterRow/FilterRow";
+import Loading from "../../Loading";
+import Toast from "../../others/toastNotification/Toast";
 
 const FiscalModule = () => {
   const [filters, setFilters] = useState({
@@ -53,20 +55,21 @@ const FiscalModule = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      {loading && (
-        <div className="min-h-screen flex items-center justify-center">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-      )}
-      {error && <p>Error: {error.message}</p>}
+      {error && <Toast message={error.message} error={true} />}
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
           <table className="table table-md table-zebra border w-full h-full">
             <thead>
               <tr className="border font-normal text-[14px] text-blue-700">
-                <th className="border w-16" rowSpan={2}>#</th>
+                <th className="border w-2" rowSpan={2}>
+                  #
+                </th>
                 <th className="border">Заводской номер кассы</th>
                 <th className="border">Серийный номер фискального модуля</th>
               </tr>
@@ -102,4 +105,3 @@ const FiscalModule = () => {
 };
 
 export default FiscalModule;
-

@@ -4,6 +4,7 @@ import Pagination from "../../components/pagination/Pagination";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import Button from "../../others/Button/Button";
+import Loading from "../../Loading";
 
 const Application = () => {
   const [filters, setFilters] = useState({
@@ -17,17 +18,25 @@ const Application = () => {
     database_update_date: "",
   });
 
-  const { data, loading, error } = useFetch("terminal", "");
+  const { data, loading, errors } = useFetch("terminal", "");
 
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (data) {
       setFilteredData(data);
     }
   }, [data]);
+
+  if (error) {
+    setError(errors.message);
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  }
 
   useEffect(() => {
     if (data) {
@@ -75,20 +84,19 @@ const Application = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex flex-col px-2">
-      {loading && (
-        <div className="min-h-screen flex items-center justify-center">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-      )}
-      {error && <Toast error={error.message} />}
+      {error && <Toast message={error.message} error={true} />}
       {!loading && !error && (
         <div className="flex-grow  w-full">
           <table className="table table-sm table-zebra  ">
             <thead>
               <tr className="border font-normal text-[14px] text-blue-700">
-                <th className="border" rowSpan={2}>
+                <th className="border w-2" rowSpan={2}>
                   #
                 </th>
                 <th className="border ">ИНН</th>
@@ -99,7 +107,9 @@ const Application = () => {
                 <th className="border">Номер кассы</th>
                 <th className="border">Дата последнего запроса</th>
                 <th className="border">Дата обновления базы</th>
-                <th className="border text-center" rowSpan={2}>Статус</th>
+                <th className="border text-center" rowSpan={2}>
+                  Статус
+                </th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -119,7 +129,11 @@ const Application = () => {
                   <td className="border">{row.last_request_date}</td>
                   <td className="border">{row.database_update_date}</td>
                   <td className="border">
-                    <Button row={row} setFilteredData={setFilteredData} rolls='terminal' />
+                    <Button
+                      row={row}
+                      setFilteredData={setFilteredData}
+                      rolls="terminal"
+                    />
                   </td>
                 </tr>
               ))}

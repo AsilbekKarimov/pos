@@ -5,6 +5,7 @@ import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import { useSelector } from "react-redux";
+import Loading from "../../Loading";
 
 const Profile = () => {
   const [filters, setFilters] = useState({
@@ -16,7 +17,7 @@ const Profile = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-  const profileId = useSelector((state) => state.user.profileId);
+  // const profileId = useSelector((state) => state.user.profileId);
 
   useEffect(() => {
     if (data) {
@@ -62,13 +63,12 @@ const Profile = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      {loading && (
-        <div className="min-h-screen flex items-center justify-center">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-      )}
       {error && <Toast error={error.message} />}
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
@@ -78,7 +78,7 @@ const Profile = () => {
           <table className="table table-md table-zebra border w-full h-full">
             <thead>
               <tr className="border font-normal text-[15px] text-blue-700">
-                <th className="border" rowSpan={2}>
+                <th className="border w-2" rowSpan={2}>
                   #
                 </th>
                 <th className="border">ИНН</th>

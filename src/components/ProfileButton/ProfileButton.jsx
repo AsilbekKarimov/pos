@@ -4,7 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import { useDispatch } from "react-redux";
 import { addProfileId } from "../../store/slices/userSlice";
 
-const ProfileModal = ({ id }) => {
+const ProfileButton = ({ id }) => {
   const dispatch = useDispatch();
   return (
     <div>
@@ -21,4 +21,4 @@ const ProfileModal = ({ id }) => {
   );
 };
 
-export default ProfileModal;
+export default ProfileButton;
