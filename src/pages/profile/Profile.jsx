@@ -18,13 +18,7 @@ const Profile = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
   // const profileId = useSelector((state) => state.user.profileId);
-
-  useEffect(() => {
-    if (data) {
-      setFilteredData(data);
-    }
-  }, [data]);
-
+  
   useEffect(() => {
     if (data) {
       const filtered = data.filter((row) => {
@@ -32,17 +26,17 @@ const Profile = () => {
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
           row.is_active
-            .toString()
-            .toLowerCase()
-            .includes(filters.is_active.toLowerCase())
+          .toString()
+          .toLowerCase()
+          .includes(filters.is_active.toLowerCase())
         );
       });
-
+      
       const numberedFiltered = filtered.map((row, index) => ({
         ...row,
         ordinalNumber: index + 1,
       }));
-
+      
       setFilteredData(numberedFiltered);
       setCurrentPage(1);
     }
@@ -63,6 +57,13 @@ const Profile = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleAddPartner = (newPartner) => {
+    setFilteredData((prevFilteredData) => {
+      const updatedFilteredData = [...prevFilteredData, newPartner];
+      return updatedFilteredData;
+    });
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -73,7 +74,7 @@ const Profile = () => {
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
           <div className="w-full flex items-end justify-end my-3">
-            <AddPartnerModal />
+            <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full">
             <thead>

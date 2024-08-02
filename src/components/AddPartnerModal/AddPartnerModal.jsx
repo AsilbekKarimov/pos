@@ -72,6 +72,7 @@ const AddPartnerModal = ({ onAddPartner }) => {
         if (response.status === 200 || response.status === 201) {
           setMessage("Юзер успешно создан!");
           setError(false);
+          onAddPartner(response.data);
 
           setInn("");
           setLogin("");
