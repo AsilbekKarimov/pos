@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeTheme } from "../store/slices/themeSlice";
+import { changeTheme } from "../../store/slices/themeSlice";
 
 const ThemeToggle = () => {
   const dispatch = useDispatch();
@@ -9,7 +9,7 @@ const ThemeToggle = () => {
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
-
+  
   return (
     <label className="swap swap-rotate">
       <input
@@ -21,7 +21,7 @@ const ThemeToggle = () => {
       />
 
       <svg
-        className="swap-off h-10 w-10 fill-current"
+        className="swap-off size-6 fill-current"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -29,7 +29,7 @@ const ThemeToggle = () => {
       </svg>
 
       <svg
-        className="swap-on h-10 w-10 fill-current"
+        className="swap-on size-6 fill-current"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

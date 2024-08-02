@@ -1,75 +1,55 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { setIsAuth } from "../../store/slices/authSlice";
+import { addUser, deleteUser } from "../../store/slices/userSlice";
 
 const useAuth = () => {
   const dispatch = useDispatch();
-  const tokenRefreshInterval = useRef(null);
 
-  const saveTokens = (accessToken, refreshToken) => {
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+  const saveTokens = (accessToken, user) => {
     const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000; // 1 day
-    // const expirationTime = new Date().getTime() + 30000; // 10 sec
+
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("expirationTime", expirationTime);
+    dispatch(
+      setIsAuth({ isAuth: true, token: accessToken, time: expirationTime })
+    );
+    dispatch(addUser({ user: user }));
   };
 
-  const clearLocalStorage = useCallback(() => {
+  const logout = useCallback(() => {
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
     localStorage.removeItem("expirationTime");
-    dispatch(setIsAuth(false));
-    clearInterval(tokenRefreshInterval.current);
+    localStorage.removeItem("user");
+    dispatch(setIsAuth({ isAuth: false, token: "", time: 0 }));
+    dispatch(deleteUser());
   }, [dispatch]);
-
-  const startTokenRefreshInterval = useCallback(() => {
-    clearInterval(tokenRefreshInterval.current);
-    tokenRefreshInterval.current = setInterval(async () => {
-      const refreshToken = localStorage.getItem("refreshToken");
-      const response = await fetch(
-        "https://basedjangoapi.pythonanywhere.com/api/token/refresh/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ refresh: refreshToken }),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("accessToken", data.access);
-      } else {
-        clearLocalStorage();
-      }
-    }, 3000);
-  }, [clearLocalStorage]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
     const expirationTime = localStorage.getItem("expirationTime");
+    const user = localStorage.getItem("user");
 
-    if (accessToken && refreshToken && expirationTime) {
+    if (accessToken && expirationTime && user) {
       const now = new Date().getTime();
-      if (now < parseInt(expirationTime)) {
-        dispatch(setIsAuth(true));
-        startTokenRefreshInterval();
+      if (now < parseInt(expirationTime, 10)) {
+        dispatch(
+          setIsAuth({
+            isAuth: true,
+            token: accessToken,
+            time: parseInt(expirationTime, 10),
+          })
+        );
+        dispatch(addUser({ user: JSON.parse(user) }));
       } else {
-        clearLocalStorage();
+        logout();
       }
     }
+  }, [logout, dispatch]);
 
-    return () => clearInterval(tokenRefreshInterval.current);
-  }, [startTokenRefreshInterval, clearLocalStorage, dispatch]);
-
-  return {
-    saveTokens,
-    startTokenRefreshInterval,
-    clearLocalStorage,
-  };
+  return { saveTokens, logout };
 };
 
 export default useAuth;
