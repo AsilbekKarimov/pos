@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import useFetch from "../../components/useFetch/useFetch";
 import Pagination from "../../components/pagination/Pagination";
 import FilterRow from "../../components/filterRow/FilterRow";
+import Loading from "../../Loading";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import Toast from "../../others/toastNotification/Toast";
 
 const FiscalModule = () => {
   const [filters, setFilters] = useState({
@@ -9,21 +12,62 @@ const FiscalModule = () => {
     fiscal_number: "",
   });
 
-  const { data, loading, error } = useFetch("fiscal", "");
+  const token = useSelector((state) => state.auth.accessToken);
+  const userId = useSelector((state) => state.user.user.id);
+  const isAdmin = useSelector((state) => state.user.user.is_admin);
 
+  const [fiscal, setFiscal] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const [isFetching, setIsFetching] = useState(true);
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      setFilteredData(data);
-    }
-  }, [data]);
+    const fetchFiscal = async () => {
+      try {
+        const response = await axios.get(
+          `https://newterminal.onrender.com/api/fiscal`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setLoading(true);
+
+        if (response.status === 200 || response.status === 201) {
+          let data = response.data;
+          if (!isAdmin) {
+            data = data.filter((obj) => obj.user_id === userId);
+          }
+          setFiscal(data);
+          setFilteredData(data);
+        } else {
+          setMessage("Ошибка при получении данных!");
+        }
+      } catch (error) {
+        setMessage("Ошибка при получении данных!");
+      } finally {
+        setIsFetching(false);
+        setLoading(false);
+      }
+    };
+
+    fetchFiscal();
+  }, [token, isAdmin, userId]);
+
+  if (message) {
+    setTimeout(() => {
+      setMessage(null);
+    }, 2000);
+  }
 
   useEffect(() => {
-    if (data) {
-      const filtered = data.filter((row) => {
+    if (fiscal.length) {
+      const filtered = fiscal.filter((row) => {
         return (
           row.factory_number
             .toLowerCase()
@@ -36,7 +80,7 @@ const FiscalModule = () => {
       setFilteredData(filtered);
       setCurrentPage(1);
     }
-  }, [filters, data]);
+  }, [filters, fiscal]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -53,53 +97,59 @@ const FiscalModule = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading || isFetching) {
+    return <Loading />;
+  }
+
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      {loading && (
-        <div className="min-h-screen flex items-center justify-center">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-      )}
-      {error && <p>Error: {error.message}</p>}
-      {!loading && !error && (
+      {message && <Toast message={message} error={true} />}
+      {!loading && !message && (
         <div className="flex-grow overflow-y-auto">
-          <table className="table table-md table-zebra border w-full h-full">
-            <thead>
-              <tr className="border font-normal text-[14px] text-blue-700">
-                <th className="border w-16" rowSpan={2}>#</th>
-                <th className="border">Заводской номер кассы</th>
-                <th className="border">Серийный номер фискального модуля</th>
-              </tr>
-              <FilterRow
-                filters={filters}
-                handleFilterChange={handleFilterChange}
-              />
-            </thead>
-            <tbody className="text-[6px]">
-              {currentRows.map((row) => (
-                <tr className="border h-12" key={row.id}>
-                  <th className="border">{row.id}</th>
-                  <td className="border">{row.factory_number}</td>
-                  <td className="border">{row.fiscal_number}</td>
+          {fiscal.length || isAdmin ? (
+            <table className="table table-md table-zebra border w-full h-full">
+              <thead>
+                <tr className="border font-normal text-[14px] text-blue-700">
+                  <th className="border w-2" rowSpan={2}>
+                    #
+                  </th>
+                  <th className="border">Заводской номер кассы</th>
+                  <th className="border">Серийный номер фискального модуля</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+                <FilterRow
+                  filters={filters}
+                  handleFilterChange={handleFilterChange}
+                />
+              </thead>
+              <tbody className="text-[6px]">
+                {currentRows.map((row, index) => (
+                  <tr className="border h-12" key={row.id}>
+                    <th className="border">{index + 1 + indexOfFirstRow}</th>
+                    <td className="border">{row.factory_number}</td>
+                    <td className="border">{row.fiscal_number}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div>
+              <p className="flex justify-center items-center h-screen text-xl font-semibold text-red-600">
+                Нет данных
+              </p>
+            </div>
+          )}
         </div>
       )}
-      {filteredData.length > rowsPerPage ? (
+      {filteredData.length > rowsPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           paginate={paginate}
           setCurrentPage={setCurrentPage}
         />
-      ) : (
-        <div></div>
       )}
     </div>
   );
 };
 
 export default FiscalModule;
-
