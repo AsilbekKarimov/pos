@@ -18,6 +18,7 @@ const Application = React.lazy(() =>
 const Login = React.lazy(() => import("../pages/login/Login"));
 const Payment = React.lazy(() => import("../pages/fmPayment/Payment"));
 const Profile = React.lazy(() => import("../pages/profile/Profile"));
+const UserFiscal = React.lazy(() => import("../pages/profile/userFiscals"))
 
 const RouterConfig = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -42,6 +43,10 @@ const RouterConfig = () => {
         {
           path: "profile",
           element: <PrivateRoute isAuth={isAuth} component={Profile} />,
+        },
+        {
+          path: "profile/fiscals",
+          element: <PrivateRoute isAuth={isAuth} component={UserFiscal} />,
         },
       ],
     },

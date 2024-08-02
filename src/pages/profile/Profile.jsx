@@ -4,8 +4,8 @@ import useFetch from "../../components/useFetch/useFetch";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
-import { useSelector } from "react-redux";
 import Loading from "../../Loading";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [filters, setFilters] = useState({
@@ -17,8 +17,7 @@ const Profile = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-  // const profileId = useSelector((state) => state.user.profileId);
-  
+
   useEffect(() => {
     if (data) {
       const filtered = data.filter((row) => {
@@ -26,17 +25,17 @@ const Profile = () => {
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
           row.is_active
-          .toString()
-          .toLowerCase()
-          .includes(filters.is_active.toLowerCase())
+            .toString()
+            .toLowerCase()
+            .includes(filters.is_active.toLowerCase())
         );
       });
-      
+
       const numberedFiltered = filtered.map((row, index) => ({
         ...row,
         ordinalNumber: index + 1,
       }));
-      
+
       setFilteredData(numberedFiltered);
       setCurrentPage(1);
     }
@@ -73,7 +72,12 @@ const Profile = () => {
       {error && <Toast error={error.message} />}
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
-          <div className="w-full flex items-end justify-end my-3">
+          <div className="w-full flex items-end justify-between my-3">
+            <Link to={"/profile/fiscals"}>
+              <button className="px-4 border-2 bg-primary border-primary text-white rounded-md w-full h-[50px]">
+                Фискальные Модули
+              </button>
+            </Link>
             <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full">
