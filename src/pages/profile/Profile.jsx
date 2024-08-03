@@ -4,8 +4,8 @@ import useFetch from "../../components/useFetch/useFetch";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
-import { useSelector } from "react-redux";
 import Loading from "../../Loading";
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal/DeleteConfirmationModal";
 
 const Profile = () => {
   const [filters, setFilters] = useState({
@@ -17,13 +17,8 @@ const Profile = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
-  // const profileId = useSelector((state) => state.user.profileId);
-
-  useEffect(() => {
-    if (data) {
-      setFilteredData(data);
-    }
-  }, [data]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     if (data) {
@@ -32,9 +27,9 @@ const Profile = () => {
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
           row.is_active
-            .toString()
-            .toLowerCase()
-            .includes(filters.is_active.toLowerCase())
+          .toString()
+          .toLowerCase()
+          .includes(filters.is_active.toLowerCase())
         );
       });
 
@@ -63,6 +58,28 @@ const Profile = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleAddPartner = (newPartner) => {
+    setFilteredData((prevFilteredData) => {
+      const updatedFilteredData = [...prevFilteredData, newPartner];
+      return updatedFilteredData;
+    });
+  };
+
+  const openDeleteModal = (user) => {
+    setUserToDelete(user);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setUserToDelete(null);
+  };
+
+  const handleDelete = () => {
+    setFilteredData((prevFilteredData) => prevFilteredData.filter((user) => user.id !== userToDelete.id));
+    closeDeleteModal();
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -73,7 +90,7 @@ const Profile = () => {
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
           <div className="w-full flex items-end justify-end my-3">
-            <AddPartnerModal />
+            <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full">
             <thead>
@@ -84,6 +101,7 @@ const Profile = () => {
                 <th className="border">ИНН</th>
                 <th className="border">Логин</th>
                 <th className="border">Пароль</th>
+                <th className="border">Actions</th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -97,6 +115,11 @@ const Profile = () => {
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">*********</td>
+                  <td className="border">
+                    <button onClick={() => openDeleteModal(row)} className="btn btn-danger">
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -111,6 +134,12 @@ const Profile = () => {
           setCurrentPage={setCurrentPage}
         />
       )}
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onDelete={handleDelete}
+        user={userToDelete}
+      />
     </div>
   );
 };
