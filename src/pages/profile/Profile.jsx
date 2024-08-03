@@ -5,7 +5,7 @@ import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import Loading from "../../Loading";
-import { Link } from "react-router-dom";
+import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton";
 
 const Profile = () => {
   const [filters, setFilters] = useState({
@@ -73,11 +73,7 @@ const Profile = () => {
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
           <div className="w-full flex items-end justify-between my-3">
-            <Link to={"/profile/fiscals"}>
-              <button className="px-4 border-2 bg-primary border-primary text-white rounded-md w-full h-[50px]">
-                Фискальные Модули
-              </button>
-            </Link>
+            <ConditionalLinkButton />
             <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full">

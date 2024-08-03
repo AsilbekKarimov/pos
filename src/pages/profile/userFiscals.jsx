@@ -7,6 +7,7 @@ import axios from "axios";
 import Toast from "../../others/toastNotification/Toast";
 import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton";
 import DeleteConfimModal from "../../components/DeleteConfirmModal/DeleteConfimModal";
+import AddFiscalModuleButton from "../../components/AddFiscalModuleButton/AddFiscal";
 
 const UserFiscals = () => {
   const [filters, setFilters] = useState({
@@ -75,13 +76,12 @@ const UserFiscals = () => {
   useEffect(() => {
     if (fiscal.length) {
       const filtered = fiscal.filter((row) => {
+        const factoryNumber = row.factory_number || "";
+        const fiscalNumber = row.fiscal_number || "";
+
         return (
-          row.factory_number
-            .toLowerCase()
-            .includes(filters.factory_number.toLowerCase()) &&
-          row.fiscal_number
-            .toLowerCase()
-            .includes(filters.fiscal_number.toLowerCase())
+          factoryNumber.toLowerCase().includes(filters.factory_number.toLowerCase()) &&
+          fiscalNumber.toLowerCase().includes(filters.fiscal_number.toLowerCase())
         );
       });
       setFilteredData(filtered);
@@ -111,6 +111,13 @@ const UserFiscals = () => {
     );
   };
 
+  const handleAddFiscal = (newFiscal) => {
+    setFilteredData((prevFilteredData) => {
+      const updatedFilteredData = [...prevFilteredData, newFiscal];
+      return updatedFilteredData;
+    });
+  };
+
   if (loading || isFetching) {
     return <Loading />;
   }
@@ -122,9 +129,7 @@ const UserFiscals = () => {
         <div className="flex-grow overflow-y-auto">
           <div className="w-full flex items-end justify-between my-3">
             <ConditionalLinkButton />
-            <button className="px-4 border-2 bg-primary border-primary text-white rounded-md h-[50px]">
-              Добавить Фискальный Модуль
-            </button>
+            <AddFiscalModuleButton onAdd={handleAddFiscal} />
           </div>
           {fiscal.length ? (
             <table className="table table-md table-zebra border w-full h-full">
@@ -144,7 +149,7 @@ const UserFiscals = () => {
               </thead>
               <tbody className="text-[6px]">
                 {currentRows.map((row, index) => (
-                  <tr className="border h-12" key={row.id}>
+                  <tr className="border h-12" key={index}>
                     <th className="border">{index + 1 + indexOfFirstRow}</th>
                     <td className="border">{row.factory_number}</td>
                     <td className="border">{row.fiscal_number}</td>
