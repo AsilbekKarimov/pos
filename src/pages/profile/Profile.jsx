@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Pagination from "../../components/pagination/Pagination";
 import useFetch from "../../components/useFetch/useFetch";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import Loading from "../../Loading";
-import DeleteConfirmationModal from "../../components/DeleteConfirmationModal/DeleteConfirmationModal";
+import DeleteConfirmationModal from "../../others/DeleteModal/DeleteConfirmationModal";
+import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton";
 
 const Profile = () => {
   const [filters, setFilters] = useState({
@@ -19,6 +21,7 @@ const Profile = () => {
   const [rowsPerPage] = useState(10);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -27,9 +30,9 @@ const Profile = () => {
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
           row.is_active
-          .toString()
-          .toLowerCase()
-          .includes(filters.is_active.toLowerCase())
+            .toString()
+            .toLowerCase()
+            .includes(filters.is_active.toLowerCase())
         );
       });
 
@@ -74,10 +77,26 @@ const Profile = () => {
     setIsDeleteModalOpen(false);
     setUserToDelete(null);
   };
+  
 
-  const handleDelete = () => {
-    setFilteredData((prevFilteredData) => prevFilteredData.filter((user) => user.id !== userToDelete.id));
-    closeDeleteModal();
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`https://newterminal.onrender.com/api/user/delete${userToDelete.id}`);
+
+      if (response.status === 200) {
+        setFilteredData((prevFilteredData) =>
+          prevFilteredData.filter((user) => user.id !== userToDelete.id)
+        );
+        setToastMessage("Пользователь успешно удален");
+      } else {
+        throw new Error("Ошибка при удалении пользователя");
+      }
+    } catch (error) {
+      console.error("Ошибка:", error);
+      setToastMessage("Ошибка при удалении пользователя");
+    } finally {
+      closeDeleteModal();
+    }
   };
 
   if (loading) {
@@ -87,9 +106,11 @@ const Profile = () => {
   return (
     <div className="overflow-x-auto flex flex-col px-4">
       {error && <Toast error={error.message} />}
+      {toastMessage && <Toast message={toastMessage} />}
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
-          <div className="w-full flex items-end justify-end my-3">
+          <div className="w-full flex items-end justify-between my-3">
+            <ConditionalLinkButton />
             <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full">
@@ -101,7 +122,7 @@ const Profile = () => {
                 <th className="border">ИНН</th>
                 <th className="border">Логин</th>
                 <th className="border">Пароль</th>
-                <th className="border">Actions</th>
+                <th className="border">Действия</th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -116,8 +137,8 @@ const Profile = () => {
                   <td className="border">{row.username}</td>
                   <td className="border w-7">*********</td>
                   <td className="border">
-                    <button onClick={() => openDeleteModal(row)} className="btn btn-danger">
-                      Delete
+                    <button onClick={() => openDeleteModal(row.id)} className="btn btn-danger">
+                      Удалить
                     </button>
                   </td>
                 </tr>

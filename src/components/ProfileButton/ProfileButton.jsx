@@ -11,7 +11,7 @@ const ProfileButton = ({ id }) => {
       <Link to={`/profile`}>
         <button
           className="mx-auto my-auto py-2 active:scale-90 transition duration-300 hover:bg-blue-700 flex items-center gap-1 bg-primary rounded-md text-white px-3"
-          onClick={() => dispatch(addProfileId(id))}
+          onClick={() => dispatch(addProfileId({ profileId: id }))}
         >
           <CgProfile className="text-xl" />
           Профиль
