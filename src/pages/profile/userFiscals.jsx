@@ -5,7 +5,8 @@ import Loading from "../../Loading";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Toast from "../../others/toastNotification/Toast";
-import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton ";
+import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton";
+import DeleteConfimModal from "../../components/DeleteConfirmModal/DeleteConfimModal";
 
 const UserFiscals = () => {
   const [filters, setFilters] = useState({
@@ -62,11 +63,14 @@ const UserFiscals = () => {
     fetchFiscal();
   }, [token, profileId]);
 
-  if (message) {
-    setTimeout(() => {
-      setMessage(null);
-    }, 2000);
-  }
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(null);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   useEffect(() => {
     if (fiscal.length) {
@@ -100,6 +104,13 @@ const UserFiscals = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const onDeletePartner = (id) => {
+    setFiscal((prevFiscal) => prevFiscal.filter((item) => item.id !== id));
+    setFilteredData((prevFilteredData) =>
+      prevFilteredData.filter((item) => item.id !== id)
+    );
+  };
+
   if (loading || isFetching) {
     return <Loading />;
   }
@@ -124,6 +135,7 @@ const UserFiscals = () => {
                   </th>
                   <th className="border">Заводской номер кассы</th>
                   <th className="border">Серийный номер фискального модуля</th>
+                  <th className="border" rowSpan={2}></th>
                 </tr>
                 <FilterRow
                   filters={filters}
@@ -136,6 +148,14 @@ const UserFiscals = () => {
                     <th className="border">{index + 1 + indexOfFirstRow}</th>
                     <td className="border">{row.factory_number}</td>
                     <td className="border">{row.fiscal_number}</td>
+                    <td className="border w-2">
+                      <DeleteConfimModal
+                        id={row.id}
+                        onDeletePartner={onDeletePartner}
+                        setMessage={setMessage}
+                        setError={setError}
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>

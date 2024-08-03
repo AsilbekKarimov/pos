@@ -1,0 +1,77 @@
+import React from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { MdDeleteForever } from "react-icons/md";
+
+const DeleteConfimModal = ({ id, onDeletePartner, setMessage, setError }) => {
+  const token = useSelector((state) => state.auth.accessToken);
+
+  const closeModal = () => {
+    document.getElementById(`my_modal_${id}`).close();
+  };
+
+  const fetchDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `https://newterminal.onrender.com/api/fiscal/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        onDeletePartner(id);
+        closeModal();
+        setMessage("Фискальный модуль успешно удален!");
+        setError(false);
+      } else {
+        setMessage(
+          "Произошла ошибка при удалении фискального модуля. Пожалуйста, попробуйте еще раз."
+        );
+        setError(true);
+        closeModal();
+      }
+    } catch (error) {
+      setMessage(
+        "Произошла ошибка при удалении фискального модуля. Пожалуйста, попробуйте еще раз."
+      );
+      setError(true);
+      closeModal();
+    }
+  };
+
+  return (
+    <div>
+      <button
+        className="btn bg-red-500 text-white text-[30px] hover:bg-red-700"
+        onClick={() => document.getElementById(`my_modal_${id}`).showModal()}
+      >
+        <MdDeleteForever />
+      </button>
+      <dialog id={`my_modal_${id}`} className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Подтвердите удаление</h3>
+          <p className="py-4 text-[17px] font-semibold">
+            Вы точно хотите удалить этот фискальный модуль?
+          </p>
+          <div className="modal-action">
+            <button
+              className="btn bg-red-500 hover:bg-red-700 text-white"
+              onClick={fetchDelete}
+            >
+              Удалить
+            </button>
+            <form method="dialog">
+              <button className="btn">Закрыть</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  );
+};
+
+export default DeleteConfimModal;
