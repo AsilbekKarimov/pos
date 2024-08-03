@@ -5,16 +5,17 @@ import Loading from "../../Loading";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Toast from "../../others/toastNotification/Toast";
+import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton ";
+import AddFiscalModuleButton from "../../components/AddFiscalModuleButton/AddFiscal";
 
-const FiscalModule = () => {
+const UserFiscals = () => {
   const [filters, setFilters] = useState({
     factory_number: "",
     fiscal_number: "",
   });
 
   const token = useSelector((state) => state.auth.accessToken);
-  const userId = useSelector((state) => state.user.user.id);
-  const isAdmin = useSelector((state) => state.user.user.is_admin);
+  const profileId = useSelector((state) => state.user.profileId);
 
   const [fiscal, setFiscal] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -23,6 +24,7 @@ const FiscalModule = () => {
   const [isFetching, setIsFetching] = useState(true);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchFiscal = async () => {
@@ -39,17 +41,19 @@ const FiscalModule = () => {
         setLoading(true);
 
         if (response.status === 200 || response.status === 201) {
-          let data = response.data;
-          if (!isAdmin) {
-            data = data.filter((obj) => obj.user_id === userId);
-          }
+          const data = response.data.filter(
+            (obj) => obj.user_id === Number(profileId)
+          );
+
           setFiscal(data);
           setFilteredData(data);
         } else {
           setMessage("Ошибка при получении данных!");
+          setError(true);
         }
       } catch (error) {
         setMessage("Ошибка при получении данных!");
+        setError(true);
       } finally {
         setIsFetching(false);
         setLoading(false);
@@ -57,7 +61,7 @@ const FiscalModule = () => {
     };
 
     fetchFiscal();
-  }, [token, isAdmin, userId]);
+  }, [token, profileId]);
 
   if (message) {
     setTimeout(() => {
@@ -68,13 +72,12 @@ const FiscalModule = () => {
   useEffect(() => {
     if (fiscal.length) {
       const filtered = fiscal.filter((row) => {
+        const factoryNumber = row.factory_number || "";
+        const fiscalNumber = row.fiscal_number || "";
+
         return (
-          row.factory_number
-            .toLowerCase()
-            .includes(filters.factory_number.toLowerCase()) &&
-          row.fiscal_number
-            .toLowerCase()
-            .includes(filters.fiscal_number.toLowerCase())
+          factoryNumber.toLowerCase().includes(filters.factory_number.toLowerCase()) &&
+          fiscalNumber.toLowerCase().includes(filters.fiscal_number.toLowerCase())
         );
       });
       setFilteredData(filtered);
@@ -97,16 +100,26 @@ const FiscalModule = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleAddFiscal = (newFiscal) => {
+    setFiscal((prevFiscals) => [...prevFiscals, newFiscal]);
+    setFilteredData((prevFilteredData) => [...prevFilteredData, newFiscal]);
+  };
+
+
   if (loading || isFetching) {
     return <Loading />;
   }
 
   return (
     <div className="overflow-x-auto flex flex-col px-4">
-      {message && <Toast message={message} error={true} />}
+      {message && <Toast message={message} error={error} />}
       {!loading && !message && (
         <div className="flex-grow overflow-y-auto">
-          {fiscal.length || isAdmin ? (
+          <div className="w-full flex items-end justify-between my-3">
+            <ConditionalLinkButton />
+            <AddFiscalModuleButton onAdd={handleAddFiscal} />
+          </div>
+          {fiscal.length ? (
             <table className="table table-md table-zebra border w-full h-full">
               <thead>
                 <tr className="border font-normal text-[14px] text-blue-700">
@@ -152,4 +165,4 @@ const FiscalModule = () => {
   );
 };
 
-export default FiscalModule;
+export default UserFiscals;

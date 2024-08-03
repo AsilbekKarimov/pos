@@ -1,10 +1,19 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const isAdmin = useSelector((state) => state.user.user.is_admin);
+
   return (
     <aside className={`drawer ${isOpen ? "lg:drawer-open w-1/6" : "w-0"}`}>
-      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" checked={isOpen} onChange={toggleSidebar} />
+      <input
+        id="my-drawer-2"
+        type="checkbox"
+        className="drawer-toggle"
+        checked={isOpen}
+        onChange={toggleSidebar}
+      />
       <div className="drawer-side">
         <label
           htmlFor="my-drawer-2"
@@ -26,10 +35,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 <li>
                   <Link to="/application">Торговый точки</Link>
                 </li>
-                <li>
-                  <Link to="/payment">Список партнеров ЦТО</Link>
-                </li>
-               
+                {isAdmin && (
+                  <li>
+                    <Link to="/payment">Список партнеров ЦТО</Link>
+                  </li>
+                )}
               </ul>
             </details>
           </li>

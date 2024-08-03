@@ -5,7 +5,7 @@ const Toast = ({ message, error }) => {
     <div className="toast toast-top toast-end z-50 mt-[55px]">
       <div
         className={
-          error ? "alert alert-error text-white" : "alert alert-success"
+          error ? "alert alert-error text-white" : "alert alert-success text-white"
         }
       >
         <span>{message}</span>

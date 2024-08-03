@@ -6,21 +6,19 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import Loadable from "../layouts/full/Loadable";
 import PrivateRoute from "../components/privateRoute/PrivateRoute";
 import App from "../App";
 
-const FiscalModules = Loadable(
-  React.lazy(() => import("../pages/fiscalModules/FiscalModule"))
+const FiscalModules = React.lazy(() =>
+  import("../pages/fiscalModules/FiscalModule")
 );
-const Application = Loadable(
-  React.lazy(() => import("../pages/application/Application"))
+const Application = React.lazy(() =>
+  import("../pages/application/Application")
 );
-const Login = Loadable(React.lazy(() => import("../pages/login/Login")));
-const Payment = Loadable(
-  React.lazy(() => import("../pages/fmPayment/Payment"))
-);
-const Profile = Loadable(React.lazy(() => import("../pages/profile/Profile")));
+const Login = React.lazy(() => import("../pages/login/Login"));
+const Payment = React.lazy(() => import("../pages/fmPayment/Payment"));
+const Profile = React.lazy(() => import("../pages/profile/Profile"));
+const UserFiscal = React.lazy(() => import("../pages/profile/userFiscals"))
 
 const RouterConfig = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -31,7 +29,7 @@ const RouterConfig = () => {
       element: <App />,
       children: [
         {
-          path: "modules",
+          path: "/",
           element: <PrivateRoute isAuth={isAuth} component={FiscalModules} />,
         },
         {
@@ -46,15 +44,19 @@ const RouterConfig = () => {
           path: "profile",
           element: <PrivateRoute isAuth={isAuth} component={Profile} />,
         },
+        {
+          path: "profile/fiscals",
+          element: <PrivateRoute isAuth={isAuth} component={UserFiscal} />,
+        },
       ],
     },
     {
       path: "/login",
-      element: isAuth ? <Navigate to="/modules" /> : <Login />,
+      element: isAuth ? <Navigate to="/" /> : <Login />,
     },
     {
       path: "/*",
-      element: isAuth ? <Navigate to="/profile" /> : <Navigate to="/login" />,
+      element: isAuth ? <Navigate to="/" /> : <Navigate to="/login" />,
     },
   ]);
 
