@@ -1,23 +1,66 @@
-import React, { Suspense, lazy } from "react";
-import { useRoutes, Navigate } from "react-router-dom";
-import Loadable from "../layouts/full/Loadable";
+import React from "react";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const FiscalModules = Loadable(lazy(() => import("../pages/fiscalModules/FiscalModule")));
-const Application = Loadable(lazy(() => import("../pages/application/Application")));
-const Payment = Loadable(lazy(() => import("../pages/fmPayment/Payment")));
-const Reestr = Loadable(lazy(() => import("../pages/reestr/Reestr")));
+import PrivateRoute from "../components/privateRoute/PrivateRoute";
+import App from "../App";
+
+const FiscalModules = React.lazy(() =>
+  import("../pages/fiscalModules/FiscalModule")
+);
+const Application = React.lazy(() =>
+  import("../pages/application/Application")
+);
+const Login = React.lazy(() => import("../pages/login/Login"));
+const Payment = React.lazy(() => import("../pages/fmPayment/Payment"));
+const Profile = React.lazy(() => import("../pages/profile/Profile"));
+const UserFiscal = React.lazy(() => import("../pages/profile/userFiscals"))
 
 const RouterConfig = () => {
-  const routes = useRoutes([
-    { path: "/", element: <Navigate to="modules" /> },
-    { path: "modules", element: <FiscalModules /> },
-    { path: "application", element: <Application /> },
-    { path: "payment", element: <Payment /> },
-    { path: "reestr", element: <Reestr /> },
-    { path: "*", element: <div>404 Not Found</div> },
+  const isAuth = useSelector((state) => state.auth.isAuth);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <App />,
+      children: [
+        {
+          path: "/",
+          element: <PrivateRoute isAuth={isAuth} component={FiscalModules} />,
+        },
+        {
+          path: "application",
+          element: <PrivateRoute isAuth={isAuth} component={Application} />,
+        },
+        {
+          path: "payment",
+          element: <PrivateRoute isAuth={isAuth} component={Payment} />,
+        },
+        {
+          path: "profile",
+          element: <PrivateRoute isAuth={isAuth} component={Profile} />,
+        },
+        {
+          path: "profile/fiscals",
+          element: <PrivateRoute isAuth={isAuth} component={UserFiscal} />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: isAuth ? <Navigate to="/" /> : <Login />,
+    },
+    {
+      path: "/*",
+      element: isAuth ? <Navigate to="/" /> : <Navigate to="/login" />,
+    },
   ]);
 
-  return <Suspense fallback={<div>Loading...</div>}>{routes}</Suspense>;
+  return <RouterProvider router={router} />;
 };
 
 export default RouterConfig;

@@ -16,9 +16,8 @@ const Pagination = ({ currentPage, totalPages, paginate, setCurrentPage }) => {
         onClick={() =>
           setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
         }
-        className={`mx-2 px-3 py-1 border ${
-          currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
-        }`}
+        className={`mx-2 px-3 py-1 border ${currentPage === 1 ? "bg-gray-300" : "bg-white text-black"
+          }`}
       >
         {"<"}
       </button>
@@ -26,9 +25,10 @@ const Pagination = ({ currentPage, totalPages, paginate, setCurrentPage }) => {
         <button
           key={number}
           onClick={() => paginate(number)}
-          className={`mx-2 px-3 py-1 border ${
-            currentPage === number ? "bg-blue-500 text-white" : "bg-white text-black"
-          }`}
+          className={`mx-2 px-3 py-1 border ${currentPage === number
+              ? "bg-blue-500 text-white"
+              : "bg-white text-black"
+            }`}
         >
           {number}
         </button>
@@ -39,9 +39,8 @@ const Pagination = ({ currentPage, totalPages, paginate, setCurrentPage }) => {
             currentPage < totalPages ? currentPage + 1 : currentPage
           )
         }
-        className={`mx-2 px-3 py-1 border ${
-          currentPage === totalPages ? "bg-gray-300" : "bg-white text-black"
-        }`}
+        className={`mx-2 px-3 py-1 border ${currentPage === totalPages ? "bg-gray-300" : "bg-white text-black"
+          }`}
       >
         {">"}
       </button>
