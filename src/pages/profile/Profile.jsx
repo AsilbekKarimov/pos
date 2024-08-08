@@ -4,6 +4,7 @@ import useFetch from "../../components/useFetch/useFetch";
 import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
+import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 import Loading from "../../Loading";
 import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton";
 
@@ -63,6 +64,15 @@ const Profile = () => {
     });
   };
 
+  const handleUpdateUser = (updatedUser) => {
+    setFilteredData((prevFilteredData) => {
+      const updatedFilteredData = prevFilteredData.map((user) =>
+        user.id === updatedUser.id ? updatedUser : user
+      );
+      return updatedFilteredData;
+    });
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -85,6 +95,7 @@ const Profile = () => {
                 <th className="border">ИНН</th>
                 <th className="border">Логин</th>
                 <th className="border">Пароль</th>
+                <th className="border">Действия</th>
               </tr>
               <FilterRow
                 filters={filters}
@@ -98,6 +109,9 @@ const Profile = () => {
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">*********</td>
+                  <td className="border">
+                    <EditProfileModal user={row} onUpdateUser={handleUpdateUser} />
+                  </td>
                 </tr>
               ))}
             </tbody>
