@@ -5,6 +5,7 @@ import FilterRow from "../../components/filterRow/FilterRow";
 import Toast from "../../others/toastNotification/Toast";
 import Button from "../../others/Button/Button";
 import Loading from "../../Loading";
+import PostExcel from "../../others/PostExcel/PostExcel";
 
 const Application = () => {
   const [filters, setFilters] = useState({
@@ -90,10 +91,13 @@ const Application = () => {
 
   return (
     <div className="flex flex-col px-2">
+      <div className="my-3">
+      <PostExcel/>
+      </div>
       {error && <Toast message={error.message} error={true} />}
       {!loading && !error && (
         <div className="flex-grow  w-full">
-          <table className="table table-sm table-zebra  ">
+          <table className="table table-sm table-zebra w-full overflow-x-auto ">
             <thead>
               <tr className="border font-normal text-[14px] text-blue-700">
                 <th className="border w-2" rowSpan={2}>

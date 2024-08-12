@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { MdEdit } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 import Toast from "../../others/toastNotification/Toast";
 
-const EditProfileModal = ({ user, onUpdateUser }) => {
+const EditProfileModal = ({ user, onUpdateUser, onDeleteUser }) => {
   const [formData, setFormData] = useState({
     inn: user.inn || "",
     username: user.username || "",
@@ -50,7 +50,7 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
 
     try {
       const response = await axios.put(
-        "https://newterminal.onrender.com/api/users",
+        `https://newnewterminal.onrender.com/api/users/${user.id}`,
         updatedUser,
         {
           headers: {
@@ -65,32 +65,64 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
         setError(false);
         onUpdateUser(response.data);
         handleModalClose();
-        console.log(formData);
       } else {
-        setMessage(
-          "Произошла ошибка при обновлении профиля. Повторите попытку!"
-        );
-        console.log(formData);
+        setMessage("Произошла ошибка при обновлении профиля. Повторите попытку!");
         setError(true);
       }
     } catch (error) {
       setMessage("Произошла ошибка при обновлении профиля. Повторите попытку!");
-      console.log(formData);
       setError(true);
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `https://newnewterminal.onrender.com/api/users/${user.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setMessage("Пользователь успешно удален!");
+        setError(false);
+        onDeleteUser(user.id);
+        handleModalClose();
+      } else {
+        setMessage("Произошла ошибка при удалении пользователя. Повторите попытку!");
+        setError(true);
+      }
+    } catch (error) {
+      setMessage("Произошла ошибка при удалении пользователя. Повторите попытку!");
+      setError(true);
+      console.log(error);
     }
   };
 
   return (
     <div>
       {message && <Toast message={message} error={error} />}
-      <button
-        className="px-2 border-2 bg-primary border-primary text-white rounded-md"
-        onClick={() =>
-          document.getElementById(`edit_modal_${user.id}`).showModal()
-        }
-      >
-        <MdEdit />
-      </button>
+      <div className="flex justify-between gap-2">
+        <button
+          className="px-2 py-2 border-2 bg-primary border-primary text-white rounded-md"
+          onClick={() =>
+            document.getElementById(`edit_modal_${user.id}`).showModal()
+          }
+        >
+          <MdEdit />
+        </button>
+        <button
+          className="px-2 py-2 border-2 bg-error border-error text-white rounded-md"
+          onClick={handleDelete}
+        >
+          <MdDelete />
+        </button>
+      </div>
       <dialog id={`edit_modal_${user.id}`} className="modal">
         <div className="modal-box bg-white">
           <form onSubmit={handleSubmit} className="p-3">

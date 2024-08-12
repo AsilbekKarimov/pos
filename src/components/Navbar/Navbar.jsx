@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
 
-import userImg from "../../assets/images/avatar.png"
+import userImg from "../../assets/images/avatar.png";
 import ThemeToggle from "../../others/themeToggle/ThemeToggle";
 import useAuth from "../authLogic/useAuth";
 
@@ -40,7 +40,9 @@ const Navbar = ({ toggleSidebar }) => {
             </div>
           </div>
           <div className="navbar-center">
-            <a className="btn btn-ghost normal-case text-lg md:text-xl">OOO R I G</a>
+            <a className="btn btn-ghost normal-case text-lg md:text-xl">
+              OOO R I G
+            </a>
           </div>
           <div className="navbar-end flex items-center gap-3 md:gap-4">
             <ThemeToggle className="text-xs md:text-sm" />

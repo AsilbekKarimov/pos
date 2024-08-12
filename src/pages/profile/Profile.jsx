@@ -57,13 +57,6 @@ const Profile = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleAddPartner = (newPartner) => {
-    setFilteredData((prevFilteredData) => {
-      const updatedFilteredData = [...prevFilteredData, newPartner];
-      return updatedFilteredData;
-    });
-  };
-
   const handleUpdateUser = (updatedUser) => {
     setFilteredData((prevFilteredData) => {
       const updatedFilteredData = prevFilteredData.map((user) =>
@@ -71,7 +64,7 @@ const Profile = () => {
       );
       return updatedFilteredData;
     });
-  };
+  };  
 
   if (loading) {
     return <Loading />;
@@ -84,7 +77,6 @@ const Profile = () => {
         <div className="flex-grow overflow-y-auto">
           <div className="w-full flex items-end justify-between my-3">
             <ConditionalLinkButton />
-            <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full">
             <thead>
@@ -109,7 +101,7 @@ const Profile = () => {
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
                   <td className="border w-7">*********</td>
-                  <td className="border">
+                  <td className="border w-5">
                     <EditProfileModal user={row} onUpdateUser={handleUpdateUser} />
                   </td>
                 </tr>
