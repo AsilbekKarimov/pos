@@ -129,7 +129,7 @@ const UserFiscals = () => {
           <div className="w-full flex items-end justify-between my-3">
             <AddFiscalModuleButton onAdd={handleAddFiscal} />
           </div>
-          {fiscal.length ? (
+          {filteredData.length ? (
             <table className="table table-md table-zebra border w-full h-full">
               <thead>
                 <tr className="border font-normal text-[14px] text-blue-700">
@@ -138,7 +138,7 @@ const UserFiscals = () => {
                   </th>
                   <th className="border">Заводской номер кассы</th>
                   <th className="border">Серийный номер фискального модуля</th>
-                  <th className="border" rowSpan={2}></th>
+                  <th className="border" rowSpan={2}>Удаление</th>
                 </tr>
                 <FilterRow
                   filters={filters}
@@ -151,12 +151,12 @@ const UserFiscals = () => {
                     <th className="border">{index + 1 + indexOfFirstRow}</th>
                     <td className="border">{row.factory_number}</td>
                     <td className="border">{row.fiscal_number}</td>
-                    <td className="border w-2">
+                    <td className="border w-5 text-center">
                       <DeleteConfimModal
                         id={row.id}
                         onDeletePartner={onDeletePartner}
-                        setMessage={setMessage}
-                        setError={setError}
+                        confirmText={"Вы точно хотите удалить этот фискальный модуль?"}
+                        url={'fiscal-modules'}
                       />
                     </td>
                   </tr>

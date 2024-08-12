@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { MdDeleteForever } from "react-icons/md";
 
-const DeleteConfimModal = ({ id, onDeletePartner, setMessage, setError }) => {
+const DeleteConfimModal = ({ id, onDeletePartner, url, confirmText, setMessage, setError }) => {
   const token = useSelector((state) => state.auth.accessToken);
 
   const closeModal = () => {
@@ -12,8 +12,8 @@ const DeleteConfimModal = ({ id, onDeletePartner, setMessage, setError }) => {
 
   const fetchDelete = async () => {
     try {
-      const response = await axios.delete(
-        `https://newnewterminal.onrender.com/api/fiscal-modules/${id}`,
+      await axios.delete(
+        `https://newnewterminal.onrender.com/api/${url}/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -21,22 +21,13 @@ const DeleteConfimModal = ({ id, onDeletePartner, setMessage, setError }) => {
           },
         }
       );
-
-      if (response.status === 200) {
-        onDeletePartner(id);
-        closeModal();
-        setMessage("Фискальный модуль успешно удален!");
-        setError(false);
-      } else {
-        setMessage(
-          "Произошла ошибка при удалении фискального модуля. Пожалуйста, попробуйте еще раз."
-        );
-        setError(true);
-        closeModal();
-      }
+      onDeletePartner(id);
+      closeModal();
+      setMessage("Успешно удален!");
+      setError(false);
     } catch (error) {
       setMessage(
-        "Произошла ошибка при удалении фискального модуля. Пожалуйста, попробуйте еще раз."
+        "Произошла ошибка при удалении. Пожалуйста, попробуйте еще раз."
       );
       setError(true);
       closeModal();
@@ -46,7 +37,7 @@ const DeleteConfimModal = ({ id, onDeletePartner, setMessage, setError }) => {
   return (
     <div>
       <button
-        className="btn bg-red-500 text-white text-[30px] hover:bg-red-700"
+        className="btn bg-red-500 text-white text-[30px] active:scale-90 transition duration-300 hover:bg-red-700 px-2 py-2 rounded-md"
         onClick={() => document.getElementById(`my_modal_${id}`).showModal()}
       >
         <MdDeleteForever />
@@ -54,9 +45,7 @@ const DeleteConfimModal = ({ id, onDeletePartner, setMessage, setError }) => {
       <dialog id={`my_modal_${id}`} className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Подтвердите удаление</h3>
-          <p className="py-4 text-[17px] font-semibold">
-            Вы точно хотите удалить этот фискальный модуль?
-          </p>
+          <p className="py-4 text-[17px] font-semibold">{confirmText}</p>
           <div className="modal-action">
             <button
               className="btn bg-red-500 hover:bg-red-700 text-white"

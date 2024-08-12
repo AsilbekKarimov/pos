@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Toast from "../../others/toastNotification/Toast";
 
 const AddFiscalModuleButton = ({ onAdd }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [factoryNumber, setFactoryNumber] = useState("");
   const [fiscalNumber, setFiscalNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState(null);
 
   const profileId = useSelector((state) => state.user.profileId);
   const token = useSelector((state) => state.auth.accessToken);
@@ -16,11 +18,18 @@ const AddFiscalModuleButton = ({ onAdd }) => {
     setIsModalOpen(true);
   };
 
+  if (message) {
+    setTimeout(() => {
+      setError(false);
+      setMessage(null);
+    }, 2000);
+  }
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setFactoryNumber("");
     setFiscalNumber("");
-    setErrorMessage(null);
+    setMessage(null);
   };
 
   const handleSubmit = async (e) => {
@@ -29,7 +38,7 @@ const AddFiscalModuleButton = ({ onAdd }) => {
 
     try {
       const response = await axios.post(
-        "https://newnewterminal.onrender.com/api/fiscal",
+        "https://newnewterminal.onrender.com/api/fiscal-modules",
         {
           factory_number: factoryNumber,
           fiscal_number: fiscalNumber,
@@ -43,14 +52,15 @@ const AddFiscalModuleButton = ({ onAdd }) => {
         }
       );
 
-      if (response.status === 200 || response.status === 201) {
-        onAdd(response.data);
-        handleCloseModal();
-      } else {
-        setErrorMessage("Ошибка при добавлении данных!");
-      }
+      onAdd(response.data);
+      handleCloseModal();
+      setMessage("Фискальный модуль успешно добавлен!");
+      setError(false);
     } catch (error) {
-      setErrorMessage("Ошибка при добавлении данных!");
+      setMessage("Ошибка при добавлении данных!");
+      setError(true);
+      console.log(error);
+      
     } finally {
       setIsSubmitting(false);
     }
@@ -58,6 +68,7 @@ const AddFiscalModuleButton = ({ onAdd }) => {
 
   return (
     <div>
+      {message && <Toast message={message} error={error} />}
       <button
         onClick={handleOpenModal}
         className="px-4 border-2 bg-primary border-primary text-white rounded-md h-[50px]"
@@ -98,9 +109,6 @@ const AddFiscalModuleButton = ({ onAdd }) => {
                   required
                 />
               </div>
-              {errorMessage && (
-                <div className="mt-2 text-red-600">{errorMessage}</div>
-              )}
               <div className="modal-action">
                 <button
                   type="button"
