@@ -115,7 +115,7 @@ const FiscalModule = () => {
       {!loading && !message && (
         <div className="flex-grow overflow-y-auto">
           <div className="my-3">
-          <PostExcel/>
+          <PostExcel filename={"Фискальные модули"} tableData={fiscal}/>
           </div>
           {fiscal.length || isAdmin ? (
             <table className="table table-md table-zebra border w-full h-full">
