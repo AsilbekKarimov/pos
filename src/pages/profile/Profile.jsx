@@ -8,6 +8,7 @@ import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import Loading from "../../Loading";
 import DeleteConfirmationModal from "../../others/DeleteModal/DeleteConfirmationModal";
 import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const [filters, setFilters] = useState({
@@ -22,6 +23,7 @@ const Profile = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
+  const token = useSelector((state) => state.auth.accessToken);
 
   useEffect(() => {
     if (data) {
@@ -66,6 +68,7 @@ const Profile = () => {
       const updatedFilteredData = [...prevFilteredData, newPartner];
       return updatedFilteredData;
     });
+    setToastMessage("Партнер успешно добавлен");
   };
 
   const openDeleteModal = (user) => {
@@ -77,11 +80,30 @@ const Profile = () => {
     setIsDeleteModalOpen(false);
     setUserToDelete(null);
   };
-  
 
+  
   const handleDelete = async () => {
+    if (!userToDelete) {
+      console.error("No user selected for deletion");
+      return;
+    }
+
+    const deleteUrl = `https://newnewterminal.onrender.com/api/users/${userToDelete.id}`;
+    console.log("Deleting user:", userToDelete);
+    console.log("Delete URL:", deleteUrl);
+
     try {
-      const response = await axios.delete(`https://newterminal.onrender.com/api/user/delete${userToDelete.id}`);
+
+      
+      const response = await axios.delete(deleteUrl,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      ); 
+      
 
       if (response.status === 200) {
         setFilteredData((prevFilteredData) =>
@@ -93,6 +115,20 @@ const Profile = () => {
       }
     } catch (error) {
       console.error("Ошибка:", error);
+
+      if (error.response) {
+        // Server responded with a status other than 200 range
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error("Request data:", error.request);
+      } else {
+        // Something happened in setting up the request
+        console.error("Error message:", error.message);
+      }
+
       setToastMessage("Ошибка при удалении пользователя");
     } finally {
       closeDeleteModal();
@@ -137,7 +173,10 @@ const Profile = () => {
                   <td className="border">{row.username}</td>
                   <td className="border w-7">*********</td>
                   <td className="border">
-                    <button onClick={() => openDeleteModal(row.id)} className="btn btn-danger">
+                    <button
+                      onClick={() => openDeleteModal(row)}
+                      className="btn btn-danger"
+                    >
                       Удалить
                     </button>
                   </td>
