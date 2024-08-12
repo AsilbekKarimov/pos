@@ -103,7 +103,7 @@ const Payment = () => {
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
           <div className="w-full flex items-end justify-between my-3">
-            <PostExcel />
+            <PostExcel filename={"Список Партнеров"} tableData={data}/>
             <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full overflow-x-auto">

@@ -104,7 +104,7 @@ const Application = () => {
   return (
     <div className="flex flex-col px-2">
       <div className="my-3">
-      <PostExcel/>
+      <PostExcel filename={"Терминалы"} tableData={data} />
       </div>
       {error && <Toast message={error.message} error={true} />}
       {!loading && !error && (
@@ -158,7 +158,7 @@ const Application = () => {
                     <Button
                       row={row}
                       setFilteredData={setFilteredData}
-                      rolls="terminal"
+                      rolls="terminals"
                     />
                   </td>
                 </tr>
