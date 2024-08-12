@@ -21,7 +21,7 @@ const Button = ({ row, setFilteredData , rolls}) => {
   const postToBackend = async (updatedRow) => {
     console.log(updatedRow);
     const response = await fetch(
-      `https://newterminal.onrender.com/api/${rolls}/${updatedRow.id}`,
+      `https://newnewterminal.onrender.com/api/${rolls}/${updatedRow.id}`,
       {
         method: "PUT",
         headers: {
