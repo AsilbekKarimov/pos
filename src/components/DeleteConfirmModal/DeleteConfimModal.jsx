@@ -3,7 +3,14 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { MdDeleteForever } from "react-icons/md";
 
-const DeleteConfimModal = ({ id, onDeletePartner, url, confirmText, setMessage, setError }) => {
+const DeleteConfimModal = ({
+  id,
+  onDeletePartner,
+  url,
+  confirmText,
+  setMessage,
+  setError,
+}) => {
   const token = useSelector((state) => state.auth.accessToken);
 
   const closeModal = () => {

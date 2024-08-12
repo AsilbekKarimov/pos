@@ -117,6 +117,13 @@ const UserFiscals = () => {
     });
   };
 
+  if (message) {
+    setTimeout(() => {
+      setError(false);
+      setMessage(null);
+    }, 2000);
+  }
+
   if (loading || isFetching) {
     return <Loading />;
   }
@@ -129,7 +136,7 @@ const UserFiscals = () => {
           <div className="w-full flex items-end justify-between my-3">
             <AddFiscalModuleButton onAdd={handleAddFiscal} />
           </div>
-          {filteredData.length ? (
+          {fiscal.length ? (
             <table className="table table-md table-zebra border w-full h-full">
               <thead>
                 <tr className="border font-normal text-[14px] text-blue-700">
@@ -157,6 +164,8 @@ const UserFiscals = () => {
                         onDeletePartner={onDeletePartner}
                         confirmText={"Вы точно хотите удалить этот фискальный модуль?"}
                         url={'fiscal-modules'}
+                        setMessage={setMessage}
+                        setError={setError}
                       />
                     </td>
                   </tr>
