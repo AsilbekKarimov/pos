@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import { MdDelete, MdEdit } from "react-icons/md";
 import Toast from "../../others/toastNotification/Toast";
 
@@ -16,6 +16,7 @@ const EditProfileModal = ({ user, onUpdateUser, onDeleteUser }) => {
   const [message, setMessage] = useState(null);
 
   const token = useSelector((state) => state.auth.accessToken);
+  const id = user.id; // Extracting the user ID
 
   useEffect(() => {
     if (message) {
@@ -29,7 +30,7 @@ const EditProfileModal = ({ user, onUpdateUser, onDeleteUser }) => {
   }, [message]);
 
   const handleModalClose = () => {
-    document.getElementById(`edit_modal_${user.id}`).close();
+    document.getElementById(`edit_modal_${id}`).close();
   };
 
   const handleChange = (e) => {
@@ -50,57 +51,47 @@ const EditProfileModal = ({ user, onUpdateUser, onDeleteUser }) => {
 
     try {
       const response = await axios.put(
-        `https://newnewterminal.onrender.com/api/users/${user.id}`,
+        `https://newnewterminal.onrender.com/api/users/${id}`, // Using id here
         updatedUser,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Include the token in the headers
           },
         }
       );
 
-      if (response.status === 200 || response.status === 201) {
-        setMessage("Профиль успешно обновлен!");
-        setError(false);
-        onUpdateUser(response.data);
-        handleModalClose();
-      } else {
-        setMessage("Произошла ошибка при обновлении профиля. Повторите попытку!");
-        setError(true);
-      }
+      setMessage("Профиль успешно обновлен!");
+      setError(false);
+      onUpdateUser(response.data);
+      handleModalClose();
     } catch (error) {
       setMessage("Произошла ошибка при обновлении профиля. Повторите попытку!");
       setError(true);
-      console.log(error);
+      console.error("Error details:", error.response ? error.response.data : error.message);
     }
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `https://newnewterminal.onrender.com/api/users/${user.id}`,
+      await axios.delete(
+        `https://newnewterminal.onrender.com/api/users/${id}`, // Using id here
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Include the token in the headers
           },
         }
       );
 
-      if (response.status === 200) {
-        setMessage("Пользователь успешно удален!");
-        setError(false);
-        onDeleteUser(user.id);
-        handleModalClose();
-      } else {
-        setMessage("Произошла ошибка при удалении пользователя. Повторите попытку!");
-        setError(true);
-      }
+      setMessage("Пользователь успешно удален!");
+      setError(false);
+      onDeleteUser(id);
+      handleModalClose();
     } catch (error) {
       setMessage("Произошла ошибка при удалении пользователя. Повторите попытку!");
       setError(true);
-      console.log(error);
+      console.error("Error details:", error.response ? error.response.data : error.message);
     }
   };
 
@@ -111,7 +102,7 @@ const EditProfileModal = ({ user, onUpdateUser, onDeleteUser }) => {
         <button
           className="px-2 py-2 border-2 bg-primary border-primary text-white rounded-md"
           onClick={() =>
-            document.getElementById(`edit_modal_${user.id}`).showModal()
+            document.getElementById(`edit_modal_${id}`).showModal()
           }
         >
           <MdEdit />
@@ -123,7 +114,7 @@ const EditProfileModal = ({ user, onUpdateUser, onDeleteUser }) => {
           <MdDelete />
         </button>
       </div>
-      <dialog id={`edit_modal_${user.id}`} className="modal">
+      <dialog id={`edit_modal_${id}`} className="modal">
         <div className="modal-box bg-white">
           <form onSubmit={handleSubmit} className="p-3">
             <button

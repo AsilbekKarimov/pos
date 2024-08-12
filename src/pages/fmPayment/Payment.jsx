@@ -72,6 +72,12 @@ const Payment = () => {
     });
   };
 
+  const handleDeleteUser = (userId) => {
+    setFilteredData((prevFilteredData) =>
+      prevFilteredData.filter((user) => user.id !== userId)
+    );
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -117,7 +123,11 @@ const Payment = () => {
                     />
                   </td>
                   <td className="border w-5">
-                    <EditProfileModal user={row} onUpdateUser={handleUpdateUser} />
+                    <EditProfileModal
+                      user={row}
+                      onUpdateUser={handleUpdateUser}
+                      onDeleteUser={handleDeleteUser}
+                    />
                   </td>
                   <td className="border w-5">
                     <ProfileButton id={row.id} />
