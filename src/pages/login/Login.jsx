@@ -10,7 +10,7 @@ const Login = () => {
     red: "text-black outline-red-500 placeholder:text-red-700",
     blue: "text-black outline-blue-500 placeholder:text-blue-700",
     gray: "text-slate-500 outline-slate-400",
-    btnOnLodaing:
+    btnOnLoading:
       "bg-slate-500 shadow-slate-500 border-slate-500 hover:text-slate-500 cursor-not-allowed",
     defaultBtn:
       "bg-blue-500 shadow-blue-500 border-blue-500 hover:text-blue-500 cursor-pointer",
@@ -29,7 +29,7 @@ const Login = () => {
     if (loading) {
       setOutlineInput1(colorClass.gray);
       setOutlineInput2(colorClass.gray);
-      setBtnStyle(colorClass.btnOnLodaing);
+      setBtnStyle(colorClass.btnOnLoading);
     } else {
       if (
         outlineInput1 === colorClass.red ||
@@ -49,7 +49,7 @@ const Login = () => {
   const validate = () => {
     let valid = true;
 
-    if (!login & !password) {
+    if (!login && !password) {
       valid = false;
       setOutlineInput1(colorClass.red);
       setOutlineInput2(colorClass.red);
@@ -98,7 +98,7 @@ const Login = () => {
     <div className="bg-blue-500 h-screen w-screen flex items-center">
       {error && <Toast message={error} error={true} />}
       <div className="container mx-auto flex justify-center items-center h-[80vh] w-full">
-        <div className="flex flex-1 h-full bg-white items-center justify-center rounded-s-lg">
+        <div className="hidden lg:flex flex-1 h-full bg-white items-center justify-center rounded-s-lg">
           <img
             className="object-cover flex items-center w-[29vw] h-[50vh]"
             src={loginImg}

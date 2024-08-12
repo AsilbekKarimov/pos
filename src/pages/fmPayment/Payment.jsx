@@ -6,6 +6,9 @@ import FilterRow from "../../components/filterRow/FilterRow";
 import Button from "../../others/Button/Button";
 import Loading from "../../Loading";
 import useFetch from "../../components/useFetch/useFetch";
+import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
+import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
+import PostExcel from "../../others/PostExcel/PostExcel";
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -54,15 +57,33 @@ const Payment = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleAddPartner = (newPartner) => {
+    setFilteredData((prevFilteredData) => [...prevFilteredData, newPartner]);
+  };
+
+  const handleUpdateUser = (updatedUser) => {
+    setFilteredData((prevFilteredData) => {
+      const updatedFilteredData = prevFilteredData.map((user) =>
+        user.id === updatedUser.id ? updatedUser : user
+      );
+      return updatedFilteredData;
+    });
+  };
+
   if (loading) {
     return <Loading />;
   }
+
   return (
-    <div className="overflow-x-auto flex flex-col px-4">
+    <div className="flex flex-col px-4">
       {error && <Toast message={error.message} error={true} />}
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
-          <table className="table table-md table-zebra border w-full h-full">
+          <div className="w-full flex items-end justify-between my-3">
+            <PostExcel/>
+            <AddPartnerModal onAddPartner={handleAddPartner} />
+          </div>
+          <table className="table table-md table-zebra border w-full h-full overflow-x-auto">
             <thead>
               <tr className="border font-normal text-[15px] text-blue-700">
                 <th className="border w-2" rowSpan={2}>
@@ -71,8 +92,8 @@ const Payment = () => {
                 <th className="border">ИНН</th>
                 <th className="border">Название компании</th>
                 <th className="border">Cтатус</th>
-                <th className="border text-center" rowSpan={2}>
-                  Профили
+                <th className="border text-center" colSpan={3}>
+                  Действия
                 </th>
               </tr>
               <FilterRow
@@ -86,14 +107,17 @@ const Payment = () => {
                   <th className="border">{row.ordinalNumber}</th>
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
-                  <td className="border w-7">
+                  <td className="border">
                     <Button
                       row={row}
                       setFilteredData={setFilteredData}
                       rolls="users"
                     />
                   </td>
-                  <td className="border w-7">
+                  <td className="border w-5">
+                    <EditProfileModal user={row} onUpdateUser={handleUpdateUser} />
+                  </td>
+                  <td className="border w-5">
                     <ProfileButton id={row.id} />
                   </td>
                 </tr>

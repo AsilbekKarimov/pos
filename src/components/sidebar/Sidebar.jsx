@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const isAdmin = useSelector((state) => state.user.user.is_admin);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (isOpen) {
+      toggleSidebar();
+    }
+  }, [location.pathname]);
 
   return (
-    <aside className={`drawer ${isOpen ? "lg:drawer-open w-1/6" : "w-0"}`}>
+    <aside className={`drawer ${isOpen ? "lg:drawer-open w-1/6" : "w-0"} z-50`}>
       <input
         id="my-drawer-2"
         type="checkbox"

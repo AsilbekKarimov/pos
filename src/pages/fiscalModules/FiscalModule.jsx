@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Toast from "../../others/toastNotification/Toast";
 import useFetchPartners from "../../components/useFetchPartners/useFetchPartners";
+import PostExcel from "../../others/PostExcel/PostExcel";
 
 const FiscalModule = () => {
   const [filters, setFilters] = useState({
@@ -113,6 +114,9 @@ const FiscalModule = () => {
       {message && <Toast message={message} error={true} />}
       {!loading && !message && (
         <div className="flex-grow overflow-y-auto">
+          <div className="my-3">
+          <PostExcel/>
+          </div>
           {fiscal.length || isAdmin ? (
             <table className="table table-md table-zebra border w-full h-full">
               <thead>

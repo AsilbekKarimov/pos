@@ -6,6 +6,7 @@ import Toast from "../../others/toastNotification/Toast";
 import Button from "../../others/Button/Button";
 import Loading from "../../Loading";
 import useFetchPartners from "../../components/useFetchPartners/useFetchPartners";
+import PostExcel from "../../others/PostExcel/PostExcel";
 
 const Application = () => {
   const [filters, setFilters] = useState({
@@ -102,9 +103,12 @@ const Application = () => {
 
   return (
     <div className="flex flex-col px-2">
+      <div className="my-3">
+      <PostExcel/>
+      </div>
       {error && <Toast message={error.message} error={true} />}
       {!loading && !error && (
-        <div className="flex-grow w-full">
+        <div className="flex-grow w-full overflow-x-auto">
           <table className="table table-sm table-zebra">
             <thead>
               <tr className="border font-normal text-[14px] text-blue-700">
