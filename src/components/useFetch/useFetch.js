@@ -14,7 +14,7 @@ const useFetch = (url, id) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://newterminal.onrender.com/api/${url}/${id}`,
+          `https://newnewterminal.onrender.com/api/${url}/${id}`,
           {
             headers: {
               "Content-Type": "application/json",

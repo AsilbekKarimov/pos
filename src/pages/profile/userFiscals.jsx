@@ -5,7 +5,6 @@ import Loading from "../../Loading";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Toast from "../../others/toastNotification/Toast";
-import ConditionalLinkButton from "../../others/ProfileLinkButton/ConditionalLinkButton";
 import DeleteConfimModal from "../../components/DeleteConfirmModal/DeleteConfimModal";
 import AddFiscalModuleButton from "../../components/AddFiscalModuleButton/AddFiscal";
 
@@ -31,7 +30,7 @@ const UserFiscals = () => {
     const fetchFiscal = async () => {
       try {
         const response = await axios.get(
-          `https://newterminal.onrender.com/api/fiscal`,
+          `https://newnewterminal.onrender.com/api/fiscal-modules`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -128,7 +127,6 @@ const UserFiscals = () => {
       {!loading && !message && (
         <div className="flex-grow overflow-y-auto">
           <div className="w-full flex items-end justify-between my-3">
-            <ConditionalLinkButton />
             <AddFiscalModuleButton onAdd={handleAddFiscal} />
           </div>
           {fiscal.length ? (

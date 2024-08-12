@@ -21,13 +21,11 @@ const Payment = () => {
   useEffect(() => {
     if (data) {
       const filtered = data.filter((row) => {
+        const statusText = row.is_active ? "Активный" : "Не активный";
         return (
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
-          row.is_active
-            .toString()
-            .toLowerCase()
-            .includes(filters.is_active.toLowerCase())
+          statusText.includes(filters.is_active)
         );
       });
 

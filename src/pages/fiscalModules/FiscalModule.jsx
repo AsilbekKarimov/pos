@@ -5,11 +5,13 @@ import Loading from "../../Loading";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Toast from "../../others/toastNotification/Toast";
+import useFetchPartners from "../../components/useFetchPartners/useFetchPartners";
 
 const FiscalModule = () => {
   const [filters, setFilters] = useState({
     factory_number: "",
     fiscal_number: "",
+    partner: "",
   });
 
   const token = useSelector((state) => state.auth.accessToken);
@@ -28,7 +30,7 @@ const FiscalModule = () => {
     const fetchFiscal = async () => {
       try {
         const response = await axios.get(
-          `https://newterminal.onrender.com/api/fiscal`,
+          `https://newnewterminal.onrender.com/api/fiscal-modules`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -59,6 +61,8 @@ const FiscalModule = () => {
     fetchFiscal();
   }, [token, isAdmin, userId]);
 
+  const partners = useFetchPartners(fiscal);
+
   if (message) {
     setTimeout(() => {
       setMessage(null);
@@ -74,7 +78,10 @@ const FiscalModule = () => {
             .includes(filters.factory_number.toLowerCase()) &&
           row.fiscal_number
             .toLowerCase()
-            .includes(filters.fiscal_number.toLowerCase())
+            .includes(filters.fiscal_number.toLowerCase()) &&
+          (partners[row.user_id]?.toLowerCase() || "").includes(
+            filters.partner.toLowerCase()
+          )
         );
       });
       setFilteredData(filtered);
@@ -115,6 +122,7 @@ const FiscalModule = () => {
                   </th>
                   <th className="border">Заводской номер кассы</th>
                   <th className="border">Серийный номер фискального модуля</th>
+                  <th className="border text-center">Партнер</th>
                 </tr>
                 <FilterRow
                   filters={filters}
@@ -127,6 +135,13 @@ const FiscalModule = () => {
                     <th className="border">{index + 1 + indexOfFirstRow}</th>
                     <td className="border">{row.factory_number}</td>
                     <td className="border">{row.fiscal_number}</td>
+                    <td className="border">
+                      {partners[row.user_id] || (
+                        <div className="h-full flex items-center justify-center">
+                          <span className="loading loading-spinner loading-sm"></span>
+                        </div>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

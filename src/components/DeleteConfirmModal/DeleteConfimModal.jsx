@@ -13,7 +13,7 @@ const DeleteConfimModal = ({ id, onDeletePartner, setMessage, setError }) => {
   const fetchDelete = async () => {
     try {
       const response = await axios.delete(
-        `https://newterminal.onrender.com/api/fiscal/${id}`,
+        `https://newnewterminal.onrender.com/api/fiscal-modules/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
