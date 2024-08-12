@@ -10,7 +10,7 @@ import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 import PostExcel from "../../others/PostExcel/PostExcel";
 import DeleteConfimModal from "../../components/DeleteConfirmModal/DeleteConfimModal";
-import { BsPinAngle, BsPinAngleFill } from 'react-icons/bs'; // Import the icons
+import { BsPinAngle, BsPinAngleFill } from 'react-icons/bs';
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -37,7 +37,6 @@ const Payment = () => {
         );
       });
 
-      // Sort filtered data to move pinned items to the top
       const sortedFilteredData = filtered
         .map((item) => ({
           ...item,
@@ -87,11 +86,6 @@ const Payment = () => {
     setFilteredData((prevFilteredData) =>
       prevFilteredData.filter((item) => item.id !== id)
     );
-    setPinnedItems((prevPinnedItems) => {
-      const newPinnedItems = new Set(prevPinnedItems);
-      newPinnedItems.delete(id);
-      return newPinnedItems;
-    });
   };
 
   const handleUpdateUser = (updatedUser) => {
@@ -100,17 +94,6 @@ const Payment = () => {
         user.id === updatedUser.id ? updatedUser : user
       );
       return updatedFilteredData;
-    });
-  };
-
-  const handleDeleteUser = (userId) => {
-    setFilteredData((prevFilteredData) =>
-      prevFilteredData.filter((user) => user.id !== userId)
-    );
-    setPinnedItems((prevPinnedItems) => {
-      const newPinnedItems = new Set(prevPinnedItems);
-      newPinnedItems.delete(userId);
-      return newPinnedItems;
     });
   };
 
@@ -168,14 +151,14 @@ const Payment = () => {
                       row={row}
                       setFilteredData={setFilteredData}
                       rolls="users"
-                      className="h-8" // Ensure consistent button height
+                      className="h-8"
                     />
                   </td>
                   <td className="border w-5">
                     <EditProfileModal
                       user={row}
                       onUpdateUser={handleUpdateUser}
-                      className="h-8" // Ensure consistent button height
+                      className="h-8"
                     />
                   </td>
                   <td className="border w-2">
@@ -188,15 +171,15 @@ const Payment = () => {
                       url={"users"}
                       setMessage={setMessage}
                       setError={setError}
-                      className="h-8" // Ensure consistent button height
+                      className="h-8"
                     />
                   </td>
                   <td className="border w-5">
-                    <ProfileButton id={row.id} className="h-8" /> {/* Ensure consistent button height */}
+                    <ProfileButton id={row.id} className="h-8" />
                   </td>
                   <td className="border w-5 text-center">
                     <button
-                      className="btn btn-primary text-white h-8 flex items-center justify-center" // Ensure consistent button height
+                      className="btn btn-primary text-white h-8 flex items-center justify-center"
                       onClick={() => handlePinItem(row.id)}
                     >
                       {pinnedItems.has(row.id) ? (

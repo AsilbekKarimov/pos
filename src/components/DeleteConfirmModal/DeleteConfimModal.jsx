@@ -22,9 +22,9 @@ const DeleteConfimModal = ({ id, onDeletePartner, url, confirmText, setMessage, 
         }
       );
       onDeletePartner(id);
-      closeModal();
       setMessage("Успешно удален!");
       setError(false);
+      closeModal();
     } catch (error) {
       setMessage(
         "Произошла ошибка при удалении. Пожалуйста, попробуйте еще раз."
