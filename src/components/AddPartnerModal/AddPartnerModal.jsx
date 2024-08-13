@@ -74,23 +74,18 @@ const AddPartnerModal = ({ onAddPartner }) => {
           }
         );
 
-        if (response.status === 200 || response.status === 201) {
-          setMessage("Юзер успешно создан!");
-          setError(false);
-          onAddPartner(response.data);
+        setMessage("Успешно создан!");
+        setError(false);
+        onAddPartner(response.data);
 
-          setInn("");
-          setLogin("");
-          setPassword("");
-          setIsActive(false);
-          setIsAdmin(false);
-          handleModalClose();
-        } else {
-          setMessage("Произошла ошибка при создании юзера. Повторите попытку!");
-          setError(true);
-        }
+        setInn("");
+        setLogin("");
+        setPassword("");
+        setIsActive(false);
+        setIsAdmin(false);
+        handleModalClose();
       } catch (error) {
-        setMessage("Произошла ошибка при создании юзера. Повторите попытку!");
+        setMessage("Произошла ошибка при добавлении. Возможно такой пользователь уже существует!");
         setError(true);
       }
     }
@@ -171,7 +166,11 @@ const AddPartnerModal = ({ onAddPartner }) => {
                 >
                   Отмена
                 </button>
-                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
                   Добавить
                 </button>
               </div>

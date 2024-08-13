@@ -10,7 +10,6 @@ import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 import PostExcel from "../../others/PostExcel/PostExcel";
 import DeleteConfimModal from "../../components/DeleteConfirmModal/DeleteConfimModal";
-import { BsPinAngle, BsPinAngleFill } from 'react-icons/bs';
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -24,7 +23,6 @@ const Payment = () => {
   const [rowsPerPage] = useState(10);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(false);
-  const [pinnedItems, setPinnedItems] = useState(new Set());
 
   useEffect(() => {
     if (data) {
@@ -33,26 +31,23 @@ const Payment = () => {
         return (
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
-          statusText.toLocaleLowerCase().includes(filters.is_active.toLocaleLowerCase())
+          statusText
+            .toLocaleLowerCase()
+            .includes(filters.is_active.toLocaleLowerCase())
         );
       });
 
-      const sortedFilteredData = filtered
-        .map((item) => ({
-          ...item,
-          isPinned: pinnedItems.has(item.id),
-        }))
-        .sort((a, b) => b.isPinned - a.isPinned);
-
-      setFilteredData(sortedFilteredData);
+      setFilteredData(filtered);
       setCurrentPage(1);
     }
-  }, [filters, data, pinnedItems]);
+  }, [filters, data]);
 
-  if (errors) {
-    setMessage("Произошла ошибка при получении данных. Повторите попытку!")
-    setError(true)
-  }
+  useEffect(() => {
+    if (errors) {
+      setMessage("Произошла ошибка при получении данных. Повторите попытку!");
+      setError(true);
+    }
+  }, [errors]);
 
   useEffect(() => {
     if (message) {
@@ -83,9 +78,15 @@ const Payment = () => {
   };
 
   const onDeletePartner = (id) => {
-    setFilteredData((prevFilteredData) =>
-      prevFilteredData.filter((item) => item.id !== id)
-    );
+    setFilteredData((prevFilteredData) => {
+      const updatedData = prevFilteredData.filter((item) => item.id !== id);
+      const isCurrentPageEmpty =
+        updatedData.slice(indexOfFirstRow, indexOfLastRow).length === 0;
+      if (isCurrentPageEmpty && currentPage > 1) {
+        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+      }
+      return updatedData;
+    });
   };
 
   const handleUpdateUser = (updatedUser) => {
@@ -94,18 +95,6 @@ const Payment = () => {
         user.id === updatedUser.id ? updatedUser : user
       );
       return updatedFilteredData;
-    });
-  };
-
-  const handlePinItem = (id) => {
-    setPinnedItems((prevPinnedItems) => {
-      const newPinnedItems = new Set(prevPinnedItems);
-      if (newPinnedItems.has(id)) {
-        newPinnedItems.delete(id);
-      } else {
-        newPinnedItems.add(id);
-      }
-      return newPinnedItems;
     });
   };
 
@@ -118,8 +107,8 @@ const Payment = () => {
       {message && <Toast message={message} error={error} />}
       {!loading && !error && (
         <div className="flex-grow overflow-y-auto">
-          <div className="w-full flex items-end justify-between my-3">
-            <PostExcel filename={"Список Партнеров"} tableData={data}/>
+          <div className="w-full flex items-end justify-between my-3 gap-5">
+            <PostExcel filename={"Список Партнеров"} tableData={data} />
             <AddPartnerModal onAddPartner={handleAddPartner} />
           </div>
           <table className="table table-md table-zebra border w-full h-full overflow-x-auto">
@@ -176,18 +165,6 @@ const Payment = () => {
                   </td>
                   <td className="border w-5">
                     <ProfileButton id={row.id} className="h-8" />
-                  </td>
-                  <td className="border w-5 text-center">
-                    <button
-                      className="btn btn-primary text-white h-8 flex items-center justify-center"
-                      onClick={() => handlePinItem(row.id)}
-                    >
-                      {pinnedItems.has(row.id) ? (
-                        <BsPinAngleFill size={20} />
-                      ) : (
-                        <BsPinAngle size={20} />
-                      )}
-                    </button>
                   </td>
                 </tr>
               ))}

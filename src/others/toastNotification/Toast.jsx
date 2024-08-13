@@ -4,11 +4,11 @@ const Toast = ({ message, error }) => {
   return (
     <div className="toast toast-top toast-end z-50 mt-[55px]">
       <div
-        className={
-          error ? "alert alert-error text-white" : "alert alert-success text-white"
-        }
+        className={`alert ${
+          error ? "alert-error" : "alert-success"
+        } text-white p-4 rounded-lg shadow-md transition-transform transform duration-300`}
       >
-        <span>{message}</span>
+        <span className="text-sm md:text-base">{message}</span>
       </div>
     </div>
   );

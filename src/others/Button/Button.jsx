@@ -14,12 +14,11 @@ const Button = ({ row, setFilteredData , rolls}) => {
         )
       );
     } catch (error) {
-      console.error("Ошибка при обновлении состояния пользователя:", error);
+      console.error("Ошибка при обновлении состояния пользователя");
     }
   };
 
   const postToBackend = async (updatedRow) => {
-    console.log(updatedRow);
     const response = await fetch(
       `https://newnewterminal.onrender.com/api/${rolls}/${updatedRow.id}`,
       {
@@ -34,7 +33,7 @@ const Button = ({ row, setFilteredData , rolls}) => {
     if (!response.ok) {
       throw new Error("Не удалось обновить пользователя");
     }
-  };
+  };  
   return (
     <button
       onClick={() => handleClickButton(row)}

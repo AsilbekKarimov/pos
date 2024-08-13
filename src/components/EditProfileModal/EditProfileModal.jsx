@@ -68,7 +68,6 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
     } catch (error) {
       setMessage("Произошла ошибка при обновлении профиля. Повторите попытку!");
       setError(true);
-      console.error("Error details:", error.response ? error.response.data : error.message);
     }
   };
 

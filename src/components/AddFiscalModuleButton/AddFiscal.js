@@ -57,10 +57,8 @@ const AddFiscalModuleButton = ({ onAdd }) => {
       setMessage("Фискальный модуль успешно добавлен!");
       setError(false);
     } catch (error) {
-      setMessage("Ошибка при добавлении данных!");
+      setMessage("Ошибка при добавлении данных. Возможно фискальный модуль уже существует!");
       setError(true);
-      console.log(error);
-      
     } finally {
       setIsSubmitting(false);
     }

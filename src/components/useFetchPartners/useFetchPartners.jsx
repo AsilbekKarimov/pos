@@ -24,7 +24,7 @@ const useFetchPartners = (data) => {
                 );
                 partnerData[row.user_id] = response.data.username;
               } catch (error) {
-                console.error(`Error fetching partner data: ${error}`);
+                console.error(`Error fetching partner data`);
               }
             }
           })

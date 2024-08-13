@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import useFetch from "../../components/useFetch/useFetch";
 import Pagination from "../../components/pagination/Pagination";
 import FilterRow from "../../components/filterRow/FilterRow";
@@ -23,12 +24,10 @@ const Application = () => {
   });
 
   const { data, loading, errors } = useFetch("terminals", "");
-
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
   const [error, setError] = useState(null);
-
   const partners = useFetchPartners(data);
 
   useEffect(() => {
@@ -104,7 +103,7 @@ const Application = () => {
   return (
     <div className="flex flex-col px-2">
       <div className="my-3">
-      <PostExcel filename={"Терминалы"} tableData={data} />
+        <PostExcel filename={"Терминалы"} tableData={data} />
       </div>
       {error && <Toast message={error.message} error={true} />}
       {!loading && !error && (
@@ -139,8 +138,35 @@ const Application = () => {
                 <tr className="border h-12" key={row.id}>
                   <th className="border">{index + 1 + indexOfFirstRow}</th>
                   <td className="border">{row.inn}</td>
-                  <td className="border">{row.company_name}</td>
-                  <td className="border">{row.address}</td>
+                  <td className="border" data-tooltip-id={`tooltip-${row.id}`}>
+                    <span className="text-ellipsis whitespace-nowrap overflow-hidden max-w-xs inline-block">
+                      {row.company_name}
+                    </span>
+                    <ReactTooltip
+                      id={`tooltip-${row.id}`}
+                      place="top"
+                      type="dark"
+                      effect="solid"
+                    >
+                      {row.company_name}
+                    </ReactTooltip>
+                  </td>
+                  <td
+                    className="border"
+                    data-tooltip-id={`tooltip-${row.id}-address`}
+                  >
+                    <span className="text-ellipsis whitespace-nowrap overflow-hidden max-w-xs inline-block">
+                      {row.address}
+                    </span>
+                    <ReactTooltip
+                      id={`tooltip-${row.id}-address`}
+                      place="top"
+                      type="dark"
+                      effect="solid"
+                    >
+                      {row.address}
+                    </ReactTooltip>
+                  </td>
                   <td className="border">{row.assembly_number}</td>
                   <td className="border">{row.module_number}</td>
                   <td className="border">{row.cash_register_number}</td>

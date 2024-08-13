@@ -47,7 +47,7 @@ const PostExcel = ({ filename, tableData }) => {
   return (
     <div>
       {message && <Toast message={message} error={true} />}
-      <button onClick={handleExport} className="btn btn-primary text-white">
+      <button onClick={handleExport} className="px-4 active:scale-90 transition duration-300 hover:bg-blue-700 bg-primary border-primary text-white rounded-md h-[50px]">
         Выгрузить в Эксель
       </button>
     </div>
