@@ -51,12 +51,12 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
 
     try {
       const response = await axios.put(
-        `https://newnewterminal.onrender.com/api/users/${id}`, // Using id here
+        `${process.env.REACT_APP_API_URL}/users/${id}`,
         updatedUser,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Include the token in the headers
+            Authorization: `Bearer ${token}`,
           },
         }
       );

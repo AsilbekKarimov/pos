@@ -20,7 +20,7 @@ const DeleteConfimModal = ({
   const fetchDelete = async () => {
     try {
       await axios.delete(
-        `https://newnewterminal.onrender.com/api/${url}/${id}`,
+        `${process.env.REACT_APP_API_URL}/${url}/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

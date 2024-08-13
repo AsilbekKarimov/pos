@@ -14,7 +14,7 @@ const useFetch = (url, id) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://newnewterminal.onrender.com/api/${url}/${id}`,
+          `${process.env.REACT_APP_API_URL}/${url}/${id}`,
           {
             headers: {
               "Content-Type": "application/json",

@@ -15,7 +15,7 @@ const useFetchPartners = (data) => {
             if (!partners[row.user_id]) {
               try {
                 const response = await axios.get(
-                  `https://newnewterminal.onrender.com/api/users/${row.user_id}`,
+                  `${process.env.REACT_APP_API_URL}/users/${row.user_id}`,
                   {
                     headers: {
                       Authorization: `Bearer ${token}`,

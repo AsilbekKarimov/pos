@@ -64,7 +64,7 @@ const AddPartnerModal = ({ onAddPartner }) => {
       };
       try {
         const response = await axios.post(
-          "https://newnewterminal.onrender.com/api/auth/register",
+          `${process.env.REACT_APP_API_URL}/auth/register`,
           newPartner,
           {
             headers: {

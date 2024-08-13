@@ -1,6 +1,6 @@
 const loginFetch = async ({ username, password }) => {
   const response = await fetch(
-    "https://newnewterminal.onrender.com/api/auth/login",
+    `${process.env.REACT_APP_API_URL}/auth/login`,
     {
       method: "POST",
       headers: {

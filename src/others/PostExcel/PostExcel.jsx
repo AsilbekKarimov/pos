@@ -11,7 +11,7 @@ const PostExcel = ({ filename, tableData }) => {
   const handleExport = async () => {
     try {
       const response = await axios.post(
-        "https://newnewterminal.onrender.com/api/export",
+        `${process.env.REACT_APP_API_URL}/export`,
         {
           filename: filename,
           objects: tableData,

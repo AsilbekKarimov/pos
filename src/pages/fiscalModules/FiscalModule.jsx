@@ -31,7 +31,7 @@ const FiscalModule = () => {
     const fetchFiscal = async () => {
       try {
         const response = await axios.get(
-          `https://newnewterminal.onrender.com/api/fiscal-modules`,
+          `${process.env.REACT_APP_API_URL}/fiscal-modules`,
           {
             headers: {
               "Content-Type": "application/json",

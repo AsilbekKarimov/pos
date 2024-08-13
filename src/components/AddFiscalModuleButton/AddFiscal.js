@@ -38,7 +38,7 @@ const AddFiscalModuleButton = ({ onAdd }) => {
 
     try {
       const response = await axios.post(
-        "https://newnewterminal.onrender.com/api/fiscal-modules",
+        `${process.env.REACT_APP_API_URL}/fiscal-modules`,
         {
           factory_number: factoryNumber,
           fiscal_number: fiscalNumber,
