@@ -114,42 +114,46 @@ const FiscalModule = () => {
       {message && <Toast message={message} error={true} />}
       {!loading && !message && (
         <div className="flex-grow overflow-y-auto">
-          <div className="my-3">
-          <PostExcel filename={"Фискальные модули"} tableData={fiscal}/>
-          </div>
           {fiscal.length || isAdmin ? (
-            <table className="table table-md table-zebra border w-full h-full">
-              <thead>
-                <tr className="border font-normal text-[14px] text-blue-700">
-                  <th className="border w-2" rowSpan={2}>
-                    #
-                  </th>
-                  <th className="border">Заводской номер кассы</th>
-                  <th className="border">Серийный номер фискального модуля</th>
-                  <th className="border text-center">Партнер</th>
-                </tr>
-                <FilterRow
-                  filters={filters}
-                  handleFilterChange={handleFilterChange}
-                />
-              </thead>
-              <tbody className="text-[6px]">
-                {currentRows.map((row, index) => (
-                  <tr className="border h-12" key={row.id}>
-                    <th className="border">{index + 1 + indexOfFirstRow}</th>
-                    <td className="border">{row.factory_number}</td>
-                    <td className="border">{row.fiscal_number}</td>
-                    <td className="border">
-                      {partners[row.user_id] || (
-                        <div className="h-full flex items-center justify-center">
-                          <span className="loading loading-spinner loading-sm"></span>
-                        </div>
-                      )}
-                    </td>
+            <>
+              <div className="my-3">
+                <PostExcel filename={"Фискальные модули"} tableData={fiscal} />
+              </div>
+              <table className="table table-md table-zebra border w-full h-full">
+                <thead>
+                  <tr className="border font-normal text-[14px] text-blue-700">
+                    <th className="border w-2" rowSpan={2}>
+                      #
+                    </th>
+                    <th className="border">Заводской номер кассы</th>
+                    <th className="border">
+                      Серийный номер фискального модуля
+                    </th>
+                    <th className="border text-center">Партнер</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                  <FilterRow
+                    filters={filters}
+                    handleFilterChange={handleFilterChange}
+                  />
+                </thead>
+                <tbody className="text-[6px]">
+                  {currentRows.map((row, index) => (
+                    <tr className="border h-12" key={row.id}>
+                      <th className="border">{index + 1 + indexOfFirstRow}</th>
+                      <td className="border">{row.factory_number}</td>
+                      <td className="border">{row.fiscal_number}</td>
+                      <td className="border">
+                        {partners[row.user_id] || (
+                          <div className="h-full flex items-center justify-center">
+                            <span className="loading loading-spinner loading-sm"></span>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
           ) : (
             <div>
               <p className="flex justify-center items-center h-screen text-xl font-semibold text-red-600">
