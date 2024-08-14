@@ -27,7 +27,9 @@ const Button = ({ row, setFilteredData , rolls}) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: JSON.stringify(updatedRow),
+        body: JSON.stringify({
+          "is_active": updatedRow.is_active
+        }),
       }
     );
     if (!response.ok) {
