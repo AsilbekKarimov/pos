@@ -10,6 +10,8 @@ import AddPartnerModal from "../../components/AddPartnerModal/AddPartnerModal";
 import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 import PostExcel from "../../others/PostExcel/PostExcel";
 import DeleteConfimModal from "../../components/DeleteConfirmModal/DeleteConfimModal";
+import { useSelector } from "react-redux";
+import { MdDeleteForever, MdEdit } from "react-icons/md";
 
 const Payment = () => {
   const [filters, setFilters] = useState({
@@ -23,6 +25,7 @@ const Payment = () => {
   const [rowsPerPage] = useState(10);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(false);
+  const userId = useSelector((state) => state.user.user.id);
 
   useEffect(() => {
     if (data) {
@@ -135,34 +138,56 @@ const Payment = () => {
                   <th className="border">{index + 1 + indexOfFirstRow}</th>
                   <td className="border">{row.inn}</td>
                   <td className="border">{row.username}</td>
-                  <td className="border">
-                    <Button
-                      row={row}
-                      setFilteredData={setFilteredData}
-                      rolls="users"
-                      className="h-8"
-                    />
-                  </td>
-                  <td className="border w-5">
-                    <EditProfileModal
-                      user={row}
-                      onUpdateUser={handleUpdateUser}
-                      className="h-8"
-                    />
-                  </td>
-                  <td className="border w-2">
-                    <DeleteConfimModal
-                      id={row.id}
-                      confirmText={
-                        "Вы точно хотите удалить этого аккаунт этого партнера?"
-                      }
-                      onDeletePartner={onDeletePartner}
-                      url={"users"}
-                      setMessage={setMessage}
-                      setError={setError}
-                      className="h-8"
-                    />
-                  </td>
+                  {row.id === userId ? (
+                    <>
+                      <td className="border">
+                        <button className="mx-auto rounded-md flex justify-center my-auto py-2 active:scale-90 transition duration-300 w-32 bg-gray-500 hover:bg-gray-700">
+                          {row.is_active ? "Активный" : "Не активный"}
+                        </button>
+                      </td>
+                      <td className="border w-5">
+                        <button className="px-2 py-2 active:scale-90 transition duration-300 bg-gray-500 text-[30px] text-white rounded-md hover:bg-gray-700">
+                          <MdEdit />
+                        </button>
+                      </td>
+                      <td className="border w-2">
+                        <button className="btn bg-gray-500 text-white text-[30px] active:scale-90 transition duration-300 hover:bg-gray-700 px-2 py-2 rounded-md">
+                          <MdDeleteForever />
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td className="border">
+                        <Button
+                          row={row}
+                          setFilteredData={setFilteredData}
+                          rolls="users"
+                          className="h-8"
+                        />
+                      </td>
+                      <td className="border w-5">
+                        <EditProfileModal
+                          user={row}
+                          onUpdateUser={handleUpdateUser}
+                          className="h-8"
+                        />
+                      </td>
+                      <td className="border w-2">
+                        <DeleteConfimModal
+                          id={row.id}
+                          confirmText={
+                            "Вы точно хотите удалить этого аккаунт этого партнера?"
+                          }
+                          onDeletePartner={onDeletePartner}
+                          url={"users"}
+                          setMessage={setMessage}
+                          setError={setError}
+                          className="h-8"
+                        />
+                      </td>
+                    </>
+                  )}
                   <td className="border w-5">
                     <ProfileButton id={row.id} className="h-8" />
                   </td>
