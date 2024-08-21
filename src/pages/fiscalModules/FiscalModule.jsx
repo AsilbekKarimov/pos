@@ -85,7 +85,12 @@ const FiscalModule = () => {
           )
         );
       });
-      setFilteredData(filtered);
+
+      const sortedFiltered = filtered.sort((a, b) => {
+        return a.is_active === b.is_active ? 0 : a.is_active ? 1 : -1;
+      });
+
+      setFilteredData(sortedFiltered);
       setCurrentPage(1);
     }
   }, [filters, fiscal]);
@@ -130,6 +135,7 @@ const FiscalModule = () => {
                       Серийный номер фискального модуля
                     </th>
                     <th className="border text-center">Партнер</th>
+                    <th className="border text-center text-[17px]" rowSpan={2}>Статус</th>
                   </tr>
                   <FilterRow
                     filters={filters}
@@ -147,6 +153,17 @@ const FiscalModule = () => {
                           <div className="h-full flex items-center justify-center">
                             <span className="loading loading-spinner loading-sm"></span>
                           </div>
+                        )}
+                      </td>
+                      <td className="border text-center font-semibold">
+                        {row.is_active ? (
+                          <span className="text-green">
+                            Активный
+                          </span>
+                        ) : (
+                          <span className="text-error">
+                            Не активный
+                          </span>
                         )}
                       </td>
                     </tr>

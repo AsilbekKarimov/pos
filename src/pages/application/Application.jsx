@@ -83,7 +83,12 @@ const Application = () => {
           )
         );
       });
-      setFilteredData(filtered);
+
+      const sortedFiltered = filtered.sort((a, b) => {
+        return a.is_active === b.is_active ? 0 : a.is_active ? 1 : -1;
+      });
+
+      setFilteredData(sortedFiltered);
       setCurrentPage(1);
     }
   }, [filters, data]);
