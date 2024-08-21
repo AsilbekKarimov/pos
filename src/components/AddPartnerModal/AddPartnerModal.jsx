@@ -7,6 +7,7 @@ const AddPartnerModal = ({ onAddPartner }) => {
   const [inn, setInn] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState(false);
@@ -33,6 +34,10 @@ const AddPartnerModal = ({ onAddPartner }) => {
     setPassword(e.target.value);
   };
 
+  const handleCompanyNameChange = (e) => {
+    setCompanyName(e.target.value);
+  };
+
   const handleIsActiveChange = (e) => {
     setIsActive(e.target.checked);
   };
@@ -46,6 +51,7 @@ const AddPartnerModal = ({ onAddPartner }) => {
     setPassword("");
     setLogin("");
     setInn("");
+    setCompanyName("");
     setIsActive(false);
     setIsAdmin(false);
   };
@@ -61,6 +67,7 @@ const AddPartnerModal = ({ onAddPartner }) => {
         is_admin: isAdmin,
         password: password,
         username: login,
+        company_name: companyName
       };
       try {
         const response = await axios.post(
@@ -81,6 +88,7 @@ const AddPartnerModal = ({ onAddPartner }) => {
         setInn("");
         setLogin("");
         setPassword("");
+        setCompanyName("");
         setIsActive(false);
         setIsAdmin(false);
         handleModalClose();
@@ -134,6 +142,17 @@ const AddPartnerModal = ({ onAddPartner }) => {
                     className="checkbox checkbox-primary"
                   />
                 </label>
+              </div>
+
+              <div className="flex flex-col mb-3">
+                <label className="font-bold text-lg">Название компании</label>
+                <input
+                  type="text"
+                  value={companyName}
+                  onChange={handleCompanyNameChange}
+                  required
+                  className="input input-bordered"
+                />
               </div>
 
               <div className="flex flex-col mb-3">
