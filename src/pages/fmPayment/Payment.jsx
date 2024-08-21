@@ -16,6 +16,7 @@ import { MdDeleteForever, MdEdit } from "react-icons/md";
 const Payment = () => {
   const [filters, setFilters] = useState({
     inn: "",
+    company_name: "",
     username: "",
     is_active: "",
   });
@@ -33,6 +34,7 @@ const Payment = () => {
         const statusText = row.is_active ? "Активный" : "Не активный";
         return (
           row.inn.toLowerCase().includes(filters.inn.toLowerCase()) &&
+          row.company_name.toLowerCase().includes(filters.company_name.toLowerCase()) &&
           row.username.toLowerCase().includes(filters.username.toLowerCase()) &&
           statusText
             .toLocaleLowerCase()
@@ -126,6 +128,7 @@ const Payment = () => {
                 </th>
                 <th className="border">ИНН</th>
                 <th className="border">Название компании</th>
+                <th className="border">Логин</th>
                 <th className="border">Cтатус</th>
                 <th className="border text-center" colSpan={4} rowSpan={2}>
                   Действия
@@ -141,7 +144,8 @@ const Payment = () => {
                 <tr className="border h-12" key={row.id}>
                   <th className="border">{index + 1 + indexOfFirstRow}</th>
                   <td className="border">{row.inn}</td>
-                  <td className="border">{row.username}</td>
+                  <td className="border">{row.company_name}</td>
+                  <td className="border">{row.username}</td>  
                   {row.id === userId ? (
                     <>
                       <td className="border">

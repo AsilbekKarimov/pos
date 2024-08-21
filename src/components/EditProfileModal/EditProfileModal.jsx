@@ -8,6 +8,7 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
   const [formData, setFormData] = useState({
     inn: user.inn || "",
     username: user.username || "",
+    company_name: user.company_name || "",
     password: "",
     is_active: user.is_active || false,
     is_admin: user.is_admin || false,
@@ -16,7 +17,7 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
   const [message, setMessage] = useState(null);
 
   const token = useSelector((state) => state.auth.accessToken);
-  const id = user.id; // Extracting the user ID
+  const id = user.id;
 
   useEffect(() => {
     if (message) {
@@ -121,6 +122,18 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
                     className="checkbox checkbox-primary"
                   />
                 </label>
+              </div>
+
+              <div className="flex flex-col mb-3">
+                <label className="font-semibold mb-1">Название компании</label>
+                <input
+                  type="text"
+                  name="company_name"
+                  value={formData.company_name}
+                  onChange={handleChange}
+                  required
+                  className="input input-bordered"
+                />
               </div>
 
               <div className="flex flex-col mb-3">
