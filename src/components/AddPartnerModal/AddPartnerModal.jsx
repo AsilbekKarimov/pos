@@ -112,7 +112,7 @@ const AddPartnerModal = ({ onAddPartner }) => {
         <div className="modal-box">
           <form method="dialog" className="p-3">
             <div className="flex flex-col">
-              <label className="font-bold text-lg">Введите ИНН партнера</label>
+              <label className="font-bold text-lg">Введите ИНН / ПИНФЛ партнера</label>
               <input
                 type="text"
                 value={inn}

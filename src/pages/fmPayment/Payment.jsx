@@ -126,7 +126,7 @@ const Payment = () => {
                 <th className="border w-2" rowSpan={2}>
                   #
                 </th>
-                <th className="border">ИНН</th>
+                <th className="border">ИНН / ПИНФЛ</th>
                 <th className="border">Название компании</th>
                 <th className="border">Логин</th>
                 <th className="border">Cтатус</th>

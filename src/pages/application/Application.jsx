@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import useFetch from "../../components/useFetch/useFetch";
 import Pagination from "../../components/pagination/Pagination";
 import FilterRow from "../../components/filterRow/FilterRow";
@@ -101,6 +100,16 @@ const Application = () => {
     }));
   };
 
+  const wrapText = (text, limit) => {
+    if (!text || limit <= 0) return text;
+
+    let result = "";
+    for (let i = 0; i < text.length; i += limit) {
+      result += text.slice(i, i + limit) + "\n";
+    }
+    return result.trim();
+  };
+
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
@@ -128,17 +137,15 @@ const Application = () => {
                     <th className="border w-2" rowSpan={2}>
                       #
                     </th>
-                    <th className="border text-center">ИНН</th>
+                    <th className="border text-center">ИНН / ПИНФЛ</th>
                     <th className="border text-center">Название компании</th>
                     <th className="border text-center">Адрес</th>
-                    <th className="border text-center">Номер сборки</th>
-                    <th className="border text-center">Номер модуля</th>
+                    <th className="border text-center">Версия</th>
+                    <th className="border text-center">Номер ФМ</th>
                     <th className="border text-center">Номер кассы</th>
                     <th className="border text-center">Остаток записей</th>
-                    <th className="border text-center">
-                      Дата последнего запроса
-                    </th>
-                    <th className="border text-center">Дата обновления базы</th>
+                    <th className="border text-center">Дата запроса</th>
+                    <th className="border text-center">Дата обновления</th>
                     <th className="border text-center">Партнер</th>
                     <th className="border text-center" rowSpan={2}>
                       Статус
@@ -153,45 +160,25 @@ const Application = () => {
                   {currentRows.map((row, index) => (
                     <tr className="border h-12" key={row.id}>
                       <th className="border">{index + 1 + indexOfFirstRow}</th>
-                      <td className="border">{row.inn}</td>
-                      <td
-                        className="border"
-                        data-tooltip-id={`tooltip-${row.id}`}
-                      >
-                        <span className="text-ellipsis whitespace-nowrap overflow-hidden max-w-xs inline-block">
-                          {row.company_name}
-                        </span>
-                        <ReactTooltip
-                          id={`tooltip-${row.id}`}
-                          place="top"
-                          type="dark"
-                          effect="solid"
-                        >
-                          {row.company_name}
-                        </ReactTooltip>
+                      <td className="border">{wrapText(row.inn, 14)}</td>
+                      <td className="border">{wrapText(row.company_name, 50)}</td>
+                      <td className="border">{wrapText(row.address, 50)}</td>
+                      <td className="border">
+                        {wrapText(row.assembly_number, 8)}
                       </td>
-                      <td
-                        className="border"
-                        data-tooltip-id={`tooltip-${row.id}-address`}
-                      >
-                        <span className="text-ellipsis whitespace-nowrap overflow-hidden max-w-xs inline-block">
-                          {row.address}
-                        </span>
-                        <ReactTooltip
-                          id={`tooltip-${row.id}-address`}
-                          place="top"
-                          type="dark"
-                          effect="solid"
-                        >
-                          {row.address}
-                        </ReactTooltip>
+                      <td className="border">
+                        {wrapText(row.module_number, 15)}
                       </td>
-                      <td className="border">{row.assembly_number}</td>
-                      <td className="border">{row.module_number}</td>
-                      <td className="border">{row.cash_register_number}</td>
+                      <td className="border">
+                        {wrapText(row.cash_register_number, 10)}
+                      </td>
                       <td className="border">{row.free_record_balance}</td>
-                      <td className="border">{row.last_request_date}</td>
-                      <td className="border">{row.database_update_date}</td>
+                      <td className="border">
+                        {row.last_request_date.replace(/[TZ]/g, " ")}
+                      </td>
+                      <td className="border">
+                        {row.database_update_date.replace(/[TZ]/g, " ")}
+                      </td>
                       <td className="border">
                         {partners[row.user_id] || (
                           <div className="h-full flex items-center justify-center">

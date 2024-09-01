@@ -89,7 +89,7 @@ const EditProfileModal = ({ user, onUpdateUser }) => {
         <div className="modal-box">
           <form onSubmit={handleSubmit} className="p-3">
             <div className="flex flex-col">
-              <label className="font-semibold mb-1">ИНН</label>
+              <label className="font-semibold mb-1">ИНН / ПИНФЛ</label>
               <input
                 type="text"
                 name="inn"
